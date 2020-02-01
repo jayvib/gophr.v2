@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gophr</title>
+  <link rel="stylesheet" href="../../assets/css/bootstrap.css">
+  <link rel="stylesheet" href="../../assets/css/login.css">
+  <style>
+  </style>
+</head>
+<body>
+  {{ define "sessions/login" }}
+    <div class="container">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="account-wall">
+          <div class="imgcontainer">
+            <a href="/">
+              <img class="profile-img" src="/assets/images/simple.png" alt="">
+            </a>
+          </div>
+          <h2 id="login-header">Login</h2>
+          <form action="/api/v1/login" method="post">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" id="username" name="username" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" class="form-control">
+            </div>
+            <input type="submit" value="Login" class="btn btn-primary">
+            <input type="hidden" name="next" value="{{ .Next }}">
+          </form>
+        </div>
+      </div>
+    </div>
+  {{ end }}
+</body>
+</html>
