@@ -2,7 +2,6 @@
 #
 # Variables
 CLIENT_APP="gophr.client"
-CLIENT_DOCKERFILE="dockerfile.client"
 API_APP="gophr.app"
 
 
@@ -41,6 +40,8 @@ build-client-docker:
 
 run-client: build-client-docker
 	docker-compose -f ./deployment/gophr.client/docker-compose.yml up -d --force-recreate
+
+run-client-step: run-client clean
 
 #####THIRD-PARTY TOOL INSTALLATION####
 install-tools:
