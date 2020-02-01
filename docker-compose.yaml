@@ -1,0 +1,9 @@
+version: "3.7"
+services:
+    gophr.client:
+        image: gophr.client
+        container_name: gophr.client
+        ports:
+            - 8080:8080
+        restart: always
+        network_mode: host
