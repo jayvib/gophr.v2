@@ -5,8 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jayvib/golog"
-	"gophr/api/v1/user"
-	"gophr/model"
+	"gophr.v2/gophr.api/user"
 	"io"
 	"io/ioutil"
 	"os"
@@ -22,7 +21,7 @@ func New(filename string) *FileUserStore {
 
 	s := &FileUserStore{
 		filename: filename,
-		users:    make(map[string]*model.User),
+		users:    make(map[string]*user.User),
 	}
 
 	// meaning this is a path error not exists
@@ -39,46 +38,46 @@ func New(filename string) *FileUserStore {
 
 type FileUserStore struct {
 	filename string
-	users    map[string]*model.User
+	users    map[string]*user.User
 }
 
-func (s *FileUserStore) GetByID(ctx context.Context, id string) (*model.User, error) {
+func (s *FileUserStore) GetByID(ctx context.Context, id string) (*user.User, error) {
 	usr, ok := s.users[id]
 	if !ok {
-		return nil, user.ErrorNotFound
+		return nil, user.ErrNotFound
 	}
 	return usr, nil
 }
-func (s *FileUserStore) GetByEmail(ctx context.Context, email string) (*model.User, error) {
+func (s *FileUserStore) GetByEmail(ctx context.Context, email string) (*user.User, error) {
 	for _, usr := range s.users {
 		if usr.Email == email {
 			return usr, nil
 		}
 	}
-	return nil, user.ErrorNotFound
+	return nil, user.ErrNotFound
 }
-func (s *FileUserStore) GetByUsername(ctx context.Context, uname string) (*model.User, error) {
+func (s *FileUserStore) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
 	for _, usr := range s.users {
 		if usr.Username == uname {
 			return usr, nil
 		}
 	}
-	return nil, user.ErrorNotFound
+	return nil, user.ErrNotFound
 }
-func (s *FileUserStore) Save(ctx context.Context, usr *model.User) error {
+func (s *FileUserStore) Save(ctx context.Context, usr *user.User) error {
 	const op = "FileUserStore.Save"
 	// check first if the username is already exists
 	res, err := s.GetByUsername(ctx, usr.Username)
 	if err == nil {
 		golog.Debug(err)
 		golog.Debugf("%#v\n", res)
-		return user.ErrorUsernameExists
+		return user.ErrUserNameExists
 	}
 
 	_, err = s.GetByEmail(ctx, usr.Email)
 	if err == nil {
 		golog.Debug(err)
-		return user.ErrorEmailExists
+		return user.ErrEmailExists
 	}
 	s.users[usr.ID] = usr
 

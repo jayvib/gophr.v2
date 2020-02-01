@@ -1,4 +1,4 @@
-package gophr
+package errors
 
 import "errors"
 
