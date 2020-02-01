@@ -4,7 +4,6 @@
 CLIENT_APP="gophr.client"
 API_APP="gophr.app"
 
-
 ################UTILITY#################
 mod: ## To download the dependency of the app
 	go mod download
@@ -42,6 +41,9 @@ run-client: build-client-docker
 	docker-compose -f ./deployment/gophr.client/docker-compose.yml up -d --force-recreate
 
 run-client-step: run-client clean
+
+api-unit-test:
+	go test ./gophr.api/...
 
 #####THIRD-PARTY TOOL INSTALLATION####
 install-tools:
