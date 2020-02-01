@@ -108,7 +108,8 @@ func TestHandler_GetByEmail(t *testing.T) {
 		Username: "luffy.monkey",
 		Email:    "luffy.monkey@gmail.com",
 		Password: "1234567890",
-	}; _ = mockReturn
+	}
+	_ = mockReturn
 
 	svc.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(mockReturn, nil).Once()
 	param := &Parameters{
@@ -117,12 +118,12 @@ func TestHandler_GetByEmail(t *testing.T) {
 	h := New(param)
 	router := mux.NewRouter()
 	router.HandleFunc("/user/email/{email}", h.GetByEmail).Methods(http.MethodGet)
-	resp := performRequest(router, http.MethodGet,"/user/email/luffy.monkey%40gmail.com", nil)
+	resp := performRequest(router, http.MethodGet, "/user/email/luffy.monkey%40gmail.com", nil)
 	assert.Equal(t, http.StatusOK, resp.Code)
 	want := responseTest{
-		Data: mockReturn,
+		Data:    mockReturn,
 		Message: "OK",
-		Method: http.MethodGet,
+		Method:  http.MethodGet,
 	}
 	assertResponse(t, want, resp)
 }

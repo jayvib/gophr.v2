@@ -54,4 +54,3 @@ func renderPage(w http.ResponseWriter, r *http.Request, name string, data map[st
 		}
 	}
 }
-

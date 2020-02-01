@@ -9,26 +9,26 @@ import (
 )
 
 func New(repo user.Repository) *Service {
-	return &Service{ repo: repo }
+	return &Service{repo: repo}
 }
 
 type Service struct {
 	repo user.Repository
 }
 
-func(s *Service) GetByID(ctx context.Context, id string) (*user.User, error) {
+func (s *Service) GetByID(ctx context.Context, id string) (*user.User, error) {
 	return s.repo.GetByID(ctx, id)
 }
 
-func(s *Service) GetByEmail(ctx context.Context, email string) (*user.User, error) {
+func (s *Service) GetByEmail(ctx context.Context, email string) (*user.User, error) {
 	return s.repo.GetByEmail(ctx, email)
 }
 
-func(s *Service) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
+func (s *Service) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
 	return s.repo.GetByUsername(ctx, uname)
 }
 
-func(s *Service) Save(ctx context.Context, usr *user.User) error {
+func (s *Service) Save(ctx context.Context, usr *user.User) error {
 	return s.repo.Save(ctx, usr)
 }
 

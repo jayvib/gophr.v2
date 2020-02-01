@@ -34,19 +34,18 @@ func New(param *Parameters) *Handler {
 	}
 }
 
-
 type Handler struct {
 	svc user.Service
 }
 
-func (h *Handler) GetByID(w http.ResponseWriter, r *http.Request)       {
+func (h *Handler) GetByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	userId := vars["id"]
 	usr, _ := h.svc.GetByID(r.Context(), userId)
 	h.writeResponse(w, r, "OK", usr, http.StatusOK)
 }
 
-func (h *Handler) GetByEmail(w http.ResponseWriter, r *http.Request)    {
+func (h *Handler) GetByEmail(w http.ResponseWriter, r *http.Request) {
 	v := mux.Vars(r)
 	golog.Debug("Email:", v["email"])
 	email := v["email"]
@@ -56,9 +55,9 @@ func (h *Handler) GetByEmail(w http.ResponseWriter, r *http.Request)    {
 
 func (h *Handler) writeResponse(w http.ResponseWriter, r *http.Request, message string, data interface{}, code int) {
 	resp := &Response{
-		Data: data,
+		Data:    data,
 		Message: message,
-		Method: r.Method,
+		Method:  r.Method,
 	}
 
 	err := json.NewEncoder(w).Encode(resp)
