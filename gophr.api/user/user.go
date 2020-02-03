@@ -13,7 +13,6 @@ type User struct {
 	Username string `json:"username,omitempty" validate:"required"`
 	Email    string `json:"email,omitempty" validate:"required,email"`
 	Password string `json:"password,omitempty" validate:"required,gte=8,lte=130"`
-	Note string
 }
 
 func GenerateID() string {
