@@ -43,7 +43,7 @@ run-client: build-client-docker
 run-client-step: run-client clean
 
 api-unit-test:
-	go test -tags=unit -covermode=atomic -short -race ./gophr.api/... | grep -v '^?'
+	go test -tags=unit -covermode=atomic -short ./gophr.api/... | grep -v '^?'
 
 #####THIRD-PARTY TOOL INSTALLATION####
 install-tools:

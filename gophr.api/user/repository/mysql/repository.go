@@ -11,15 +11,15 @@ type Repository struct {
 	db *gorm.DB
 }
 
-func(r *Repository) GetByID(ctx context.Context, id string) (*user.User, error) {
+func (r *Repository) GetByID(ctx context.Context, id string) (*user.User, error) {
 	return nil, nil
 }
-func(r *Repository) GetByEmail(ctx context.Context, id string) (*user.User, error) {
+func (r *Repository) GetByEmail(ctx context.Context, id string) (*user.User, error) {
 	return nil, nil
 }
-func(r *Repository) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
+func (r *Repository) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
 	return nil, nil
 }
-func(r *Repository) Save(ctx context.Context, usr *user.User) error {
+func (r *Repository) Save(ctx context.Context, usr *user.User) error {
 	return nil
 }
