@@ -5,6 +5,7 @@
       <option name="customFlags">
         <array>
           <option value="unit" />
+          <option value="integration" />
         </array>
       </option>
     </buildTags>
