@@ -2,14 +2,11 @@ package mysql
 
 import (
 	"context"
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gophr.v2/gophr.api/user"
 )
 
-type Repository struct {
-	db *gorm.DB
-}
+type Repository struct {}
 
 func (r *Repository) GetByID(ctx context.Context, id string) (*user.User, error) {
 	return nil, nil
