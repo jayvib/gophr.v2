@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gophr.api/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gophr.api/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/gophr.api/user/user.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,14 +11,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.7375189">
+    <splitter split-orientation="horizontal" split-proportion="0.869">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="465">
-                  <caret line="96" column="21" selection-start-line="96" selection-start-column="21" selection-end-line="96" selection-end-column="21" />
+                <state relative-caret-position="390">
+                  <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
                   <folding>
                     <element signature="e#30#224#0" expanded="true" />
                   </folding>
@@ -40,11 +35,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="278">
-                  <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+                <state relative-caret-position="307">
+                  <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
                   <folding>
                     <element signature="e#15#140#0" expanded="true" />
                   </folding>
@@ -59,8 +54,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="323">
-                  <caret line="51" column="19" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+                <state relative-caret-position="353">
+                  <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
                 </state>
               </provider>
             </entry>
@@ -98,8 +93,8 @@
         <option value="$PROJECT_DIR$/gophr.api/user/repository.go" />
         <option value="$PROJECT_DIR$/gophr.api/config/config.go" />
         <option value="$PROJECT_DIR$/gophr.api/user/user.go" />
-        <option value="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" />
         <option value="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go" />
+        <option value="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" />
       </list>
     </option>
   </component>
@@ -398,22 +393,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go">
+    <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
+        <state relative-caret-position="390">
+          <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
           <folding>
-            <element signature="e#15#140#0" expanded="true" />
+            <element signature="e#30#224#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go">
+    <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="96" column="21" selection-start-line="96" selection-start-column="21" selection-end-line="96" selection-end-column="21" />
+        <state relative-caret-position="307">
+          <caret line="52" column="31" selection-start-line="52" selection-start-column="31" selection-end-line="52" selection-end-column="31" />
           <folding>
-            <element signature="e#30#224#0" expanded="true" />
+            <element signature="e#15#140#0" expanded="true" />
           </folding>
         </state>
       </provider>
