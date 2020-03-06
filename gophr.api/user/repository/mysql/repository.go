@@ -22,7 +22,7 @@ type Repository struct {
 	conn *sql.DB
 }
 
-func (r *Repository) GetByID(ctx context.Context, id uint) (u *user.User, err error) {
+func (r *Repository) GetByID(ctx context.Context, id interface{}) (u *user.User, err error) {
 	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE id = ?"
 	return r.doQuerySingleReturn(ctx, query, id)
 }
@@ -69,7 +69,8 @@ func (r *Repository) checkError(err error) error {
 	return cerr
 }
 func (r *Repository) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
-	return nil, nil
+	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE username = ?"
+	return r.doQuerySingleReturn(ctx, query, uname)
 }
 func (r *Repository) Save(ctx context.Context, usr *user.User) error {
 	return nil

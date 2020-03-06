@@ -131,6 +131,35 @@ func TestRepository_GetByID(t *testing.T) {
 }
 
 func TestRepository_GetByUsername(t *testing.T) {
+	db, mock, rows := setup(t)
+	repo := New(db)
+	mockUser := &user.User{
+		ID: 1,
+		UserID: "testid123",
+		Username: "unit.test",
+		Email: "unit.test@golang.com",
+		Password: "qwerty",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+
+	// add the expected output to the rows
+	rows.AddRow(
+		mockUser.ID,
+		mockUser.UserID,
+		mockUser.Username,
+		mockUser.Email,
+		mockUser.Password,
+		mockUser.CreatedAt,
+		mockUser.UpdatedAt,
+		mockUser.DeletedAt,
+	)
+
+	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE username = ?"
+	mock.ExpectQuery(query).WillReturnRows(rows)
+	u, err := repo.GetByUsername(defaultCtx, mockUser.Username)
+	checkErr(t, err)
+	assert.Equal(t, mockUser, u)
 }
 
 func TestRepository_Save(t *testing.T) {
