@@ -4,15 +4,22 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/rs/xid"
 	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 var validate = validator.New()
 
 type User struct {
-	ID       string `json:"id,omitempty"`
-	Username string `json:"username,omitempty" validate:"required"`
-	Email    string `json:"email,omitempty" validate:"required,email"`
-	Password string `json:"password,omitempty" validate:"required,gte=8,lte=130"`
+	UserID   string `json:"userId,omitempty" gorm:"user_id"`
+	Username string `json:"username,omitempty" validate:"required" gorm:"username"`
+	Email    string `json:"email,omitempty" validate:"required,email" gorm:"email"`
+	Password string `json:"password,omitempty" validate:"required,gte=8,lte=130" gorm:"password"`
+
+	// Base
+	ID        uint `json:"id,omitempty"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time `sql:"index"`
 }
 
 func GenerateID() string {
@@ -37,6 +44,6 @@ func NewUser(username, email, password string) (*User, error) {
 	}
 
 	user.Password = string(hashedPassword)
-	user.ID = GenerateID()
+	user.UserID = GenerateID()
 	return user, nil
 }
