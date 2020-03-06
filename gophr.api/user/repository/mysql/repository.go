@@ -22,20 +22,24 @@ type Repository struct {
 	conn *sql.DB
 }
 
-func (r *Repository) GetByID(ctx context.Context, id string) (*user.User, error) {
-	return nil, nil
+func (r *Repository) GetByID(ctx context.Context, id uint) (u *user.User, err error) {
+	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE id = ?"
+	return r.doQuerySingleReturn(ctx, query, id)
 }
+
 func (r *Repository) GetByEmail(ctx context.Context, email string) (u *user.User, err error) {
 	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE email = ?"
-	row, err := r.conn.QueryContext(ctx, query, email)
+	return r.doQuerySingleReturn(ctx, query, email)
+}
+
+func (r *Repository) doQuerySingleReturn(ctx context.Context, query string, value interface{}) (u *user.User,err error) {
+	row, err := r.conn.QueryContext(ctx, query, value)
 	if err != nil {
 		log.Debug(err)
-		cerr := r.checkError(err)
-		return nil, cerr
+		return nil, r.checkError(err)
 	}
 	defer func() {
-		// TODO: Handle the error
-		if e := row.Close(); e != nil {
+		if e := row.Close(); err == nil && e != nil {
 			err = e
 		}
 	}()
