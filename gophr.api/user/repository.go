@@ -11,4 +11,6 @@ type Repository interface {
 	GetByEmail(ctx context.Context, email string) (*User, error)
 	GetByUsername(ctx context.Context, uname string) (*User, error)
 	Save(ctx context.Context, user *User) error
+	GetAll(ctx context.Context, page uint) (*User, error)
+	Delete(ctx context.Context, id interface{}) error
 }

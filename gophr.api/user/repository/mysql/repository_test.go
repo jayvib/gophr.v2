@@ -42,15 +42,15 @@ func setup(t *testing.T) (*sql.DB, sqlmock.Sqlmock, *sqlmock.Rows) {
 }
 
 func TestRepository_GetByEmail(t *testing.T) {
-	t.Run("Found", func(t *testing.T){
+	t.Run("Found", func(t *testing.T) {
 		db, mock, rows := setup(t)
 		repo := New(db)
 		mockUser := &user.User{
-			ID: 1,
-			UserID: "testid123",
-			Username: "unit.test",
-			Email: "unit.test@golang.com",
-			Password: "qwerty",
+			ID:        1,
+			UserID:    "testid123",
+			Username:  "unit.test",
+			Email:     "unit.test@golang.com",
+			Password:  "qwerty",
 			CreatedAt: time.Now(),
 			UpdatedAt: time.Now(),
 		}
@@ -74,7 +74,7 @@ func TestRepository_GetByEmail(t *testing.T) {
 		assert.Equal(t, mockUser, u)
 	})
 
-	t.Run("Not Found", func(t *testing.T){
+	t.Run("Not Found", func(t *testing.T) {
 		db, mock, _ := setup(t)
 		repo := New(db)
 		query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE email = ?"
@@ -85,7 +85,7 @@ func TestRepository_GetByEmail(t *testing.T) {
 		assert.Equal(t, ErrNotFound, err)
 	})
 
-	t.Run("Unexpected error", func(t *testing.T){
+	t.Run("Unexpected error", func(t *testing.T) {
 		db, mock, _ := setup(t)
 		repo := New(db)
 		query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE email = ?"
@@ -102,11 +102,11 @@ func TestRepository_GetByID(t *testing.T) {
 	db, mock, rows := setup(t)
 	repo := New(db)
 	mockUser := &user.User{
-		ID: 1,
-		UserID: "testid123",
-		Username: "unit.test",
-		Email: "unit.test@golang.com",
-		Password: "qwerty",
+		ID:        1,
+		UserID:    "testid123",
+		Username:  "unit.test",
+		Email:     "unit.test@golang.com",
+		Password:  "qwerty",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -134,11 +134,11 @@ func TestRepository_GetByUsername(t *testing.T) {
 	db, mock, rows := setup(t)
 	repo := New(db)
 	mockUser := &user.User{
-		ID: 1,
-		UserID: "testid123",
-		Username: "unit.test",
-		Email: "unit.test@golang.com",
-		Password: "qwerty",
+		ID:        1,
+		UserID:    "testid123",
+		Username:  "unit.test",
+		Email:     "unit.test@golang.com",
+		Password:  "qwerty",
 		CreatedAt: time.Now(),
 		UpdatedAt: time.Now(),
 	}
@@ -163,6 +163,32 @@ func TestRepository_GetByUsername(t *testing.T) {
 }
 
 func TestRepository_Save(t *testing.T) {
+	mockUser := &user.User{
+		UserID:    "testid123",
+		Username:  "unit.test",
+		Email:     "unit.test@golang.com",
+		Password:  "qwerty",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	want := &(*mockUser)
+	db, mock, _ := setup(t)
+	mock.ExpectBegin()
+	mock.ExpectExec("INSERT INTO user").WithArgs(
+		mockUser.UserID,
+		mockUser.Username,
+		mockUser.Email,
+		mockUser.Password,
+		mockUser.CreatedAt,
+		mockUser.UpdatedAt,
+	).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+	repo := New(db)
+	err := repo.Save(context.Background(), mockUser)
+	require.NoError(t, err)
+	assert.Equal(t, want, mockUser)
+	assert.NoError(t, mock.ExpectationsWereMet())
+
 }
 
 func checkErr(t *testing.T, err error) {
