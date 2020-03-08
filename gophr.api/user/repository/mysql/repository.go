@@ -85,6 +85,21 @@ func (r *Repository) GetByUsername(ctx context.Context, uname string) (*user.Use
 	return r.doQuerySingleReturn(ctx, query, uname)
 }
 func (r *Repository) Save(ctx context.Context, usr *user.User) (err error) {
+	query := "INSERT INTO user(userId, username, email, password, created_at, updated_at) VALUES(?,?,?,?,?,?)"
+	return r.doSave(func(tx *sql.Tx)error{
+		_, err := tx.ExecContext(ctx, query,
+			usr.UserID,
+			usr.Username,
+			usr.Email,
+			usr.Password,
+			usr.CreatedAt,
+			usr.UpdatedAt,
+		)
+		return err
+	})
+}
+
+func(r *Repository) doSave(fn func(tx *sql.Tx)error) (err error) {
 	// When modifying a data, transaction is a good idea
 	tx, err := r.conn.Begin()
 	if err != nil {
@@ -103,20 +118,28 @@ func (r *Repository) Save(ctx context.Context, usr *user.User) (err error) {
 		}
 	}()
 
-	query := "INSERT INTO user(userId, username, email, password, created_at, updated_at) VALUES(?,?,?,?,?,?)"
-	_, err = tx.ExecContext(ctx, query,
-		usr.UserID,
-		usr.Username,
-		usr.Email,
-		usr.Password,
-		usr.CreatedAt,
-		usr.UpdatedAt,
-	)
-	return r.checkError(err)
+	err = fn(tx)
+	if err != nil {
+		return
+	}
+
+	return nil
+
 }
 
 func (r *Repository) Update(ctx context.Context, usr *user.User) error {
-	return nil
+	query := "UPDATE user SET userId=?, username=?, email=?, password=?, updated_at=? WHERE id=?"
+	return r.doSave(func(tx *sql.Tx)error{
+		_, err := tx.ExecContext(ctx, query,
+			usr.UserID,
+			usr.Username,
+			usr.Email,
+			usr.Password,
+			usr.UpdatedAt,
+			usr.ID,
+		)
+		return err
+	})
 }
 
 func (r *Repository) Delete(ctx context.Context, id interface{}) error {

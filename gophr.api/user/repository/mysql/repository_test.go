@@ -188,7 +188,32 @@ func TestRepository_Save(t *testing.T) {
 	require.NoError(t, err)
 	assert.Equal(t, want, mockUser)
 	assert.NoError(t, mock.ExpectationsWereMet())
+}
 
+func TestRepository_Update(t *testing.T) {
+	mockUser := &user.User{
+		UserID:    "testid123",
+		Username:  "unit.test",
+		Email:     "unit.test@golang.com",
+		Password:  "qwerty",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	db, mock, _ := setup(t)
+	mock.ExpectBegin()
+	mock.ExpectExec("UPDATE user").WithArgs(
+		mockUser.UserID,
+		mockUser.Username,
+		mockUser.Email,
+		mockUser.Password,
+		mockUser.UpdatedAt,
+		mockUser.ID,
+	).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+	repo := New(db)
+	err := repo.Update(context.Background(), mockUser)
+	require.NoError(t, err)
+	assert.NoError(t, mock.ExpectationsWereMet())
 }
 
 func checkErr(t *testing.T, err error) {
