@@ -23,6 +23,8 @@ func New(env Env) (*Config, error) {
 		configPath = "$HOME/.gophr/"
 
 	}
+
+	// TODO: Just initialize once
 	return loadConfig(
 		SetConfigType("yaml"),
 		SetConfig("config"),
@@ -39,7 +41,7 @@ type MySQL struct {
 	Password string
 	Host    string
 	Port string
-	Name string
+	Database string
 }
 
 func AddConfigPath(path string) func() {
