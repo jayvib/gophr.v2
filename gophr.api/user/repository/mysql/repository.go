@@ -161,6 +161,24 @@ func (r *Repository) Delete(ctx context.Context, id interface{}) error {
 	})
 }
 
-func (r *Repository) GetAll(ctx context.Context, page uint) ([]*user.User, error) {
-	return nil, nil
+func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users []*user.User, nextCursor string, err error) {
+	query := `SELECT id, userId, username, email, password, created_at, updated_at, deleted_at FROM user WHERE created_at > ? ORDER BY created_at LIMIT ?`
+	//query := "SELECT id, userId, username, password, email, created_at, updated_at, deleted_at FROM user WHERE created_at > ? ORDER BY created_at LIMIT ?"
+
+	decodedCursor, err := decodeCursor(cursor)
+	if err != nil {
+		return nil, "", err
+	}
+
+	res, err := r.doQuery(ctx, query, decodedCursor, num)
+	if err != nil {
+		return nil, "", err
+	}
+
+	// Generate next pagination cursor
+	if len(res) == int(num) {
+		nextCursor = encodeCursor(res[len(res)-1].CreatedAt)
+	}
+
+	return res, nextCursor, nil
 }
