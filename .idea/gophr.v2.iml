@@ -6,6 +6,7 @@
         <array>
           <option value="unit" />
           <option value="integration" />
+          <option value="mysql" />
         </array>
       </option>
     </buildTags>

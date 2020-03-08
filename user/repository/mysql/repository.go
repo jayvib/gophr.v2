@@ -7,12 +7,23 @@ import (
 	"fmt"
 	log "github.com/jayvib/golog"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gophr.v2/config"
 	"gophr.v2/user"
 )
 
 var (
 	ErrNotFound = errors.New("repository/mysql: Item not found")
 )
+
+func InitializeDriver(conf *config.Config) (*sql.DB, error) {
+	format := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
+		conf.MySQL.User, conf.MySQL.Password, conf.MySQL.Host, conf.MySQL.Port, conf.MySQL.Name)
+	db, err := sql.Open("mysql", format)
+	if err != nil {
+		return nil, err
+	}
+	return db, nil
+}
 
 func New(conn *sql.DB) *Repository {
 	return &Repository{conn: conn}
