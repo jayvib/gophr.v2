@@ -143,7 +143,22 @@ func (r *Repository) Update(ctx context.Context, usr *user.User) error {
 }
 
 func (r *Repository) Delete(ctx context.Context, id interface{}) error {
-	return nil
+	query := "DELETE FROM user WHERE id = ?"
+	return r.doSave(func(tx *sql.Tx)error{
+		res, err := tx.ExecContext(ctx, query, id)
+		if err != nil {
+			return err
+		}
+
+		affected, err := res.RowsAffected()
+		if err != nil {
+			return err
+		}
+		if affected != 1 {
+			return errors.New("repository/mysql: number of rows affected is more than 1")
+		}
+		return nil
+	})
 }
 
 func (r *Repository) GetAll(ctx context.Context, page uint) ([]*user.User, error) {

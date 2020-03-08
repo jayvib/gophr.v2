@@ -216,6 +216,31 @@ func TestRepository_Update(t *testing.T) {
 	assert.NoError(t, mock.ExpectationsWereMet())
 }
 
+func TestRepository_Delete(t *testing.T) {
+	mockUser := &user.User{
+		UserID:    "testid123",
+		Username:  "unit.test",
+		Email:     "unit.test@golang.com",
+		Password:  "qwerty",
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Now(),
+	}
+	db, mock, _ := setup(t)
+	mock.ExpectBegin()
+	mock.ExpectExec("DELETE FROM user").WithArgs(
+		mockUser.ID,
+	).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+	repo := New(db)
+	err := repo.Delete(context.Background(), mockUser.ID)
+	require.NoError(t, err)
+	assert.NoError(t, mock.ExpectationsWereMet())
+}
+
+func TestRepository_GetAll(t *testing.T) {
+
+}
+
 func checkErr(t *testing.T, err error) {
 	t.Helper()
 	require.NoError(t, err)
