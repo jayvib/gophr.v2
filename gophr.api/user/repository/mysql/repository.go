@@ -162,8 +162,16 @@ func (r *Repository) Delete(ctx context.Context, id interface{}) error {
 }
 
 func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users []*user.User, nextCursor string, err error) {
-	query := `SELECT id, userId, username, email, password, created_at, updated_at, deleted_at FROM user WHERE created_at > ? ORDER BY created_at LIMIT ?`
-	//query := "SELECT id, userId, username, password, email, created_at, updated_at, deleted_at FROM user WHERE created_at > ? ORDER BY created_at LIMIT ?"
+	query := `
+		SELECT 
+			id, userId, username, email, password, created_at, updated_at, deleted_at 
+		FROM 
+			user 
+		WHERE 
+			created_at > ? 
+		ORDER BY 
+			created_at 
+		LIMIT ?`
 
 	decodedCursor, err := decodeCursor(cursor)
 	if err != nil {

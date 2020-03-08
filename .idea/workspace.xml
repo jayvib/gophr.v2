@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gophr.api/user/repository/mysql/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go" afterDir="false" />
     </list>
@@ -19,32 +17,13 @@
   <component name="CoverageViewManager">
     <option name="myElementSize" value="54" />
   </component>
-  <component name="DockManager">
-    <window id="1">
-      <content type="file-editors">
-        <state>
-          <leaf>
-            <file pinned="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state relative-caret-position="272">
-                    <caret line="166" lean-forward="true" selection-start-line="166" selection-end-line="166" />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
-        </state>
-      </content>
-    </window>
-  </component>
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="280" column="153" selection-start-line="280" selection-start-column="153" selection-end-line="280" selection-end-column="153" />
+            <state relative-caret-position="382">
+              <caret line="302" column="37" selection-start-line="302" selection-start-column="37" selection-end-line="302" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -52,8 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="307">
-              <caret line="164" column="23" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
+            <state relative-caret-position="67">
+              <caret line="163" column="21" selection-start-line="163" selection-start-column="21" selection-end-line="163" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -266,15 +245,6 @@
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 13m 11s.xml">
-      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 14m 04s.xml">
-      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 14m 59s.xml">
-      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 15m 52s.xml">
       <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
     </history-entry>
@@ -296,9 +266,19 @@
     <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 21m 23s.xml">
       <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
     </history-entry>
+    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 21m 52s.xml">
+      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 24m 28s.xml">
+      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 24m 50s.xml">
+      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="1404" y="27" width="1328" height="741" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.18691589" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -488,15 +468,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="307">
-          <caret line="164" column="23" selection-start-line="164" selection-start-column="23" selection-end-line="164" selection-end-column="23" />
+        <state relative-caret-position="67">
+          <caret line="163" column="21" selection-start-line="163" selection-start-column="21" selection-end-line="163" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="280" column="153" selection-start-line="280" selection-start-column="153" selection-end-line="280" selection-end-column="153" />
+        <state relative-caret-position="382">
+          <caret line="302" column="37" selection-start-line="302" selection-start-column="37" selection-end-line="302" selection-end-column="37" />
         </state>
       </provider>
     </entry>

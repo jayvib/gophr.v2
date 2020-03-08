@@ -269,25 +269,26 @@ func TestRepository_GetAll(t *testing.T) {
 		},
 	}
 
-	db, mock, rows := setup(t)
+	t.Run("All Results", func(t *testing.T){
+		db, mock, rows := setup(t)
 
-	// Add the mock users to the row
-	for _, u := range mockUsers {
-		rows.AddRow(u.ID, u.UserID, u.Username, u.Email, u.Password, u.CreatedAt, u.UpdatedAt, u.DeletedAt)
-	}
+		// Add the mock users to the row
+		for _, u := range mockUsers {
+			rows.AddRow(u.ID, u.UserID, u.Username, u.Email, u.Password, u.CreatedAt, u.UpdatedAt, u.DeletedAt)
+		}
+		// Need to escape the "?" character as per this issue:
+		// https://github.com/DATA-DOG/go-sqlmock/issues/70
+		query := "SELECT id, userId, username, email, password, created_at, updated_at, deleted_at FROM user WHERE created_at > \\? ORDER BY created_at LIMIT \\?"
+		mock.ExpectQuery(query).WillReturnRows(rows)
 
-	// Need to escape the "?" character as per this issue:
-	// https://github.com/DATA-DOG/go-sqlmock/issues/70
-	query := "SELECT id, userId, username, email, password, created_at, updated_at, deleted_at FROM user WHERE created_at > \\? ORDER BY created_at LIMIT \\?"
-	mock.ExpectQuery(query).WillReturnRows(rows)
-
-	repo := New(db)
-	cursor := encodeCursor(mockUsers[0].CreatedAt)
-	list, nextCursor, err := repo.GetAll(context.Background(), cursor, 3)
-	_ = nextCursor
-	assert.NoError(t, err)
-	assert.NoError(t, mock.ExpectationsWereMet())
-	assert.Len(t, list, 3)
+		repo := New(db)
+		cursor := encodeCursor(mockUsers[0].CreatedAt)
+		list, nextCursor, err := repo.GetAll(context.Background(), cursor, 3)
+		_ = nextCursor
+		assert.NoError(t, err)
+		assert.NoError(t, mock.ExpectationsWereMet())
+		assert.Len(t, list, 3)
+	})
 }
 
 func checkErr(t *testing.T, err error) {
