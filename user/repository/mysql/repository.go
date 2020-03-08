@@ -7,7 +7,7 @@ import (
 	"fmt"
 	log "github.com/jayvib/golog"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"gophr.v2/gophr.api/user"
+	"gophr.v2/user"
 )
 
 var (

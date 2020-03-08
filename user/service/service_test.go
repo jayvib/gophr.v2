@@ -8,9 +8,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"gophr.v2/gophr.api/errors"
-	"gophr.v2/gophr.api/user"
-	"gophr.v2/gophr.api/user/mocks"
+	"gophr.v2/errors"
+	"gophr.v2/user"
+	"gophr.v2/user/mocks"
 )
 
 func TestService_GetByID(t *testing.T) {

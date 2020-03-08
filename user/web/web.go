@@ -5,7 +5,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
 	"github.com/jayvib/golog"
-	"gophr.v2/gophr.api/user"
+	"gophr.v2/user"
 	"net/http"
 )
 

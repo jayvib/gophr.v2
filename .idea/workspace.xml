@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go" afterDir="false" />
-    </list>
+    <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="302" column="37" selection-start-line="302" selection-start-column="37" selection-end-line="302" selection-end-column="37" />
+            <state relative-caret-position="307">
+              <caret line="286" column="17" selection-start-line="286" selection-start-column="17" selection-end-line="286" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -278,14 +275,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1404" y="27" width="1328" height="741" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.18691589" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18691589" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" x="0" y="37" width="1366" height="731" id="Run" order="2" type="WINDOWED" visible="true" weight="0.5327869" />
+      <window_info anchor="bottom" x="0" y="37" width="1366" height="731" id="Run" order="2" type="WINDOWED" visible="true" weight="0.5327869" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -475,8 +471,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/gophr.api/user/repository/mysql/repository_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="382">
-          <caret line="302" column="37" selection-start-line="302" selection-start-column="37" selection-end-line="302" selection-end-column="37" />
+        <state relative-caret-position="307">
+          <caret line="286" column="17" selection-start-line="286" selection-start-column="17" selection-end-line="286" selection-end-column="17" />
         </state>
       </provider>
     </entry>

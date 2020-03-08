@@ -11,7 +11,7 @@ import (
 	"github.com/jayvib/golog"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gophr.v2/gophr.api/user"
+	"gophr.v2/user"
 	"os"
 	"testing"
 	"time"

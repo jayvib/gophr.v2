@@ -2,7 +2,7 @@ package user
 
 import (
 	e "errors"
-	"gophr.v2/gophr.api/errors"
+	"gophr.v2/errors"
 )
 
 var (

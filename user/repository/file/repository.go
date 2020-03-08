@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jayvib/golog"
-	"gophr.v2/gophr.api/user"
+	"gophr.v2/user"
 	"io"
 	"io/ioutil"
 	"os"
