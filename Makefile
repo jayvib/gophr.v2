@@ -28,12 +28,20 @@ help: ## Display the available targets and its description
 ################BUILDS##################
 build-client-step: build-client-docker
 
-###############TESTING#################
-start-development-services:
+###############TESTING##################
+up-development-services:
 	docker-compose -f  docker-compose.yaml up -d
 
 down-development-services:
 	docker-compose -f docker-compose.yaml down
+
+start-development-services:
+	docker-compose -f docker-compose.yaml start -d
+
+stop-development-services:
+	docker-compose -f docker-compose.yaml stop
+
+########################################
 
 build-client: mod ## Building executable file for the gophr client app
 	@echo "Building ${CLIENT_APP}"

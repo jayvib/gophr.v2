@@ -2,6 +2,7 @@ package config
 
 import (
  "github.com/spf13/viper"
+	"sync"
 )
 
 type Env int
@@ -10,6 +11,11 @@ const (
 	DevelopmentEnv = iota
 	StageEnv
 	ProdEnv
+)
+
+var (
+	conf *Config
+	once sync.Once
 )
 
 func New(env Env) (*Config, error) {
@@ -24,12 +30,16 @@ func New(env Env) (*Config, error) {
 
 	}
 
-	// TODO: Just initialize once
-	return loadConfig(
+	var err error
+	conf, err = loadConfig(
 		SetConfigType("yaml"),
 		SetConfig("config"),
 		AddConfigPath(configPath),
 	)
+	if err != nil {
+		return nil, err
+	}
+	return conf, nil
 }
 
 type Config struct {
