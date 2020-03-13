@@ -27,15 +27,16 @@ func New(env Env) (*Config, error) {
 		configPath = "$HOME/.gophr/stageenv/"
 	case ProdEnv:
 		configPath = "$HOME/.gophr/"
-
 	}
 
 	var err error
-	conf, err = loadConfig(
-		SetConfigType("yaml"),
-		SetConfig("config"),
-		AddConfigPath(configPath),
-	)
+	once.Do(func(){
+		conf, err = loadConfig(
+			SetConfigType("yaml"),
+			SetConfig("config"),
+			AddConfigPath(configPath),
+		)
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +63,7 @@ func AddConfigPath(path string) func() {
 
 func SetConfig(name string) func() {
 	return func() {
-		viper.SetConfigName("config")
+		viper.SetConfigName(name)
 	}
 }
 
