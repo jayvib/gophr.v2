@@ -130,7 +130,13 @@ func TestRepository_Update(t *testing.T) {
 	err := repo.Update(context.Background(), input)
 	assert.NoError(t, err)
 
-	got, err := repo.GetByID(context.Background(), input.ID)
+	assertUpdate(t, want, input.ID)
+}
+
+func assertUpdate(t *testing.T, want *user.User, id interface{}) {
+	t.Helper()
+	got, err := repo.GetByID(context.Background(), id)
+	assert.NoError(t, err)
 	assert.Equal(t, want, got)
 }
 
