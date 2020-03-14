@@ -106,7 +106,7 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 
 	// Generate next pagination cursor
 	if len(res) == int(num) {
-		nextCursor = encodeCursor(res[len(res)-1].CreatedAt)
+		nextCursor = encodeCursor(*res[len(res)-1].CreatedAt)
 	}
 
 	return res, nextCursor, nil

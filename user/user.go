@@ -17,8 +17,8 @@ type User struct {
 
 	// Base
 	ID        uint `json:"id,omitempty"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt *time.Time
+	UpdatedAt *time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
 

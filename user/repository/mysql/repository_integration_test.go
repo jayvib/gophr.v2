@@ -3,9 +3,11 @@
 package mysql_test
 
 import (
+	"context"
 	"database/sql"
 	"flag"
 	"github.com/jayvib/golog"
+	"github.com/stretchr/testify/assert"
 	"gophr.v2/config"
 	"gophr.v2/user"
 	"gophr.v2/user/repository/mysql"
@@ -51,6 +53,18 @@ func TestMain(t *testing.M) {
 
 
 func TestRepository_GetByEmail(t *testing.T) {
+	email := "luffy.monkey@gmail.com"
+	want := &user.User{
+		ID: 1,
+		UserID: "abc123defe34f334df232dsdfweffewe2fecswf",
+		Username: "luffy.monkey",
+		Email: "luffy.monkey@gmail.com",
+		Password: "secretpass",
+	}
+
+	got, err := repo.GetByEmail(context.Background(), email)
+	assert.NoError(t, err)
+	assert.Equal(t, want, got)
 }
 
 func TestRepository_GetByID(t *testing.T) {

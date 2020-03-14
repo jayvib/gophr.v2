@@ -12,6 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gophr.v2/user"
+	"gophr.v2/util/valueutil"
 	"os"
 	"testing"
 	"time"
@@ -51,8 +52,8 @@ func TestRepository_GetByEmail(t *testing.T) {
 			Username:  "unit.test",
 			Email:     "unit.test@golang.com",
 			Password:  "qwerty",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UpdatedAt: valueutil.TimePointer(time.Now()),
 		}
 
 		// add the expected output to the rows
@@ -107,8 +108,8 @@ func TestRepository_GetByID(t *testing.T) {
 		Username:  "unit.test",
 		Email:     "unit.test@golang.com",
 		Password:  "qwerty",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: valueutil.TimePointer(time.Now()),
+		UpdatedAt: valueutil.TimePointer(time.Now()),
 	}
 
 	// add the expected output to the rows
@@ -139,8 +140,8 @@ func TestRepository_GetByUsername(t *testing.T) {
 		Username:  "unit.test",
 		Email:     "unit.test@golang.com",
 		Password:  "qwerty",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: valueutil.TimePointer(time.Now()),
+		UpdatedAt: valueutil.TimePointer(time.Now()),
 	}
 
 	// add the expected output to the rows
@@ -168,8 +169,8 @@ func TestRepository_Save(t *testing.T) {
 		Username:  "unit.test",
 		Email:     "unit.test@golang.com",
 		Password:  "qwerty",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: valueutil.TimePointer(time.Now()),
+		UpdatedAt: valueutil.TimePointer(time.Now()),
 	}
 	want := &(*mockUser)
 	db, mock, _ := setup(t)
@@ -196,8 +197,8 @@ func TestRepository_Update(t *testing.T) {
 		Username:  "unit.test",
 		Email:     "unit.test@golang.com",
 		Password:  "qwerty",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: valueutil.TimePointer(time.Now()),
+		UpdatedAt: valueutil.TimePointer(time.Now()),
 	}
 	db, mock, _ := setup(t)
 	mock.ExpectBegin()
@@ -222,8 +223,8 @@ func TestRepository_Delete(t *testing.T) {
 		Username:  "unit.test",
 		Email:     "unit.test@golang.com",
 		Password:  "qwerty",
-		CreatedAt: time.Now(),
-		UpdatedAt: time.Now(),
+		CreatedAt: valueutil.TimePointer(time.Now()),
+		UpdatedAt: valueutil.TimePointer(time.Now()),
 	}
 	db, mock, _ := setup(t)
 	mock.ExpectBegin()
@@ -246,8 +247,8 @@ func TestRepository_GetAll(t *testing.T) {
 			Username:  "unit.test",
 			Email:     "unit.test@golang.com",
 			Password:  "qwerty",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UpdatedAt: valueutil.TimePointer(time.Now()),
 		},
 		{
 			ID: 2,
@@ -255,8 +256,8 @@ func TestRepository_GetAll(t *testing.T) {
 			Username:  "unit.test01",
 			Email:     "unit.test01@golang.com",
 			Password:  "qwerty",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UpdatedAt: valueutil.TimePointer(time.Now()),
 		},
 		{
 			ID: 3,
@@ -264,8 +265,8 @@ func TestRepository_GetAll(t *testing.T) {
 			Username:  "unit.test02",
 			Email:     "unit.test02@golang.com",
 			Password:  "qwerty",
-			CreatedAt: time.Now(),
-			UpdatedAt: time.Now(),
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UpdatedAt: valueutil.TimePointer(time.Now()),
 		},
 	}
 
@@ -282,7 +283,7 @@ func TestRepository_GetAll(t *testing.T) {
 		mock.ExpectQuery(query).WillReturnRows(rows)
 
 		repo := New(db)
-		cursor := encodeCursor(mockUsers[0].CreatedAt)
+		cursor := encodeCursor(valueutil.TimeValue(mockUsers[0].CreatedAt))
 		list, nextCursor, err := repo.GetAll(context.Background(), cursor, 3)
 		_ = nextCursor
 		assert.NoError(t, err)
