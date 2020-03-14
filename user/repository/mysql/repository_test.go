@@ -291,7 +291,3 @@ func TestRepository_GetAll(t *testing.T) {
 	})
 }
 
-func checkErr(t *testing.T, err error) {
-	t.Helper()
-	require.NoError(t, err)
-}

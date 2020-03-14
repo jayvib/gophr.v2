@@ -1,7 +1,7 @@
 # Copyright 2020 Jayson Vibandor. All Right Reserved.
 
 mysql:
-  database: gophr.test
+  database: gophr
   user: root
   password: mypassword
   host: 127.0.0.1

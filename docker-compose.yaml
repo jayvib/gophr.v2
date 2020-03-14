@@ -10,7 +10,7 @@ services:
       - ./deployment/api/integration/gophr.sql:/docker-entrypoint-initdb.d/init.sql
     network_mode: host
     environment:
-      - MYSQL_DATABASE=gophr.test
+      - MYSQL_DATABASE=gophr
       - MYSQL_USER=user
       - MYSQL_PASSWORD=mypassword
       - MYSQL_ROOT_PASSWORD=root
