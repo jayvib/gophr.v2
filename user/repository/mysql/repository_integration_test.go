@@ -161,16 +161,27 @@ func TestRepository_Delete(t *testing.T) {
 		// because it create problem during asserting values
 	}
 
-	err := repo.Save(context.Background(), want)
-	assert.NoError(t, err)
+	setupDelete(t, want)
 
-	err = repo.Delete(context.Background(), want.ID)
+	err := repo.Delete(context.Background(), want.ID)
 	assert.NoError(t, err)
 
 	// check
-	_, err = repo.GetByID(context.Background(), want.ID)
+	assertDelete(t, want.ID)
+}
+
+func assertDelete(t *testing.T, id interface{}) {
+	t.Helper()
+	_, err := repo.GetByID(context.Background(), id)
 	assert.Error(t, err)
 	assert.Equal(t, mysql.ErrNotFound, err)
+}
+
+func setupDelete(t *testing.T, input *user.User) interface{} {
+	t.Helper()
+	err := repo.Save(context.Background(), input)
+	assert.NoError(t, err)
+	return input.ID
 }
 
 func TestRepository_Save(t *testing.T) {
@@ -186,7 +197,12 @@ func TestRepository_Save(t *testing.T) {
 
 	err := repo.Save(context.Background(), want)
 	assert.NoError(t, err)
-	golog.Debug("ID:", want.ID)
+
+	assertSave(t, want)
+}
+
+func assertSave(t *testing.T, want *user.User) {
+	t.Helper()
 	got, err := repo.GetByID(context.Background(), want.ID)
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
