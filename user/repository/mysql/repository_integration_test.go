@@ -210,4 +210,10 @@ func assertSave(t *testing.T, want *user.User) {
 
 func TestRepository_GetAll(t *testing.T) {
 
+	// Save inputs
+
+	// Get all
+
+	// Compare the result from the input
 }
+
