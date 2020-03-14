@@ -39,7 +39,7 @@ func (r *Repository) GetByUsername(ctx context.Context, uname string) (*user.Use
 func (r *Repository) Save(ctx context.Context, usr *user.User) (err error) {
 	query := "INSERT INTO user(userId, username, email, password, created_at, updated_at) VALUES(?,?,?,?,?,?)"
 	return r.doSave(func(tx *sql.Tx)error{
-		_, err := tx.ExecContext(ctx, query,
+		res, err := tx.ExecContext(ctx, query,
 			usr.UserID,
 			usr.Username,
 			usr.Email,
@@ -47,7 +47,18 @@ func (r *Repository) Save(ctx context.Context, usr *user.User) (err error) {
 			usr.CreatedAt,
 			usr.UpdatedAt,
 		)
-		return err
+		if err != nil {
+			return r.checkError(err)
+		}
+
+		id, err := res.LastInsertId()
+		if err != nil {
+			return r.checkError(err)
+		}
+
+		usr.ID = uint(id)
+
+		return nil
 	})
 }
 func (r *Repository) Update(ctx context.Context, usr *user.User) error {
@@ -77,7 +88,7 @@ func (r *Repository) Delete(ctx context.Context, id interface{}) error {
 			return err
 		}
 		if affected != 1 {
-			return errors.New("Repository/mysql: number of rows affected is more than 1")
+			return errors.New("repository/mysql: number of rows affected is more than 1")
 		}
 		return nil
 	})
@@ -171,6 +182,11 @@ func (r *Repository) doQuerySingleReturn(ctx context.Context, query string, valu
 	if err != nil {
 		return nil, err
 	}
+
+	if len(users) == 0 {
+		return nil, ErrNotFound
+	}
+
 	return users[0], nil
 }
 func (r *Repository) checkError(err error) error {

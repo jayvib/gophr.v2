@@ -164,6 +164,8 @@ func TestRepository_GetByUsername(t *testing.T) {
 }
 
 func TestRepository_Save(t *testing.T) {
+
+	// TODO: Test for the setting of ID
 	mockUser := &user.User{
 		UserID:    "testid123",
 		Username:  "unit.test",
