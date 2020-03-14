@@ -105,14 +105,66 @@ func TestRepository_GetByUsername(t *testing.T) {
 	assert.Equal(t, want, got)
 }
 
-func TestRepository_Delete(t *testing.T) {
-}
-
-func TestRepository_GetAll(t *testing.T) {
-
-}
-
 func TestRepository_Update(t *testing.T) {
+	input := &user.User{
+		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
+		Username: "luffy.monkey",
+		Email:    "luffy.monkey@gmail.com",
+		Password: "secretpass",
+	}
+
+	teardown := setupUpdate(t, input)
+	defer teardown()
+
+	want := &user.User{
+		ID: input.ID,
+		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
+		Username: "luffy.monkey",
+		Email:    "luffy.monkeys@gmail.com",
+		Password: "secretpass",
+	}
+
+	// For update
+	input.Email = "luffy.monkeys@gmail.com"
+
+	err := repo.Update(context.Background(), input)
+	assert.NoError(t, err)
+
+	got, err := repo.GetByID(context.Background(), input.ID)
+	assert.Equal(t, want, got)
+}
+
+func setupUpdate(t *testing.T, input *user.User) (teardown func()){
+	t.Helper()
+	err := repo.Save(context.Background(), input)
+	assert.NoError(t, err)
+	return func() {
+		err = repo.Delete(context.Background(), input.ID)
+		assert.NoError(t, err)
+	}
+}
+
+func TestRepository_Delete(t *testing.T) {
+	want := &user.User{
+		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
+		Username: "sanji.vinsmoke",
+		Email:    "sanji.vinsmoke@gmail.com",
+		Password: "secretpass",
+
+		// NOTE: Remove the time-based field value
+		// because it create problem during asserting values
+	}
+
+	err := repo.Save(context.Background(), want)
+	assert.NoError(t, err)
+
+	err = repo.Delete(context.Background(), want.ID)
+	assert.NoError(t, err)
+
+	// check
+	_, err = repo.GetByID(context.Background(), want.ID)
+	assert.Error(t, err)
+	assert.Equal(t, mysql.ErrNotFound, err)
 }
 
 func TestRepository_Save(t *testing.T) {
@@ -132,4 +184,8 @@ func TestRepository_Save(t *testing.T) {
 	got, err := repo.GetByID(context.Background(), want.ID)
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
+}
+
+func TestRepository_GetAll(t *testing.T) {
+
 }
