@@ -31,7 +31,7 @@ func setup() error {
 	}
 
 	db, err = driver.InitializeDriver(conf)
-	if err  != nil {
+	if err != nil {
 		return err
 	}
 
@@ -54,16 +54,15 @@ func TestMain(t *testing.M) {
 	os.Exit(code)
 }
 
-
 func TestRepository_GetByEmail(t *testing.T) {
 
-	t.Run("found", func(t *testing.T){
+	t.Run("found", func(t *testing.T) {
 		email := "luffy.monkey@gmail.com"
 		want := &user.User{
-			ID: 1,
-			UserID: "abc123defe34f334df232dsdfweffewe2fecswf",
+			ID:       1,
+			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
 			Username: "luffy.monkey",
-			Email: "luffy.monkey@gmail.com",
+			Email:    "luffy.monkey@gmail.com",
 			Password: "secretpass",
 		}
 
@@ -72,7 +71,7 @@ func TestRepository_GetByEmail(t *testing.T) {
 		assert.Equal(t, want, got)
 	})
 
-	t.Run("not found", func(t *testing.T){
+	t.Run("not found", func(t *testing.T) {
 		_, err := repo.GetByEmail(context.Background(), "not.found@gmail.com")
 		assert.Error(t, err)
 		assert.Equal(t, mysql.ErrNotFound, err)
@@ -119,7 +118,7 @@ func TestRepository_Update(t *testing.T) {
 	defer teardown()
 
 	want := &user.User{
-		ID: input.ID,
+		ID:       input.ID,
 		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
 		Username: "luffy.monkey",
 		Email:    "luffy.monkeys@gmail.com",
@@ -178,24 +177,24 @@ func TestRepository_GetAll(t *testing.T) {
 	// Save inputs
 	input := []*user.User{
 		{
-			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf1",
-			Username: "sanji.vinsmoke",
-			Email:    "sanji.vinsmoke@gmail.com",
-			Password: "secretpass",
+			UserID:    "abc123defe34f334df232dsdfweffewe2fecswf1",
+			Username:  "sanji.vinsmoke",
+			Email:     "sanji.vinsmoke@gmail.com",
+			Password:  "secretpass",
 			CreatedAt: valueutil.TimePointer(time.Now().UTC()),
 		},
 		{
-			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf2",
-			Username: "zoro.roronoa",
-			Email:    "zoro.roronoa@gmail.com",
-			Password: "secretpass",
+			UserID:    "abc123defe34f334df232dsdfweffewe2fecswf2",
+			Username:  "zoro.roronoa",
+			Email:     "zoro.roronoa@gmail.com",
+			Password:  "secretpass",
 			CreatedAt: valueutil.TimePointer(time.Now().UTC()),
 		},
 		{
-			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf3",
-			Username: "nami.navigator",
-			Email:    "nami.navigator@gmail.com",
-			Password: "secretpass",
+			UserID:    "abc123defe34f334df232dsdfweffewe2fecswf3",
+			Username:  "nami.navigator",
+			Email:     "nami.navigator@gmail.com",
+			Password:  "secretpass",
 			CreatedAt: valueutil.TimePointer(time.Now().UTC()),
 		},
 	}
@@ -246,7 +245,7 @@ func assertGetAll(t *testing.T, want, got []*user.User) {
 	assert.Equal(t, want, got)
 }
 
-func setupGetAll(t *testing.T, input []*user.User) (teardown func()){
+func setupGetAll(t *testing.T, input []*user.User) (teardown func()) {
 	t.Helper()
 	for _, in := range input {
 		err := repo.Save(context.Background(), in)
@@ -267,7 +266,7 @@ func assertUpdate(t *testing.T, want *user.User, id interface{}) {
 	assert.Equal(t, want, got)
 }
 
-func setupUpdate(t *testing.T, input *user.User) (teardown func()){
+func setupUpdate(t *testing.T, input *user.User) (teardown func()) {
 	t.Helper()
 	err := repo.Save(context.Background(), input)
 	assert.NoError(t, err)
@@ -297,4 +296,3 @@ func assertSave(t *testing.T, want *user.User) {
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
 }
-

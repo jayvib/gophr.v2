@@ -33,4 +33,3 @@ func decodeCursor(encodedTime string) (time.Time, error) {
 	}
 	return t, nil
 }
-

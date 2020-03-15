@@ -38,7 +38,7 @@ func (r *Repository) GetByUsername(ctx context.Context, uname string) (*user.Use
 }
 func (r *Repository) Save(ctx context.Context, usr *user.User) (err error) {
 	query := "INSERT INTO user(userId, username, email, password, created_at, updated_at) VALUES(?,?,?,?,?,?)"
-	return r.doSave(func(tx *sql.Tx)error{
+	return r.doSave(func(tx *sql.Tx) error {
 		res, err := tx.ExecContext(ctx, query,
 			usr.UserID,
 			usr.Username,
@@ -63,7 +63,7 @@ func (r *Repository) Save(ctx context.Context, usr *user.User) (err error) {
 }
 func (r *Repository) Update(ctx context.Context, usr *user.User) error {
 	query := "UPDATE user SET userId=?, username=?, email=?, password=?, updated_at=? WHERE id=?"
-	return r.doSave(func(tx *sql.Tx)error{
+	return r.doSave(func(tx *sql.Tx) error {
 		_, err := tx.ExecContext(ctx, query,
 			usr.UserID,
 			usr.Username,
@@ -77,7 +77,7 @@ func (r *Repository) Update(ctx context.Context, usr *user.User) error {
 }
 func (r *Repository) Delete(ctx context.Context, id interface{}) error {
 	query := "DELETE FROM user WHERE id = ?"
-	return r.doSave(func(tx *sql.Tx)error{
+	return r.doSave(func(tx *sql.Tx) error {
 		res, err := tx.ExecContext(ctx, query, id)
 		if err != nil {
 			return err
@@ -124,7 +124,7 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 	return res, nextCursor, nil
 }
 
-func(r *Repository) doSave(fn func(tx *sql.Tx)error) (err error) {
+func (r *Repository) doSave(fn func(tx *sql.Tx) error) (err error) {
 	// When modifying a data, transaction is a good idea
 	tx, err := r.conn.Begin()
 	if err != nil {

@@ -244,7 +244,7 @@ func TestRepository_GetAll(t *testing.T) {
 	// Add the mock users to the rows
 	mockUsers := []*user.User{
 		{
-			ID: 1,
+			ID:        1,
 			UserID:    "testid123",
 			Username:  "unit.test",
 			Email:     "unit.test@golang.com",
@@ -253,7 +253,7 @@ func TestRepository_GetAll(t *testing.T) {
 			UpdatedAt: valueutil.TimePointer(time.Now()),
 		},
 		{
-			ID: 2,
+			ID:        2,
 			UserID:    "testid124",
 			Username:  "unit.test01",
 			Email:     "unit.test01@golang.com",
@@ -262,7 +262,7 @@ func TestRepository_GetAll(t *testing.T) {
 			UpdatedAt: valueutil.TimePointer(time.Now()),
 		},
 		{
-			ID: 3,
+			ID:        3,
 			UserID:    "testid125",
 			Username:  "unit.test02",
 			Email:     "unit.test02@golang.com",
@@ -272,7 +272,7 @@ func TestRepository_GetAll(t *testing.T) {
 		},
 	}
 
-	t.Run("All Results", func(t *testing.T){
+	t.Run("All Results", func(t *testing.T) {
 		db, mock, rows := setup(t)
 
 		// Add the mock users to the row
@@ -293,4 +293,3 @@ func TestRepository_GetAll(t *testing.T) {
 		assert.Len(t, list, 3)
 	})
 }
-

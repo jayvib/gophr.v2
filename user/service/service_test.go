@@ -50,7 +50,7 @@ func TestService_GetByEmail(t *testing.T) {
 		got, _ := svc.GetByEmail(context.Background(), "12345")
 		assert.Equal(t, want, got)
 	})
-	
+
 	t.Run("Not existing user should return a ErrNotFound error", func(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := errors.ErrorNotFound
@@ -62,7 +62,7 @@ func TestService_GetByEmail(t *testing.T) {
 }
 
 func TestService_GetByUsername(t *testing.T) {
-	t.Run("Existing username should return its equavalent user object", func(t *testing.T){
+	t.Run("Existing username should return its equavalent user object", func(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := &user.User{
 			ID:       "12345",

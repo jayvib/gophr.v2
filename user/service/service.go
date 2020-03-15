@@ -4,8 +4,8 @@ import (
 	"context"
 	"github.com/jayvib/golog"
 	"golang.org/x/crypto/bcrypt"
-	"gophr.v2/user"
 	"gophr.v2/gophr.client/gophr.api"
+	"gophr.v2/user"
 )
 
 func New(repo user.Repository) *Service {

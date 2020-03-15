@@ -1,7 +1,7 @@
 package config
 
 import (
- "github.com/spf13/viper"
+	"github.com/spf13/viper"
 	"sync"
 )
 
@@ -30,7 +30,7 @@ func New(env Env) (*Config, error) {
 	}
 
 	var err error
-	once.Do(func(){
+	once.Do(func() {
 		conf, err = loadConfig(
 			SetConfigType("yaml"),
 			SetConfig("config"),
@@ -48,10 +48,10 @@ type Config struct {
 }
 
 type MySQL struct {
-	User string
+	User     string
 	Password string
-	Host    string
-	Port string
+	Host     string
+	Port     string
 	Database string
 }
 
@@ -68,7 +68,7 @@ func SetConfig(name string) func() {
 }
 
 func SetConfigType(t string) func() {
-	return func(){
+	return func() {
 		viper.SetConfigType(t)
 	}
 }
