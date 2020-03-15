@@ -7,6 +7,14 @@ import (
 
 const timeFormat = "2006-01-02T15:04:05.999Z07:00"
 
+func EncodeCursor(t time.Time) string {
+	return encodeCursor(t)
+}
+
+func DecodeCursor(encodedTime string) (time.Time, error) {
+	return decodeCursor(encodedTime)
+}
+
 // encodeCursor encode time t into a base 64 string.
 func encodeCursor(t time.Time) string {
 	timeString := t.Format(timeFormat)

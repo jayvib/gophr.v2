@@ -12,9 +12,11 @@ import (
 	"gophr.v2/user"
 	"gophr.v2/user/repository/mysql"
 	"gophr.v2/user/repository/mysql/driver"
+	"gophr.v2/util/valueutil"
 	"log"
 	"os"
 	"testing"
+	"time"
 )
 
 var debug = flag.Bool("debug", false, "Debug")
@@ -133,23 +135,6 @@ func TestRepository_Update(t *testing.T) {
 	assertUpdate(t, want, input.ID)
 }
 
-func assertUpdate(t *testing.T, want *user.User, id interface{}) {
-	t.Helper()
-	got, err := repo.GetByID(context.Background(), id)
-	assert.NoError(t, err)
-	assert.Equal(t, want, got)
-}
-
-func setupUpdate(t *testing.T, input *user.User) (teardown func()){
-	t.Helper()
-	err := repo.Save(context.Background(), input)
-	assert.NoError(t, err)
-	return func() {
-		err = repo.Delete(context.Background(), input.ID)
-		assert.NoError(t, err)
-	}
-}
-
 func TestRepository_Delete(t *testing.T) {
 	want := &user.User{
 		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
@@ -170,20 +155,6 @@ func TestRepository_Delete(t *testing.T) {
 	assertDelete(t, want.ID)
 }
 
-func assertDelete(t *testing.T, id interface{}) {
-	t.Helper()
-	_, err := repo.GetByID(context.Background(), id)
-	assert.Error(t, err)
-	assert.Equal(t, mysql.ErrNotFound, err)
-}
-
-func setupDelete(t *testing.T, input *user.User) interface{} {
-	t.Helper()
-	err := repo.Save(context.Background(), input)
-	assert.NoError(t, err)
-	return input.ID
-}
-
 func TestRepository_Save(t *testing.T) {
 	want := &user.User{
 		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
@@ -199,6 +170,125 @@ func TestRepository_Save(t *testing.T) {
 	assert.NoError(t, err)
 
 	assertSave(t, want)
+	deleteSaved(t, want.ID)
+}
+
+func TestRepository_GetAll(t *testing.T) {
+
+	// Save inputs
+	input := []*user.User{
+		{
+			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf1",
+			Username: "sanji.vinsmoke",
+			Email:    "sanji.vinsmoke@gmail.com",
+			Password: "secretpass",
+			CreatedAt: valueutil.TimePointer(time.Now().UTC()),
+		},
+		{
+			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf2",
+			Username: "zoro.roronoa",
+			Email:    "zoro.roronoa@gmail.com",
+			Password: "secretpass",
+			CreatedAt: valueutil.TimePointer(time.Now().UTC()),
+		},
+		{
+			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf3",
+			Username: "nami.navigator",
+			Email:    "nami.navigator@gmail.com",
+			Password: "secretpass",
+			CreatedAt: valueutil.TimePointer(time.Now().UTC()),
+		},
+	}
+
+	teardown := setupGetAll(t, input)
+	defer teardown()
+
+	cursor := getTimeCursor(*input[0].CreatedAt)
+	got, _, err := repo.GetAll(context.Background(), cursor, 3)
+	assert.NoError(t, err)
+
+	assert.Len(t, got, 3)
+
+	golog.Debug(got)
+
+	// Compare the result from the input
+	assertGetAll(t, input, got)
+}
+
+func deleteSaved(t *testing.T, id interface{}) {
+	t.Helper()
+	err := repo.Delete(context.Background(), id)
+	assert.NoError(t, err)
+}
+
+func getTimeCursor(t time.Time) string {
+	subTime := t.Add(-time.Second)
+	cursor := mysql.EncodeCursor(subTime)
+	golog.Debugf("Cursor: %s\n", cursor)
+
+	// Get all
+	return cursor
+}
+
+func assertGetAll(t *testing.T, want, got []*user.User) {
+	t.Helper()
+
+	removeDateValue := func(ins []*user.User) {
+		for _, in := range ins {
+			in.CreatedAt = nil
+			in.UpdatedAt = nil
+		}
+	}
+
+	removeDateValue(want)
+	removeDateValue(got)
+
+	assert.Equal(t, want, got)
+}
+
+func setupGetAll(t *testing.T, input []*user.User) (teardown func()){
+	t.Helper()
+	for _, in := range input {
+		err := repo.Save(context.Background(), in)
+		assert.NoError(t, err)
+	}
+	return func() {
+		for _, in := range input {
+			err := repo.Delete(context.Background(), in.ID)
+			assert.NoError(t, err)
+		}
+	}
+}
+
+func assertUpdate(t *testing.T, want *user.User, id interface{}) {
+	t.Helper()
+	got, err := repo.GetByID(context.Background(), id)
+	assert.NoError(t, err)
+	assert.Equal(t, want, got)
+}
+
+func setupUpdate(t *testing.T, input *user.User) (teardown func()){
+	t.Helper()
+	err := repo.Save(context.Background(), input)
+	assert.NoError(t, err)
+	return func() {
+		err = repo.Delete(context.Background(), input.ID)
+		assert.NoError(t, err)
+	}
+}
+
+func assertDelete(t *testing.T, id interface{}) {
+	t.Helper()
+	_, err := repo.GetByID(context.Background(), id)
+	assert.Error(t, err)
+	assert.Equal(t, mysql.ErrNotFound, err)
+}
+
+func setupDelete(t *testing.T, input *user.User) interface{} {
+	t.Helper()
+	err := repo.Save(context.Background(), input)
+	assert.NoError(t, err)
+	return input.ID
 }
 
 func assertSave(t *testing.T, want *user.User) {
@@ -206,14 +296,5 @@ func assertSave(t *testing.T, want *user.User) {
 	got, err := repo.GetByID(context.Background(), want.ID)
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
-}
-
-func TestRepository_GetAll(t *testing.T) {
-
-	// Save inputs
-
-	// Get all
-
-	// Compare the result from the input
 }
 

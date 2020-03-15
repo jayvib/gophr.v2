@@ -109,6 +109,7 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 	if err != nil {
 		return nil, "", err
 	}
+	log.Debug("cursor:", decodedCursor)
 
 	res, err := r.doQuery(ctx, query, decodedCursor, num)
 	if err != nil {
