@@ -39,7 +39,7 @@ func TestHandle_GetByID(t *testing.T) {
 		service := new(mocks.Service)
 
 		mockReturn := &user.User{
-			ID:       "mock1",
+			ID:       1,
 			Username: "luffy.monkey",
 			Email:    "luffy.monkey@gmail.com",
 			Password: "1234567890",
@@ -62,7 +62,7 @@ func TestHandle_GetByID(t *testing.T) {
 		router := mux.NewRouter()
 		router.HandleFunc("/users/{id}", h.GetByID).Methods(http.MethodGet)
 
-		w := performRequest(router, http.MethodGet, "/users/mock1", nil)
+		w := performRequest(router, http.MethodGet, "/users/1", nil)
 		assertResponse(t, want, w)
 		service.AssertExpectations(t)
 	})
@@ -71,7 +71,7 @@ func TestHandle_GetByID(t *testing.T) {
 		service := new(mocks.Service)
 
 		mockReturn := &user.User{
-			ID:       "mock1",
+			ID:       1,
 			Username: "luffy.monkey",
 			Email:    "luffy.monkey@gmail.com",
 			Password: "1234567890",
@@ -104,7 +104,7 @@ func TestHandle_GetByID(t *testing.T) {
 func TestHandler_GetByEmail(t *testing.T) {
 	svc := new(mocks.Service)
 	mockReturn := &user.User{
-		ID:       "mock1",
+		ID:       1,
 		Username: "luffy.monkey",
 		Email:    "luffy.monkey@gmail.com",
 		Password: "1234567890",

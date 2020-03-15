@@ -4,9 +4,11 @@ import (
 	"context"
 	"github.com/jayvib/golog"
 	"golang.org/x/crypto/bcrypt"
-	"gophr.v2/gophr.client/gophr.api"
+	"gophr.v2/errors"
 	"gophr.v2/user"
 )
+
+var _ user.Service = (*Service)(nil)
 
 func New(repo user.Repository) *Service {
 	return &Service{repo: repo}
@@ -16,7 +18,7 @@ type Service struct {
 	repo user.Repository
 }
 
-func (s *Service) GetByID(ctx context.Context, id string) (*user.User, error) {
+func (s *Service) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
 	return s.repo.GetByID(ctx, id)
 }
 
@@ -47,7 +49,7 @@ func (s *Service) GetAndComparePassword(ctx context.Context, username, password 
 		golog.Debug(err)
 		// if not match then return ErrorCredential
 		if err == bcrypt.ErrMismatchedHashAndPassword {
-			return nil, gophr.ErrorInvalidCredentials
+			return nil, errors.ErrorInvalidCredentials
 		}
 		return nil, err
 	}
@@ -56,4 +58,16 @@ func (s *Service) GetAndComparePassword(ctx context.Context, username, password 
 	usr.Password = ""
 
 	return usr, nil
+}
+
+func (s *Service) GetAll(ctx context.Context, cursor string, num int) (user []*user.User, nextCursor string, err error) {
+	return
+}
+
+func (s *Service) Delete(ctx context.Context, id interface{}) error {
+	return  nil
+}
+
+func (s *Service) Update(ctx context.Context, user *user.User) error {
+	return nil
 }

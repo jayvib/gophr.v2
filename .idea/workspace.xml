@@ -3,10 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/repository/mysql/driver/driver.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/repository/mysql/driver/driver.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/repository/mysql/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/repository/mysql/repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/repository/mysql/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/repository/mysql/util.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/mocks/Repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/mocks/Repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/mocks/Service.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/mocks/Service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/service/service.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/service/service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/service/service_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/service/service_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/web/web_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/web/web_test.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -64,104 +67,127 @@
     </window>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/user.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="209" selection-start-line="209" selection-end-line="209" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/go/src/time/time.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="895" column="14" selection-start-line="895" selection-start-column="14" selection-end-line="895" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/029a8912-2e5a-4f1d-9b31-18bfc452bb12/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="18" selection-start-column="18" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/repository.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/repository/mysql/driver/driver.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="27" column="29" lean-forward="true" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/repository/mysql/testing.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
-              <folding>
-                <element signature="e#15#75#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_test.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <caret line="167" column="34" selection-start-line="167" selection-start-column="34" selection-end-line="167" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="997">
-              <caret line="153" column="21" selection-start-line="153" selection-start-column="21" selection-end-line="153" selection-end-column="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/user/repository/mysql/util.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="45" selection-start-line="7" selection-start-column="45" selection-end-line="7" selection-end-column="45" />
-              <folding>
-                <element signature="e#15#52#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="vertical" split-proportion="0.9">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="2662">
+                  <caret line="216" column="16" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
+                  <folding>
+                    <element signature="n#!!block;n#setup#0" />
+                    <element signature="e#412#434#0" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/Makefile">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="135">
+                  <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/web/web_test.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="1246">
+                  <caret line="98" selection-start-line="98" selection-end-line="98" />
+                  <folding>
+                    <element signature="e#13#271#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/cmd/api/main.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="45">
+                  <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/repository.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="135">
+                  <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/service/service.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="225">
+                  <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+                  <folding>
+                    <element signature="e#17#147#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/user/service/service_test.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="285">
+                  <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/repository/file/repository.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <folding>
+                    <element signature="e#15#129#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/web/web.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="105">
+                  <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/service.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="90">
+                  <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/user/service.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="9">
+                  <caret line="16" column="16" selection-start-line="16" selection-start-column="16" selection-end-line="16" selection-end-column="16" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -204,7 +230,6 @@
         <option value="$PROJECT_DIR$/deployment/gophr.api/integration/docker-compose.yaml" />
         <option value="$PROJECT_DIR$/deployment/api/integration/docker-compose.yaml" />
         <option value="$PROJECT_DIR$/user/repository/mysql/driver/driver_integration_test.go" />
-        <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/config/config.go" />
         <option value="$PROJECT_DIR$/user/repository/mysql/testing.go" />
         <option value="$PROJECT_DIR$/user/repository.go" />
@@ -219,6 +244,12 @@
         <option value="$PROJECT_DIR$/user/repository/mysql/util.go" />
         <option value="$PROJECT_DIR$/user/repository/mysql/driver/driver.go" />
         <option value="$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go" />
+        <option value="$PROJECT_DIR$/Makefile" />
+        <option value="$PROJECT_DIR$/user/service.go" />
+        <option value="$PROJECT_DIR$/user/service/service.go" />
+        <option value="$PROJECT_DIR$/user/repository/file/repository.go" />
+        <option value="$PROJECT_DIR$/user/web/web_test.go" />
+        <option value="$PROJECT_DIR$/user/service/service_test.go" />
       </list>
     </option>
   </component>
@@ -243,6 +274,11 @@
             <path>
               <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
               <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
+              <item name="deployment" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -256,15 +292,19 @@
               <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
               <item name="repository" type="462c0819:PsiDirectoryNode" />
-              <item name="mysql" type="462c0819:PsiDirectoryNode" />
+              <item name="file" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
               <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
-              <item name="repository" type="462c0819:PsiDirectoryNode" />
-              <item name="mysql" type="462c0819:PsiDirectoryNode" />
-              <item name="driver" type="462c0819:PsiDirectoryNode" />
+              <item name="service" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="web" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
@@ -312,7 +352,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Go Test.TestRepository_GetByEmail in gophr.v2/user/repository/mysql">
+  <component name="RunManager" selected="Go Test.go test gophr.v2/user/service">
     <configuration name="TestConfig in gophr.v2/config" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="gophr.v2" />
       <working_directory value="$PROJECT_DIR$/config" />
@@ -324,15 +364,15 @@
       <pattern value="^TestConfig$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestRepository_Delete in gophr.v2/gophr.api/user/repository/mysql" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestHandle_GetByID in gophr.v2/user/web" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="gophr.v2" />
-      <working_directory value="$PROJECT_DIR$/gophr.api/user/repository/mysql" />
+      <working_directory value="$PROJECT_DIR$/user/web" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="gophr.v2/gophr.api/user/repository/mysql" />
+      <package value="gophr.v2/user/web" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestRepository_Delete$" />
+      <pattern value="^TestHandle_GetByID$" />
       <method v="2" />
     </configuration>
     <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -357,37 +397,27 @@
       <pattern value="^TestRepository_GetByEmail$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestRepository_Save in gophr.v2/gophr.api/user/repository/mysql" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go test gophr.v2/user/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="gophr.v2" />
-      <working_directory value="$PROJECT_DIR$/gophr.api/user/repository/mysql" />
+      <working_directory value="$PROJECT_DIR$/user/service" />
       <framework value="gotest" />
       <kind value="PACKAGE" />
-      <package value="gophr.v2/gophr.api/user/repository/mysql" />
+      <package value="gophr.v2/user/service" />
       <directory value="$PROJECT_DIR$/" />
       <filePath value="$PROJECT_DIR$/" />
-      <pattern value="^TestRepository_Save$" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.go test gophr.v2/user/service" />
+        <item itemvalue="Go Test.TestHandle_GetByID in gophr.v2/user/web" />
         <item itemvalue="Go Test.TestRepository_GetByEmail in gophr.v2/user/repository/mysql" />
         <item itemvalue="Go Test.TestConfig in gophr.v2/config" />
         <item itemvalue="Go Test.TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" />
-        <item itemvalue="Go Test.TestRepository_Delete in gophr.v2/gophr.api/user/repository/mysql" />
-        <item itemvalue="Go Test.TestRepository_Save in gophr.v2/gophr.api/user/repository/mysql" />
       </list>
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 19m 00s.xml">
-      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 19m 35s.xml">
-      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 20m 29s.xml">
-      <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TestRepository_GetAll_in_gophr_v2_gophr_api_user_repository_mysql - 2020.03.08 at 10h 21m 23s.xml">
       <configuration name="TestRepository_GetAll in gophr.v2/gophr.api/user/repository/mysql" configurationId="GoTestRunConfiguration" />
     </history-entry>
@@ -409,6 +439,15 @@
     <history-entry file="TestConfig_in_gophr_v2_config - 2020.03.08 at 12h 27m 49s.xml">
       <configuration name="TestConfig in gophr.v2/config" configurationId="GoTestRunConfiguration" />
     </history-entry>
+    <history-entry file="TestHandle_GetByID_in_gophr_v2_user_web - 2020.03.15 at 22h 52m 05s.xml">
+      <configuration name="TestHandle_GetByID in gophr.v2/user/web" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestHandle_GetByID_in_gophr_v2_user_web - 2020.03.15 at 22h 52m 26s.xml">
+      <configuration name="TestHandle_GetByID in gophr.v2/user/web" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="go_test_gophr_v2_user_service - 2020.03.15 at 22h 52m 38s.xml">
+      <configuration name="go test gophr.v2/user/service" configurationId="GoTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="1404" y="27" width="1328" height="741" extended-state="6" />
@@ -420,7 +459,7 @@
       <window_info anchor="bottom" x="1397" y="243" width="1335" height="354" id="Database Console" type="WINDOWED" weight="0.3295082" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295082" />
-      <window_info anchor="bottom" x="104" y="235" width="1194" height="459" id="Run" order="2" type="WINDOWED" weight="0.5327869" />
+      <window_info anchor="bottom" x="84" y="283" width="1234" height="431" id="Run" order="2" type="WINDOWED" visible="true" weight="0.5327869" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -454,16 +493,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user/web/web_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-851">
-          <caret line="39" lean-forward="true" selection-start-line="39" selection-end-line="39" />
-          <folding>
-            <element signature="e#13#291#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user/mocks/Service.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -480,41 +509,6 @@
           <folding>
             <element signature="e#66#169#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/service/service.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/service/service_test.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/web/web.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/service.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="13" column="12" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/repository/file/repository.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -579,13 +573,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/config/config.yaml" />
-    <entry file="file://$PROJECT_DIR$/Makefile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="45" selection-start-line="41" selection-start-column="45" selection-end-line="41" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user/repository/mysql/driver/driver_integration_test.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -652,13 +639,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user/repository.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="997">
@@ -702,8 +682,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="209" selection-start-line="209" selection-end-line="209" />
+        <state relative-caret-position="2662">
+          <caret line="216" column="16" selection-start-line="216" selection-start-column="16" selection-end-line="216" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!block;n#setup#0" />
+            <element signature="e#412#434#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/api/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" lean-forward="true" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="11" column="2" selection-start-line="11" selection-start-column="2" selection-end-line="11" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/service.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="8" column="23" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Makefile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/web/web.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="2" selection-start-line="7" selection-start-column="2" selection-end-line="7" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository/file/repository.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#15#129#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/web/web_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1246">
+          <caret line="98" selection-start-line="98" selection-end-line="98" />
+          <folding>
+            <element signature="e#13#271#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/service/service.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="21" column="5" lean-forward="true" selection-start-line="21" selection-start-column="5" selection-end-line="21" selection-end-column="5" />
+          <folding>
+            <element signature="e#17#147#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/service/service_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
         </state>
       </provider>
     </entry>

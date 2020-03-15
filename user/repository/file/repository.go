@@ -21,7 +21,7 @@ func New(filename string) *FileUserStore {
 
 	s := &FileUserStore{
 		filename: filename,
-		users:    make(map[string]*user.User),
+		users:    make(map[interface{}]*user.User),
 	}
 
 	// meaning this is a path error not exists
@@ -38,10 +38,10 @@ func New(filename string) *FileUserStore {
 
 type FileUserStore struct {
 	filename string
-	users    map[string]*user.User
+	users    map[interface{}]*user.User
 }
 
-func (s *FileUserStore) GetByID(ctx context.Context, id string) (*user.User, error) {
+func (s *FileUserStore) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
 	usr, ok := s.users[id]
 	if !ok {
 		return nil, user.ErrNotFound

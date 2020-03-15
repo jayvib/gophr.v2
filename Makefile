@@ -41,6 +41,9 @@ start-development-services:
 stop-development-services:
 	docker-compose -f docker-compose.yaml stop
 
+unit-test:
+	@go test -tags=unit -covermode=atomic -short ./... | grep -v '^?'
+
 ########################################
 
 build-client: mod ## Building executable file for the gophr client app
