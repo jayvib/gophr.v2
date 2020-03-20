@@ -1,4 +1,5 @@
-// +build unit
+//+build unit
+
 
 package service
 
@@ -87,4 +88,16 @@ func TestService_GetByUsername(t *testing.T) {
 }
 
 func TestService_Save(t *testing.T) {
+}
+
+func TestService_Update(t *testing.T) {
+}
+
+func TestService_Delete(t *testing.T) {
+}
+
+func TestService_GetAll(t *testing.T) {
+}
+
+func TestService_GetAndComparePassword(t *testing.T) {
 }
