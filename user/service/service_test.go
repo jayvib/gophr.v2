@@ -88,6 +88,18 @@ func TestService_GetByUsername(t *testing.T) {
 }
 
 func TestService_Save(t *testing.T) {
+	repo := new(mocks.Repository)
+	repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+	svc := New(repo)
+	want := &user.User{
+		ID:       12345,
+		Username: "luffy.monkey",
+		Email:    "luffy.monkey@gmail.com",
+	}
+	err := svc.Save(context.Background(), want)
+	assert.NotEmpty(t, want.CreatedAt)
+	assert.NotEmpty(t, want.UserID)
+	assert.NoError(t, err)
 }
 
 func TestService_Update(t *testing.T) {

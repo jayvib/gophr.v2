@@ -6,6 +6,9 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gophr.v2/errors"
 	"gophr.v2/user"
+	"gophr.v2/user/userutil"
+	"gophr.v2/util/valueutil"
+	"time"
 )
 
 var _ user.Service = (*Service)(nil)
@@ -31,6 +34,8 @@ func (s *Service) GetByUsername(ctx context.Context, uname string) (*user.User, 
 }
 
 func (s *Service) Save(ctx context.Context, usr *user.User) error {
+	usr.CreatedAt = valueutil.TimePointer(time.Now().UTC())
+	usr.UserID = userutil.GenerateID()
 	return s.repo.Save(ctx, usr)
 }
 
