@@ -66,13 +66,14 @@ func (s *Service) GetAndComparePassword(ctx context.Context, username, password 
 }
 
 func (s *Service) GetAll(ctx context.Context, cursor string, num int) (user []*user.User, nextCursor string, err error) {
-	return
+	return s.repo.GetAll(ctx, cursor, num)
 }
 
 func (s *Service) Delete(ctx context.Context, id interface{}) error {
-	return  nil
+	return s.repo.Delete(ctx, id)
 }
 
 func (s *Service) Update(ctx context.Context, user *user.User) error {
-	return nil
+  user.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
+	return s.repo.Update(ctx, user)
 }

@@ -100,18 +100,46 @@ func TestService_Save(t *testing.T) {
 	assert.NotEmpty(t, want.CreatedAt)
 	assert.NotEmpty(t, want.UserID)
 	assert.NoError(t, err)
+	repo.AssertExpectations(t)
 }
 
 func TestService_Update(t *testing.T) {
+  repo := new(mocks.Repository)
+  repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+  svc := New(repo)
 
+  want := &user.User{
+    ID:       12345,
+    Username: "luffy.monkey",
+    Email:    "luffy.monkey@gmail.com",
+  }
 
+  err := svc.Update(context.Background(), want)
+  assert.NotEmpty(t, want.UpdatedAt)
+  assert.NoError(t, err)
+  repo.AssertExpectations(t)
 }
 
 func TestService_Delete(t *testing.T) {
+  repo := new(mocks.Repository)
+  repo.On("Delete", mock.Anything, mock.AnythingOfType("uint")).Return(nil).Once()
+  svc := New(repo)
+
+  want := &user.User{
+    ID:       12345,
+    Username: "luffy.monkey",
+    Email:    "luffy.monkey@gmail.com",
+  }
+
+  err := svc.Delete(context.Background(), want.ID)
+  assert.NoError(t, err)
+  repo.AssertExpectations(t)
 }
 
 func TestService_GetAll(t *testing.T) {
+  // TODO: Please Implement Me
 }
 
 func TestService_GetAndComparePassword(t *testing.T) {
+  // TODO: Please Implement me
 }

@@ -1,19 +1,17 @@
 package web
 
 import (
-	"encoding/json"
-	"flag"
-	"github.com/gorilla/mux"
-	"github.com/jayvib/golog"
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"gophr.v2/user"
-	"gophr.v2/user/mocks"
-	"io"
-	"net/http"
-	"net/http/httptest"
-	"os"
-	"testing"
+  "encoding/json"
+  "flag"
+  "github.com/gorilla/mux"
+  "github.com/stretchr/testify/assert"
+  "github.com/stretchr/testify/mock"
+  "gophr.v2/user"
+  "gophr.v2/user/mocks"
+  "io"
+  "net/http"
+  "net/http/httptest"
+  "testing"
 )
 
 var debugTest = flag.Bool("debug", false, "debugging")
@@ -22,14 +20,6 @@ type responseTest struct {
 	Message string     `json:"message"`
 	Data    *user.User `json:"data"`
 	Method  string     `json:"method"`
-}
-
-func TestMain(m *testing.M) {
-	flag.Parse()
-	if *debugTest {
-		golog.SetLevel(golog.DebugLevel)
-	}
-	os.Exit(m.Run())
 }
 
 func TestHandle_GetByID(t *testing.T) {
@@ -149,7 +139,7 @@ func assertGetByIDNotFound(t *testing.T, want responseTest, w *httptest.Response
 }
 
 func performRequest(h http.Handler, method string, path string, body io.Reader) *httptest.ResponseRecorder {
-	req := httptest.NewRequest(http.MethodGet, path, nil)
+	req := httptest.NewRequest(method, path, body)
 	w := httptest.NewRecorder()
 	h.ServeHTTP(w, req)
 	return w

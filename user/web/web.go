@@ -1,12 +1,12 @@
 package web
 
 import (
-	"encoding/json"
-	"github.com/go-playground/validator/v10"
-	"github.com/gorilla/mux"
-	"github.com/jayvib/golog"
-	"gophr.v2/user"
-	"net/http"
+  "encoding/json"
+  "github.com/go-playground/validator/v10"
+  "github.com/gorilla/mux"
+  "github.com/jayvib/golog"
+  "gophr.v2/user"
+  "net/http"
 )
 
 type Response struct {
@@ -72,3 +72,4 @@ func (h *Handler) writeResponse(w http.ResponseWriter, r *http.Request, message 
 func (h *Handler) GetByUsername(w http.ResponseWriter, r *http.Request) {}
 func (h *Handler) Save(w http.ResponseWriter, r *http.Request)          {}
 func (h *Handler) Login(w http.ResponseWriter, r *http.Request)         {}
+
