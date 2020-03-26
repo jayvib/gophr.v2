@@ -3,13 +3,15 @@
 package driver_test
 
 import (
-	"github.com/stretchr/testify/require"
+  "github.com/jayvib/golog"
+  "github.com/stretchr/testify/require"
 	"gophr.v2/config"
 	"gophr.v2/user/repository/mysql/driver"
 	"testing"
 )
 
 func TestInitializeDriver(t *testing.T) {
+  golog.SetLevel(golog.DebugLevel)
 	conf, err := config.New(config.DevelopmentEnv)
 	require.NoError(t, err)
 	db, err := driver.InitializeDriver(conf)

@@ -1,12 +1,13 @@
 package driver
 
 import (
-	"database/sql"
-	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"gophr.v2/config"
-	"net/url"
-	"sync"
+  "database/sql"
+  "fmt"
+  _ "github.com/go-sql-driver/mysql"
+  "github.com/jayvib/golog"
+  "gophr.v2/config"
+  "net/url"
+  "sync"
 )
 
 var (
@@ -25,6 +26,7 @@ func InitializeDriver(conf *config.Config) (*sql.DB, error) {
 		val.Add("parseTime", "1")
 		val.Add("loc", "Asia/Manila")
 		dsn := fmt.Sprintf("%s?%s", format, val.Encode())
+		golog.Debug("DSN:", dsn)
 		db, e = sql.Open("mysql", dsn)
 		if e != nil {
 			err = e
