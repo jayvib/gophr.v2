@@ -21,7 +21,7 @@ func New(filename string) *FileUserStore {
 
 	s := &FileUserStore{
 		filename: filename,
-		users:    make(map[interface{}]*user.User),
+		users:    make(map[string]*user.User),
 	}
 
 	// meaning this is a path error not exists
@@ -38,11 +38,12 @@ func New(filename string) *FileUserStore {
 
 type FileUserStore struct {
 	filename string
-	users    map[interface{}]*user.User
+	users    map[string]*user.User
+	user.Repository
 }
 
 func (s *FileUserStore) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
-	usr, ok := s.users[id]
+	usr, ok := s.users[id.(string)]
 	if !ok {
 		return nil, user.ErrNotFound
 	}
@@ -79,7 +80,7 @@ func (s *FileUserStore) Save(ctx context.Context, usr *user.User) error {
 		golog.Debug(err)
 		return user.ErrEmailExists
 	}
-	s.users[usr.ID] = usr
+	s.users[fmt.Sprintf("%d", usr.ID)] = usr
 
 	content, err := json.MarshalIndent(s.users, "", "	")
 	if err != nil {
