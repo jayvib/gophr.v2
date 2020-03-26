@@ -132,7 +132,7 @@ func TestService_Register(t *testing.T) {
    input := *want
    err := svc.Register(context.Background(), &input)
    assert.Error(t, err)
-   assert.Equal(t, user.ErrUsernameEmpty, err)
+   assert.Equal(t, user.ErrEmptyUsername, err)
   })
 
   t.Run("During Registration Email is Empty", func(t *testing.T){
