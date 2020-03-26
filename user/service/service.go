@@ -103,6 +103,7 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
 }
 
 func (s *Service) Login(ctx context.Context, user *user.User) error {
+  // TODO: To be implemented
 	return nil
 }
 

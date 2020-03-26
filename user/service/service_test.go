@@ -181,7 +181,7 @@ func TestService_Register(t *testing.T) {
 }
 
 func TestService_Login(t *testing.T) {
-
+  // TODO: To be implemented
 }
 
 

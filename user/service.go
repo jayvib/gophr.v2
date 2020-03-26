@@ -14,5 +14,6 @@ type Service interface {
 	GetAll(ctx context.Context, cursor string, num int) (user []*User, nextCursor string, err error)
 	Delete(ctx context.Context, id interface{}) error
 	Update(ctx context.Context, user *User) error
-	GetAndComparePassword(ctx context.Context, username, password string) (*User, error)
+	Register(ctx context.Context, user *User) error
+	Login(ctx context.Context, user *User) error
 }
