@@ -83,7 +83,7 @@ func TestRepository_GetByEmail(t *testing.T) {
 		u, err := repo.GetByEmail(defaultCtx, "unit.test@golang.com")
 		assert.Nil(t, u)
 		assert.Error(t, err)
-		assert.Equal(t, ErrNotFound, err)
+		assert.Equal(t, user.ErrNotFound, err)
 	})
 
 	t.Run("Unexpected error", func(t *testing.T) {

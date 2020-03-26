@@ -10,10 +10,6 @@ import (
 	"gophr.v2/user"
 )
 
-var (
-	ErrNotFound = errors.New("repository/mysql: Item not found")
-)
-
 var _ user.Repository = (*Repository)(nil)
 
 func New(conn *sql.DB) *Repository {
@@ -185,7 +181,7 @@ func (r *Repository) doQuerySingleReturn(ctx context.Context, query string, valu
 	}
 
 	if len(users) == 0 {
-		return nil, ErrNotFound
+		return nil, user.ErrNotFound
 	}
 
 	return users[0], nil
@@ -194,7 +190,7 @@ func (r *Repository) checkError(err error) error {
 	var cerr error
 	switch err {
 	case sql.ErrNoRows:
-		cerr = ErrNotFound
+		cerr = user.ErrNotFound
 	case nil:
 		cerr = nil
 	default:
