@@ -113,7 +113,6 @@ func TestService_Register(t *testing.T) {
     repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
     svc := New(repo)
     want := &user.User{
-      ID:       12345,
       Username: "luffy.monkey",
       Email:    "luffy.monkey@gmail.com",
       Password: "iampirateking",
@@ -123,6 +122,61 @@ func TestService_Register(t *testing.T) {
     err := svc.Register(context.Background(), &input)
     assert.NoError(t, err)
     assert.NotEqual(t, want.Password, input.Password)
+    repo.AssertExpectations(t)
+  })
+
+  t.Run("During Registration Username is Empty", func(t *testing.T){
+   // Required:
+   // - Email
+   // - Username
+   // - Password
+   repo := new(mocks.Repository)
+   svc := New(repo)
+   want := &user.User{
+     Email:    "luffy.monkey@gmail.com",
+     Password: "iampirateking",
+   }
+
+   input := *want
+   err := svc.Register(context.Background(), &input)
+   assert.Error(t, err)
+   assert.Equal(t, ErrUsernameEmpty, err)
+  })
+
+  t.Run("During Registration Email is Empty", func(t *testing.T){
+    // Required:
+    // - Email
+    // - Username
+    // - Password
+    repo := new(mocks.Repository)
+    svc := New(repo)
+    want := &user.User{
+      Username: "luffy.monkey",
+      Password: "iampirateking",
+    }
+
+    input := *want
+    err := svc.Register(context.Background(), &input)
+    assert.Error(t, err)
+    assert.Equal(t, ErrEmptyEmail, err)
+  })
+
+  t.Run("During Registration Password is Empty", func(t *testing.T){
+    // Required:
+    // - Email
+    // - Username
+    // - Password
+    repo := new(mocks.Repository)
+    svc := New(repo)
+    want := &user.User{
+      Email: "luffy.monkey@gmail.com",
+      Username: "luffy.monkey",
+    }
+
+    input := *want
+    err := svc.Register(context.Background(), &input)
+    assert.Error(t, err)
+    assert.Equal(t, ErrEmptyPassword, err)
   })
 
   t.Run("Register User When Already Exists", func(t *testing.T){})

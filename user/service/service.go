@@ -74,25 +74,42 @@ func (s *Service) Delete(ctx context.Context, id interface{}) error {
 }
 
 func (s *Service) Update(ctx context.Context, user *user.User) error {
-  user.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
+	user.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
 	return s.repo.Update(ctx, user)
 }
 
 func (s *Service) Register(ctx context.Context, user *user.User) error {
-  user.CreatedAt = valueutil.TimePointer(time.Now().UTC())
-  user.UserID = userutil.GenerateID()
+	if err := validateUser(user); err != nil {
+		return err
+	}
+	user.CreatedAt = valueutil.TimePointer(time.Now().UTC())
+	user.UserID = userutil.GenerateID()
+	// Create a password
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
 
-  // Create a password
- hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
- if err != nil {
-   return err
- }
+	user.Password = string(hash)
 
- user.Password = string(hash)
-
-  return s.Save(ctx, user)
+	return s.Save(ctx, user)
 }
 
 func (s *Service) Login(ctx context.Context, user *user.User) error {
-  return nil
+	return nil
+}
+
+func validateUser(usr *user.User) error {
+	if usr.Username == "" {
+		return ErrUsernameEmpty
+	}
+
+	if usr.Email == "" {
+		return ErrEmptyEmail
+	}
+
+	if usr.Password == "" {
+	  return ErrEmptyPassword
+  }
+	return nil
 }
