@@ -74,7 +74,7 @@ func TestRepository_GetByEmail(t *testing.T) {
 	t.Run("not found", func(t *testing.T) {
 		_, err := repo.GetByEmail(context.Background(), "not.found@gmail.com")
 		assert.Error(t, err)
-		assert.Equal(t, mysql.ErrNotFound, err)
+		assert.Equal(t, user.ErrNotFound, err)
 	})
 }
 
@@ -280,7 +280,7 @@ func assertDelete(t *testing.T, id interface{}) {
 	t.Helper()
 	_, err := repo.GetByID(context.Background(), id)
 	assert.Error(t, err)
-	assert.Equal(t, mysql.ErrNotFound, err)
+	assert.Equal(t, user.ErrNotFound, err)
 }
 
 func setupDelete(t *testing.T, input *user.User) interface{} {
