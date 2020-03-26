@@ -78,28 +78,28 @@ func (s *Service) Update(ctx context.Context, user *user.User) error {
 	return s.repo.Update(ctx, user)
 }
 
-func (s *Service) Register(ctx context.Context, user *user.User) error {
-	if err := validateUser(user); err != nil {
+func (s *Service) Register(ctx context.Context, usr *user.User) error {
+	if err := validateUser(usr); err != nil {
 		return err
 	}
 
-  // Check first the user if already exists
-  _, err := s.repo.GetByEmail(ctx, user.Email)
+  // Check first the usr if already exists
+  _, err := s.repo.GetByEmail(ctx, usr.Email)
   if err == nil {
-    return ErrUserExists
+    return user.ErrUserExists
   }
 
-	user.CreatedAt = valueutil.TimePointer(time.Now().UTC())
-	user.UserID = userutil.GenerateID()
+	usr.CreatedAt = valueutil.TimePointer(time.Now().UTC())
+	usr.UserID = userutil.GenerateID()
 	// Create a password
-	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	hash, err := bcrypt.GenerateFromPassword([]byte(usr.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 
-	user.Password = string(hash)
+	usr.Password = string(hash)
 
-	return s.Save(ctx, user)
+	return s.Save(ctx, usr)
 }
 
 func (s *Service) Login(ctx context.Context, user *user.User) error {
@@ -108,15 +108,15 @@ func (s *Service) Login(ctx context.Context, user *user.User) error {
 
 func validateUser(usr *user.User) error {
 	if usr.Username == "" {
-		return ErrUsernameEmpty
+		return user.ErrUsernameEmpty
 	}
 
 	if usr.Email == "" {
-		return ErrEmptyEmail
+		return user.ErrEmptyEmail
 	}
 
 	if usr.Password == "" {
-	  return ErrEmptyPassword
+	  return user.ErrEmptyPassword
   }
 	return nil
 }

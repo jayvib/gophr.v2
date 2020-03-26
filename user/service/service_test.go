@@ -4,14 +4,13 @@
 package service
 
 import (
-	"context"
-	"testing"
+  "context"
+  "testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
-	"gophr.v2/errors"
-	"gophr.v2/user"
-	"gophr.v2/user/mocks"
+  "github.com/stretchr/testify/assert"
+  "github.com/stretchr/testify/mock"
+  "gophr.v2/user"
+  "gophr.v2/user/mocks"
 )
 
 func TestService_GetByID(t *testing.T) {
@@ -30,8 +29,8 @@ func TestService_GetByID(t *testing.T) {
 
 	t.Run("Not existing user should return a ErrNotFound error", func(t *testing.T) {
 		repo := new(mocks.Repository)
-		want := errors.ErrorNotFound
-		repo.On("GetByID", mock.Anything, mock.AnythingOfType("int")).Return(nil, errors.ErrorNotFound)
+		want := user.ErrNotFound
+		repo.On("GetByID", mock.Anything, mock.AnythingOfType("int")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByID(context.Background(), 12345)
 		assert.Equal(t, want, got)
@@ -54,8 +53,8 @@ func TestService_GetByEmail(t *testing.T) {
 
 	t.Run("Not existing user should return a ErrNotFound error", func(t *testing.T) {
 		repo := new(mocks.Repository)
-		want := errors.ErrorNotFound
-		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, errors.ErrorNotFound)
+		want := user.ErrNotFound
+		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByEmail(context.Background(), "12345")
 		assert.Equal(t, want, got)
@@ -78,8 +77,8 @@ func TestService_GetByUsername(t *testing.T) {
 
 	t.Run("Not existing username should return a ErrNotFound error", func(t *testing.T) {
 		repo := new(mocks.Repository)
-		want := errors.ErrorNotFound
-		repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, errors.ErrorNotFound)
+		want := user.ErrNotFound
+		repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByUsername(context.Background(), "luffy.monkey")
 		assert.Equal(t, want, got)
@@ -107,7 +106,7 @@ func TestService_Register(t *testing.T) {
   t.Run("Register User When Not Yet Exists", func(t *testing.T){
     repo := new(mocks.Repository)
     repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, ErrNotFound).Once()
+    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
     svc := New(repo)
     want := &user.User{
       Username: "luffy.monkey",
@@ -133,7 +132,7 @@ func TestService_Register(t *testing.T) {
    input := *want
    err := svc.Register(context.Background(), &input)
    assert.Error(t, err)
-   assert.Equal(t, ErrUsernameEmpty, err)
+   assert.Equal(t, user.ErrUsernameEmpty, err)
   })
 
   t.Run("During Registration Email is Empty", func(t *testing.T){
@@ -147,7 +146,7 @@ func TestService_Register(t *testing.T) {
     input := *want
     err := svc.Register(context.Background(), &input)
     assert.Error(t, err)
-    assert.Equal(t, ErrEmptyEmail, err)
+    assert.Equal(t, user.ErrEmptyEmail, err)
   })
 
   t.Run("During Registration Password is Empty", func(t *testing.T){
@@ -161,7 +160,7 @@ func TestService_Register(t *testing.T) {
     input := *want
     err := svc.Register(context.Background(), &input)
     assert.Error(t, err)
-    assert.Equal(t, ErrEmptyPassword, err)
+    assert.Equal(t, user.ErrEmptyPassword, err)
   })
 
   t.Run("Register User When Already Exists", func(t *testing.T){
@@ -176,7 +175,7 @@ func TestService_Register(t *testing.T) {
     svc := New(repo)
 
     err := svc.Register(context.Background(), res)
-    assert.Error(t, ErrUserExists, err)
+    assert.Error(t, user.ErrUserExists, err)
     repo.AssertExpectations(t)
   })
 }
