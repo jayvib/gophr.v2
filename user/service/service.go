@@ -82,6 +82,13 @@ func (s *Service) Register(ctx context.Context, user *user.User) error {
 	if err := validateUser(user); err != nil {
 		return err
 	}
+
+  // Check first the user if already exists
+  _, err := s.repo.GetByEmail(ctx, user.Email)
+  if err == nil {
+    return ErrUserExists
+  }
+
 	user.CreatedAt = valueutil.TimePointer(time.Now().UTC())
 	user.UserID = userutil.GenerateID()
 	// Create a password
