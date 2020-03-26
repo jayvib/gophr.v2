@@ -103,6 +103,36 @@ func TestService_Save(t *testing.T) {
 	repo.AssertExpectations(t)
 }
 
+func TestService_Register(t *testing.T) {
+  t.Run("Register User When Not Yet Exists", func(t *testing.T){
+    // Required:
+    // - Email
+    // - Username
+    // - Password
+    repo := new(mocks.Repository)
+    repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+    svc := New(repo)
+    want := &user.User{
+      ID:       12345,
+      Username: "luffy.monkey",
+      Email:    "luffy.monkey@gmail.com",
+      Password: "iampirateking",
+    }
+
+    input := *want
+    err := svc.Register(context.Background(), &input)
+    assert.NoError(t, err)
+    assert.NotEqual(t, want.Password, input.Password)
+  })
+
+  t.Run("Register User When Already Exists", func(t *testing.T){})
+}
+
+func TestService_Login(t *testing.T) {
+
+}
+
+
 func TestService_Update(t *testing.T) {
   repo := new(mocks.Repository)
   repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
