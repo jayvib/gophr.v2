@@ -60,7 +60,7 @@ func (g *GinHandler) Delete(c *gin.Context) {
   id := c.Param("id")
   err := g.svc.Delete(c.Request.Context(), id)
   if err != nil {
-    g.renderError(c, getStatusFromError(err), err, generateMessageFromError(err))
+    g.renderError(c, err)
     return
   }
   g.renderData(c, http.StatusOK, nil)
@@ -71,14 +71,14 @@ func (g *GinHandler) Register(c *gin.Context) {
   err := json.NewDecoder(c.Request.Body).Decode(&usr)
   if err != nil {
     golog.Debug(err.Error())
-    g.renderError(c, http.StatusBadRequest, err, "")
+    g.renderError(c, err)
     return
   }
 
   err = validater.Struct(&usr)
   if err != nil {
     golog.Debugf("%T\n", err)
-    g.renderError(c, getStatusFromError(err), err, generateMessageFromError(err))
+    g.renderError(c, err)
     return
   }
 
@@ -86,7 +86,7 @@ func (g *GinHandler) Register(c *gin.Context) {
   err = g.svc.Register(c.Request.Context(), &usr)
   if err != nil {
     golog.Debug(err.Error())
-    g.renderError(c, getStatusFromError(err), err, "")
+    g.renderError(c, err)
     return
   }
   g.renderData(c, http.StatusCreated, usr)
@@ -101,7 +101,7 @@ func getStatusFromError(err error) int {
     status = http.StatusNotFound
   default:
     switch err.(type) {
-    case validator.ValidationErrors:
+    case validator.ValidationErrors, *json.SyntaxError:
       status = http.StatusBadRequest
     default:
       status = http.StatusInternalServerError
@@ -126,11 +126,11 @@ func generateMessageFromError(err error) string {
 }
 
 
-func (g *GinHandler) renderError(c *gin.Context, status int, err error, msg string) {
-  c.JSON(status, &Response{
+func (g *GinHandler) renderError(c *gin.Context, err error) {
+  c.JSON(getStatusFromError(err), &Response{
     Error:   err.Error(),
     Success: false,
-    Message: msg,
+    Message: generateMessageFromError(err),
   })
 }
 
@@ -155,7 +155,7 @@ func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{})
   }
 
   if err != nil {
-    g.renderError(c, getStatusFromError(err), err, "")
+    g.renderError(c, err)
     return
   }
 
