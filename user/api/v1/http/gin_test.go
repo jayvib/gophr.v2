@@ -189,7 +189,7 @@ func TestRegister(t *testing.T) {
     RegisterHandlers(e, svc)
 
     body := userToBody(t, usr)
-    response := performRequest(e, http.MethodPost, "/users", body)
+    response := performRequest(e, http.MethodPut, "/users", body)
 
     assert.Equal(t, http.StatusCreated, response.Code)
     got := extractResponse(t, response)
@@ -213,11 +213,44 @@ func TestRegister(t *testing.T) {
     RegisterHandlers(e, svc)
 
     body := userToBody(t, usr)
-    response := performRequest(e, http.MethodPost, "/users", body)
+    response := performRequest(e, http.MethodPut, "/users", body)
     got := extractResponse(t, response)
     assert.Equal(t, http.StatusBadRequest, response.Code)
     assert.Equal(t, "Missing value for:\nUsername\n", got.Message)
   })
+}
+
+func TestDelete(t *testing.T) {
+  e := gin.Default()
+  svc := new(mocks.Service)
+  svc.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
+  RegisterHandlers(e, svc)
+  response := performRequest(e, http.MethodDelete, "/users/id/:id", nil)
+  assert.Equal(t, http.StatusOK, response.Code)
+  got := extractResponse(t, response)
+  assert.True(t, got.Success)
+  svc.AssertExpectations(t)
+}
+
+func TestUpdate(t *testing.T) {
+  repo := new(mocks.Repository)
+  repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+  svc := service.New(repo)
+
+  e := gin.Default()
+  RegisterHandlers(e, svc)
+
+  input := &user.User{
+    ID: 1,
+    Username: "luffy.monkey",
+    Email: "luffy.monkey@gmail.com",
+    Password: "Secret",
+  }
+
+  body := userToBody(t, input)
+  response := performRequest(e, http.MethodPost, "/users", body)
+  assert.Equal(t, http.StatusOK, response.Code)
+  repo.AssertExpectations(t)
 }
 
 func userToBody(t *testing.T, usr *user.User) *bytes.Reader {
@@ -233,18 +266,6 @@ func extractResponse(t *testing.T, response *httptest.ResponseRecorder) Response
   err := json.NewDecoder(response.Body).Decode(&got)
   require.NoError(t, err)
   return got
-}
-
-func TestDelete(t *testing.T) {
-  e := gin.Default()
-  svc := new(mocks.Service)
-  svc.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
-  RegisterHandlers(e, svc)
-  response := performRequest(e, http.MethodDelete, "/users/id/:id", nil)
-  assert.Equal(t, http.StatusOK, response.Code)
-  got := extractResponse(t, response)
-  assert.True(t, got.Success)
-  svc.AssertExpectations(t)
 }
 
 func assertResponse(t *testing.T, want Response, body io.Reader) {

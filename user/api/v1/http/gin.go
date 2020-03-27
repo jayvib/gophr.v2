@@ -26,7 +26,8 @@ func RegisterHandlers(r gin.IRouter, svc user.Service) {
 	r.GET("/users/id/:id", handler.GetByID)
   r.GET("/users/email/:email", handler.GetByEmail)
   r.GET("/users/username/:username", handler.GetByUsername)
-  r.POST("/users", handler.Register)
+  r.PUT("/users", handler.Register)
+	r.POST("/users", handler.Update)
   r.DELETE("/users/id/:id", handler.Delete)
 }
 
@@ -65,32 +66,52 @@ func (g *GinHandler) Delete(c *gin.Context) {
   }
   g.renderData(c, http.StatusOK, nil)
 }
-func (g *GinHandler) Update(c *gin.Context) {}
-
-func (g *GinHandler) Register(c *gin.Context) {
-  var usr user.User
-  err := json.NewDecoder(c.Request.Body).Decode(&usr)
+func (g *GinHandler) Update(c *gin.Context) {
+  usr, err := g.decodeUserFromBody(c)
   if err != nil {
-    golog.Debug(err.Error())
     g.renderError(c, err)
     return
   }
 
-  err = validater.Struct(&usr)
+  err = g.svc.Update(c.Request.Context(), usr)
+  if err != nil {
+    g.renderError(c, err)
+    return
+  }
+
+  g.renderData(c, http.StatusOK, usr)
+}
+
+func (g *GinHandler) Register(c *gin.Context) {
+  usr, err := g.decodeUserFromBody(c)
+  if err != nil {
+    g.renderError(c, err)
+    return
+  }
+
+  err = validater.Struct(usr)
   if err != nil {
     golog.Debugf("%T\n", err)
     g.renderError(c, err)
     return
   }
 
-
-  err = g.svc.Register(c.Request.Context(), &usr)
+  err = g.svc.Register(c.Request.Context(), usr)
   if err != nil {
     golog.Debug(err.Error())
     g.renderError(c, err)
     return
   }
   g.renderData(c, http.StatusCreated, usr)
+}
+
+func (g *GinHandler) decodeUserFromBody(c *gin.Context) (*user.User, error) {
+  var usr user.User
+  err := json.NewDecoder(c.Request.Body).Decode(&usr)
+  if err != nil {
+    return nil, err
+  }
+  return &usr, err
 }
 
 func getStatusFromError(err error) int {
