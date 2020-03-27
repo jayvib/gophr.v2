@@ -66,12 +66,26 @@ func (g *GinHandler) Register(c *gin.Context) {
   err = g.svc.Register(c.Request.Context(), &usr)
   if err != nil {
     golog.Debug(err.Error())
-    g.renderError(c, http.StatusInternalServerError, err)
+    g.renderError(c, getStatusFromError(err), err)
     return
   }
-
   g.renderData(c, http.StatusCreated, usr)
 }
+
+func getStatusFromError(err error) int {
+  var status int
+  switch err {
+  case user.ErrEmptyUsername, user.ErrEmptyEmail, user.ErrEmptyPassword:
+    status = http.StatusBadRequest
+  case user.ErrNotFound:
+    status = http.StatusNotFound
+  default:
+    status = http.StatusInternalServerError
+  }
+  return status
+}
+
+
 
 func (g *GinHandler) renderError(c *gin.Context, status int, err error) {
   c.JSON(status, &Response{
@@ -101,7 +115,7 @@ func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{})
   }
 
   if err != nil {
-    g.renderError(c, http.StatusNotFound, err)
+    g.renderError(c, getStatusFromError(err), err)
     return
   }
 

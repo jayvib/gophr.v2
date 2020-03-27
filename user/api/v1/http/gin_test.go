@@ -207,6 +207,24 @@ func TestRegister(t *testing.T) {
 
     repo.AssertExpectations(t)
   })
+
+  t.Run("Validate User No Username", func(t *testing.T){
+    usr := &user.User{
+      Email: "luffy.monkey@gmail.com",
+      Password: "iampirateking",
+    }
+
+    e := gin.Default()
+    svc := service.New(nil)
+    RegisterHandlers(e, svc)
+
+    payload, err := json.Marshal(usr)
+    require.NoError(t, err)
+
+    body := bytes.NewReader(payload)
+    response := performRequest(e, http.MethodPost, "/users", body)
+    assert.Equal(t, http.StatusBadRequest, response.Code)
+  })
 }
 
 func assertResponse(t *testing.T, want Response, body io.Reader) {
