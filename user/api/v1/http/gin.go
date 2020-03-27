@@ -37,13 +37,25 @@ func (g *GinHandler) GetByID(c *gin.Context) {
 	g.get(c, id, g.svc.GetByID)
 }
 
+func (g *GinHandler) GetByEmail(c *gin.Context) {
+	email := c.Param("email")
+	golog.Debug("Email:", email)
+	g.get(c, email, g.svc.GetByEmail)
+}
+
+func (g *GinHandler) GetByUsername(c *gin.Context) {
+  username := c.Param("username")
+  g.get(c, username, g.svc.GetByUsername)
+}
+
 func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{}) {
   var usr *user.User
   var err error
 
-  if fn, ok := getterFunc.(func(ctx context.Context, id interface{})(*user.User, error)); ok {
+  switch fn := getterFunc.(type) {
+  case func(ctx context.Context, id interface{})(*user.User, error):
     usr, err = fn(c.Request.Context(), id)
-  } else if fn, ok := getterFunc.(func(ctx context.Context, input string)(*user.User, error)); ok {
+  case func(ctx context.Context, input string)(*user.User, error):
     usr, err = fn(c.Request.Context(), id.(string))
   }
 
@@ -60,15 +72,4 @@ func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{})
     Data:    usr,
     Success: true,
   })
-}
-
-func (g *GinHandler) GetByEmail(c *gin.Context) {
-	email := c.Param("email")
-	golog.Debug("Email:", email)
-	g.get(c, email, g.svc.GetByEmail)
-}
-
-func (g *GinHandler) GetByUsername(c *gin.Context) {
-  username := c.Param("username")
-  g.get(c, username, g.svc.GetByUsername)
 }
