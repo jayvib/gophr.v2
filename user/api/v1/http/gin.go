@@ -69,12 +69,14 @@ func (g *GinHandler) Delete(c *gin.Context) {
 func (g *GinHandler) Update(c *gin.Context) {
   usr, err := g.decodeUserFromBody(c)
   if err != nil {
+    golog.Debug("error:", err)
     g.renderError(c, err)
     return
   }
 
   err = g.svc.Update(c.Request.Context(), usr)
   if err != nil {
+    golog.Debug("error:", err)
     g.renderError(c, err)
     return
   }
@@ -117,7 +119,7 @@ func (g *GinHandler) decodeUserFromBody(c *gin.Context) (*user.User, error) {
 func getStatusFromError(err error) int {
   var status int
   switch err {
-  case user.ErrEmptyUsername, user.ErrEmptyEmail, user.ErrEmptyPassword:
+  case user.ErrEmptyUsername, user.ErrEmptyEmail, user.ErrEmptyPassword, user.ErrUserExists:
     status = http.StatusBadRequest
   case user.ErrNotFound:
     status = http.StatusNotFound
@@ -143,7 +145,12 @@ func generateMessageFromError(err error) string {
     }
     return b.String()
   default:
-    return ""
+    switch err {
+    case user.ErrUserExists:
+      return "Update user failed because it did not exists"
+    default:
+      return ""
+    }
   }
 }
 

@@ -233,24 +233,54 @@ func TestDelete(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-  repo := new(mocks.Repository)
-  repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-  svc := service.New(repo)
+  t.Run("When Updating an Existed User", func(t *testing.T){
+    repo := new(mocks.Repository)
+    repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+    svc := service.New(repo)
 
-  e := gin.Default()
-  RegisterHandlers(e, svc)
+    e := gin.Default()
+    RegisterHandlers(e, svc)
 
-  input := &user.User{
-    ID: 1,
-    Username: "luffy.monkey",
-    Email: "luffy.monkey@gmail.com",
-    Password: "Secret",
-  }
+    input := &user.User{
+      ID: 1,
+      Username: "luffy.monkey",
+      Email: "luffy.monkey@gmail.com",
+      Password: "Secret",
+    }
 
-  body := userToBody(t, input)
-  response := performRequest(e, http.MethodPost, "/users", body)
-  assert.Equal(t, http.StatusOK, response.Code)
-  repo.AssertExpectations(t)
+    body := userToBody(t, input)
+    response := performRequest(e, http.MethodPost, "/users", body)
+    assert.Equal(t, http.StatusOK, response.Code)
+    repo.AssertExpectations(t)
+
+    got := extractResponse(t, response)
+    assert.True(t, got.Success)
+  })
+
+  t.Run("When Updating to an Non-Exiting User", func(t *testing.T){
+    repo := new(mocks.Repository)
+    repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(user.ErrUserExists).Once()
+    svc := service.New(repo)
+
+    e := gin.Default()
+    RegisterHandlers(e, svc)
+
+    input := &user.User{
+      ID: 1,
+      Username: "luffy.monkey",
+      Email: "luffy.monkey@gmail.com",
+      Password: "Secret",
+    }
+
+    body := userToBody(t, input)
+    response := performRequest(e, http.MethodPost, "/users", body)
+    assert.Equal(t, http.StatusBadRequest, response.Code)
+    repo.AssertExpectations(t)
+
+    got := extractResponse(t, response)
+    assert.False(t, got.Success)
+    assert.Equal(t, "Update user failed because it did not exists", got.Message)
+  })
 }
 
 func userToBody(t *testing.T, usr *user.User) *bytes.Reader {

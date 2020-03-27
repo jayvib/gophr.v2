@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/user/api/v1/http/gin.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/api/v1/http/gin.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user/api/v1/http/gin_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/api/v1/http/gin_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/repository/mysql/repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/repository/mysql/repository.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +42,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.42875817">
+    <splitter split-orientation="horizontal" split-proportion="0.3019608">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
@@ -93,8 +93,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/user/api/v1/http/gin.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="462">
-                  <caret line="82" column="16" lean-forward="true" selection-start-line="82" selection-start-column="16" selection-end-line="82" selection-end-column="16" />
+                <state relative-caret-position="308">
+                  <caret line="74" selection-start-line="74" selection-end-line="74" />
                 </state>
               </provider>
             </entry>
@@ -149,6 +149,15 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository.go">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="126">
+                  <caret line="66" column="14" lean-forward="true" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/user/repository.go">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="168">
@@ -160,8 +169,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/user/api/v1/http/gin_test.go">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="280">
-                  <caret line="240" column="12" lean-forward="true" selection-start-line="240" selection-start-column="12" selection-end-line="240" selection-end-column="12" />
+                <state relative-caret-position="560">
+                  <caret line="281" column="63" selection-start-line="281" selection-start-column="63" selection-end-line="281" selection-end-column="63" />
                 </state>
               </provider>
             </entry>
@@ -228,7 +237,6 @@
         <option value="$PROJECT_DIR$/user/web/gin.go" />
         <option value="$PROJECT_DIR$/user/web/gin_test.go" />
         <option value="$PROJECT_DIR$/user/repository/mysql/repository_test.go" />
-        <option value="$PROJECT_DIR$/user/repository/mysql/repository.go" />
         <option value="$PROJECT_DIR$/user/service/errors.go" />
         <option value="$PROJECT_DIR$/user/service/service_test.go" />
         <option value="$PROJECT_DIR$/user/service.go" />
@@ -245,8 +253,9 @@
         <option value="$PROJECT_DIR$/errors/errors.go" />
         <option value="$PROJECT_DIR$/user/service/service.go" />
         <option value="$PROJECT_DIR$/user/user.go" />
-        <option value="$PROJECT_DIR$/user/api/v1/http/gin_test.go" />
         <option value="$PROJECT_DIR$/user/api/v1/http/gin.go" />
+        <option value="$PROJECT_DIR$/user/repository/mysql/repository.go" />
+        <option value="$PROJECT_DIR$/user/api/v1/http/gin_test.go" />
       </list>
     </option>
   </component>
@@ -303,6 +312,19 @@
               <item name="api" type="462c0819:PsiDirectoryNode" />
               <item name="v1" type="462c0819:PsiDirectoryNode" />
               <item name="http" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="repository" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
+              <item name="user" type="462c0819:PsiDirectoryNode" />
+              <item name="repository" type="462c0819:PsiDirectoryNode" />
+              <item name="mysql" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
@@ -431,12 +453,6 @@
     </recent_temporary>
   </component>
   <component name="TestHistory">
-    <history-entry file="TestGetByEmail_NotFound_in_gophr_v2_user_api_v1_http - 2020.03.27 at 12h 51m 56s.xml">
-      <configuration name="TestGetByEmail/NotFound in gophr.v2/user/api/v1/http" configurationId="GoTestRunConfiguration" />
-    </history-entry>
-    <history-entry file="TestGetByUsename_StatusOK_in_gophr_v2_user_api_v1_http - 2020.03.27 at 12h 58m 51s.xml">
-      <configuration name="TestGetByUsename/StatusOK in gophr.v2/user/api/v1/http" configurationId="GoTestRunConfiguration" />
-    </history-entry>
     <history-entry file="TestService_Register_in_gophr_v2_user_service - 2020.03.27 at 14h 05m 20s.xml">
       <configuration name="TestService_Register in gophr.v2/user/service" configurationId="GoTestRunConfiguration" />
     </history-entry>
@@ -461,17 +477,22 @@
     <history-entry file="TestUpdate_in_gophr_v2_user_api_v1_http - 2020.03.27 at 21h 45m 34s.xml">
       <configuration name="TestUpdate in gophr.v2/user/api/v1/http" configurationId="GoTestRunConfiguration" />
     </history-entry>
+    <history-entry file="TestUpdate_in_gophr_v2_user_api_v1_http - 2020.03.27 at 22h 07m 45s.xml">
+      <configuration name="TestUpdate in gophr.v2/user/api/v1/http" configurationId="GoTestRunConfiguration" />
+    </history-entry>
+    <history-entry file="TestUpdate_in_gophr_v2_user_api_v1_http - 2020.03.27 at 22h 08m 51s.xml">
+      <configuration name="TestUpdate in gophr.v2/user/api/v1/http" configurationId="GoTestRunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14002205" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3287234" />
-      <window_info active="true" anchor="bottom" x="142" y="410" width="1489" height="488" id="Run" order="2" visible="true" weight="0.41276595" />
+      <window_info anchor="bottom" x="142" y="410" width="1489" height="488" id="Run" order="2" visible="true" weight="0.41276595" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -479,7 +500,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" x="2073" y="142" width="1467" height="504" id="Terminal" order="10" type="WINDOWED" visible="true" weight="0.3617021" />
+      <window_info active="true" anchor="bottom" x="2073" y="142" width="1467" height="504" id="Terminal" order="10" type="WINDOWED" visible="true" weight="0.3617021" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" weight="0.3295082" />
       <window_info anchor="bottom" x="1397" y="243" width="1335" height="354" id="Database Console" order="12" type="WINDOWED" weight="0.3295082" />
       <window_info anchor="right" id="Coverage" order="0" side_tool="true" weight="0.08800623" />
@@ -674,13 +695,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="66" column="18" selection-start-line="66" selection-start-column="18" selection-end-line="66" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user/errors.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-7">
@@ -784,15 +798,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/user/api/v1/http/gin.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="82" column="16" lean-forward="true" selection-start-line="82" selection-start-column="16" selection-end-line="82" selection-end-column="16" />
+        <state relative-caret-position="308">
+          <caret line="74" selection-start-line="74" selection-end-line="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="66" column="14" lean-forward="true" selection-start-line="66" selection-start-column="14" selection-end-line="66" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/user/api/v1/http/gin_test.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="240" column="12" lean-forward="true" selection-start-line="240" selection-start-column="12" selection-end-line="240" selection-end-column="12" />
+        <state relative-caret-position="560">
+          <caret line="281" column="63" selection-start-line="281" selection-start-column="63" selection-end-line="281" selection-end-column="63" />
         </state>
       </provider>
     </entry>

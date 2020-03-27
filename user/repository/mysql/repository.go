@@ -64,7 +64,7 @@ func (r *Repository) Update(ctx context.Context, usr *user.User) error {
 			usr.UserID,
 			usr.Username,
 			usr.Email,
-			usr.Password,
+			usr.Password, // TODO: Remove
 			usr.UpdatedAt,
 			usr.ID,
 		)
