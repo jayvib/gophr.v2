@@ -24,9 +24,10 @@ type Response struct {
 func RegisterHandlers(r gin.IRouter, svc user.Service) {
 	handler := New(svc)
 	r.GET("/users/id/:id", handler.GetByID)
-	r.GET("/users/email/:email", handler.GetByEmail)
-	r.GET("/users/username/:username", handler.GetByUsername)
-	r.POST("/users", handler.Register)
+  r.GET("/users/email/:email", handler.GetByEmail)
+  r.GET("/users/username/:username", handler.GetByUsername)
+  r.POST("/users", handler.Register)
+  r.DELETE("/users/id/:id", handler.Delete)
 }
 
 func New(svc user.Service) *GinHandler {
@@ -55,7 +56,15 @@ func (g *GinHandler) GetByUsername(c *gin.Context) {
   g.get(c, username, g.svc.GetByUsername)
 }
 
-func (g *GinHandler) Delete(c *gin.Context) {}
+func (g *GinHandler) Delete(c *gin.Context) {
+  id := c.Param("id")
+  err := g.svc.Delete(c.Request.Context(), id)
+  if err != nil {
+    g.renderError(c, getStatusFromError(err), err, generateMessageFromError(err))
+    return
+  }
+  g.renderData(c, http.StatusOK, nil)
+}
 func (g *GinHandler) Update(c *gin.Context) {}
 func (g *GinHandler) Register(c *gin.Context) {
   var usr user.User
@@ -66,11 +75,11 @@ func (g *GinHandler) Register(c *gin.Context) {
     return
   }
 
-  // TODO: Need to validate the input
   err = validater.Struct(&usr)
   if err != nil {
     golog.Debugf("%T\n", err)
     g.renderError(c, getStatusFromError(err), err, generateMessageFromError(err))
+    return
   }
 
 

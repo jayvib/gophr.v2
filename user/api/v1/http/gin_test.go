@@ -223,11 +223,30 @@ func TestRegister(t *testing.T) {
 
     body := bytes.NewReader(payload)
     response := performRequest(e, http.MethodPost, "/users", body)
-    var got Response
-    err = json.NewDecoder(response.Body).Decode(&got)
+    got := extractResponse(t, response)
     assert.Equal(t, http.StatusBadRequest, response.Code)
     assert.Equal(t, "Missing value for:\nUsername\n", got.Message)
   })
+}
+
+func extractResponse(t *testing.T, response *httptest.ResponseRecorder) Response {
+  t.Helper()
+  var got Response
+  err := json.NewDecoder(response.Body).Decode(&got)
+  require.NoError(t, err)
+  return got
+}
+
+func TestDelete(t *testing.T) {
+  e := gin.Default()
+  svc := new(mocks.Service)
+  svc.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
+  RegisterHandlers(e, svc)
+  response := performRequest(e, http.MethodDelete, "/users/id/:id", nil)
+  assert.Equal(t, http.StatusOK, response.Code)
+  got := extractResponse(t, response)
+  assert.True(t, got.Success)
+  svc.AssertExpectations(t)
 }
 
 func assertResponse(t *testing.T, want Response, body io.Reader) {
