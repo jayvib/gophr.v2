@@ -66,6 +66,7 @@ func (g *GinHandler) Delete(c *gin.Context) {
   g.renderData(c, http.StatusOK, nil)
 }
 func (g *GinHandler) Update(c *gin.Context) {}
+
 func (g *GinHandler) Register(c *gin.Context) {
   var usr user.User
   err := json.NewDecoder(c.Request.Body).Decode(&usr)

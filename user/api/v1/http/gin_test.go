@@ -188,18 +188,12 @@ func TestRegister(t *testing.T) {
 
     RegisterHandlers(e, svc)
 
-    payload, err := json.Marshal(usr)
-    require.NoError(t, err)
-
-    body := bytes.NewReader(payload)
+    body := userToBody(t, usr)
     response := performRequest(e, http.MethodPost, "/users", body)
 
     assert.Equal(t, http.StatusCreated, response.Code)
-    var got Response
-    err = json.NewDecoder(response.Body).Decode(&got)
-    require.NoError(t, err)
+    got := extractResponse(t, response)
     assert.True(t, got.Success)
-
     gotUser, err := extractUserFromData(got)
     require.NoError(t, err)
     assert.NotEmpty(t, gotUser.CreatedAt)
@@ -208,9 +202,9 @@ func TestRegister(t *testing.T) {
     repo.AssertExpectations(t)
   })
 
-  t.Run("Validate User No Username", func(t *testing.T){
+  t.Run("Validate User No Username", func(t *testing.T) {
     usr := &user.User{
-      Email: "luffy.monkey@gmail.com",
+      Email:    "luffy.monkey@gmail.com",
       Password: "iampirateking",
     }
 
@@ -218,15 +212,19 @@ func TestRegister(t *testing.T) {
     svc := service.New(nil)
     RegisterHandlers(e, svc)
 
-    payload, err := json.Marshal(usr)
-    require.NoError(t, err)
-
-    body := bytes.NewReader(payload)
+    body := userToBody(t, usr)
     response := performRequest(e, http.MethodPost, "/users", body)
     got := extractResponse(t, response)
     assert.Equal(t, http.StatusBadRequest, response.Code)
     assert.Equal(t, "Missing value for:\nUsername\n", got.Message)
   })
+}
+
+func userToBody(t *testing.T, usr *user.User) *bytes.Reader {
+  payload, err := json.Marshal(usr)
+  require.NoError(t, err)
+  body := bytes.NewReader(payload)
+  return body
 }
 
 func extractResponse(t *testing.T, response *httptest.ResponseRecorder) Response {
