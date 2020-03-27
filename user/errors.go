@@ -12,6 +12,6 @@ var (
   ErrEmptyEmail         = errors.New("user: cannot process because email is empty")
   ErrEmptyPassword      = errors.New("user: cannot process because password is empty")
   ErrUserExists         = errors.New("user: cannot create user because it is already exists")
-  ErrNotFound           = errors.New("user: user not found")
+  ErrNotFound           = errors.New("user: item not found")
   ErrInvalidCredentials = errors.New("user: invalid credentials")
 )

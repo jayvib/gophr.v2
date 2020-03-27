@@ -10,7 +10,6 @@ import (
   "github.com/stretchr/testify/assert"
   "github.com/stretchr/testify/mock"
   "github.com/stretchr/testify/require"
-  "gophr.v2/errors"
   "gophr.v2/user"
   "gophr.v2/user/mocks"
   "gophr.v2/user/service"
@@ -56,7 +55,7 @@ func TestGetByID(t *testing.T) {
     response := performRequest(e, http.MethodGet, "/users/id/1",nil)
 
     require.Equal(t, http.StatusOK, response.Code)
-    assertGetByID(t, want, response.Body)
+    assertResponse(t, want, response.Body)
     repo.AssertExpectations(t)
   })
 
@@ -64,10 +63,10 @@ func TestGetByID(t *testing.T) {
     e := gin.Default()
     want := Response{
       Success: false,
-      Error: "item not found",
+      Error: "user: item not found",
     }
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, errors.ErrorNotFound)
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 
     svc := service.New(repo)
     RegisterHandlers(e, svc)
@@ -75,7 +74,7 @@ func TestGetByID(t *testing.T) {
     response := performRequest(e, http.MethodGet, "/users/id/1",nil)
 
     assert.Equal(t, http.StatusNotFound, response.Code)
-    assertGetByID(t, want, response.Body)
+    assertResponse(t, want, response.Body)
   })
 }
 
@@ -102,16 +101,15 @@ func TestGetByEmail(t *testing.T) {
     response := performRequest(e, http.MethodGet, "/users/email/luffy.monkey@gmail.com",nil)
 
     require.Equal(t, http.StatusOK, response.Code)
-    assertGetByID(t, want, response.Body)
+    assertResponse(t, want, response.Body)
     repo.AssertExpectations(t)
   })
 
   t.Run("NotFound", func(t *testing.T){
-    t.SkipNow()
     e := gin.Default()
     want := Response{
       Success: false,
-      Error: "item not found",
+      Error: "user: item not found",
     }
     repo := new(mocks.Repository)
     repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
@@ -122,11 +120,57 @@ func TestGetByEmail(t *testing.T) {
     response := performRequest(e, http.MethodGet, "/users/email/luffy.monkey@gmail.com",nil)
 
     assert.Equal(t, http.StatusNotFound, response.Code)
-    assertGetByID(t, want, response.Body)
+    assertResponse(t, want, response.Body)
   })
 }
 
-func assertGetByID(t *testing.T, want Response, body io.Reader) {
+func TestGetByUsename(t *testing.T) {
+  t.Run("StatusOK", func(t *testing.T){
+    usr := &user.User{
+      ID: 1,
+      Username: "luffy.monkey",
+      Email: "luffy.monkey@gmail.com",
+    }
+
+    want := Response{
+      Success: true,
+      Data: usr,
+    }
+
+    e := gin.Default()
+    repo := new(mocks.Repository)
+    repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(usr, nil)
+
+    svc := service.New(repo)
+    RegisterHandlers(e, svc)
+
+    response := performRequest(e, http.MethodGet, "/users/username/luffy.monkey",nil)
+
+    require.Equal(t, http.StatusOK, response.Code)
+    assertResponse(t, want, response.Body)
+    repo.AssertExpectations(t)
+  })
+
+  t.Run("NotFound", func(t *testing.T){
+    e := gin.Default()
+    want := Response{
+      Success: false,
+      Error: "user: item not found",
+    }
+    repo := new(mocks.Repository)
+    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
+
+    svc := service.New(repo)
+    RegisterHandlers(e, svc)
+
+    response := performRequest(e, http.MethodGet, "/users/email/luffy.monkey@gmail.com",nil)
+
+    assert.Equal(t, http.StatusNotFound, response.Code)
+    assertResponse(t, want, response.Body)
+  })
+}
+
+func assertResponse(t *testing.T, want Response, body io.Reader) {
   t.Helper()
   var got Response
   err := json.NewDecoder(body).Decode(&got)

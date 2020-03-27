@@ -18,6 +18,7 @@ func RegisterHandlers(r gin.IRouter, svc user.Service) {
 	handler := New(svc)
 	r.GET("/users/id/:id", handler.GetByID)
 	r.GET("/users/email/:email", handler.GetByEmail)
+	r.GET("/users/username/:username", handler.GetByUsername)
 }
 
 func New(svc user.Service) *GinHandler {
@@ -66,4 +67,22 @@ func (g *GinHandler) GetByEmail(c *gin.Context) {
 		Data:    usr,
 		Success: true,
 	})
+}
+
+func (g *GinHandler) GetByUsername(c *gin.Context) {
+  username := c.Param("username")
+  usr, err := g.svc.GetByUsername(c.Request.Context(), username)
+  if err != nil {
+    c.JSON(http.StatusNotFound,
+      Response{
+        Error:   err.Error(),
+        Success: false,
+      })
+    return
+  }
+
+  c.JSON(http.StatusOK, &Response{
+    Data:    usr,
+    Success: true,
+  })
 }
