@@ -3,11 +3,16 @@ package http
 import (
   "context"
   "encoding/json"
+  "fmt"
   "github.com/gin-gonic/gin"
+  "github.com/go-playground/validator/v10"
   "github.com/jayvib/golog"
 	"gophr.v2/user"
 	"net/http"
+  "strings"
 )
+
+var validater = validator.New()
 
 type Response struct {
 	Data    interface{} `json:"data,omitempty"`
@@ -57,16 +62,22 @@ func (g *GinHandler) Register(c *gin.Context) {
   err := json.NewDecoder(c.Request.Body).Decode(&usr)
   if err != nil {
     golog.Debug(err.Error())
-    g.renderError(c, http.StatusBadRequest, err)
+    g.renderError(c, http.StatusBadRequest, err, "")
     return
   }
 
   // TODO: Need to validate the input
+  err = validater.Struct(&usr)
+  if err != nil {
+    golog.Debugf("%T\n", err)
+    g.renderError(c, getStatusFromError(err), err, generateMessageFromError(err))
+  }
+
 
   err = g.svc.Register(c.Request.Context(), &usr)
   if err != nil {
     golog.Debug(err.Error())
-    g.renderError(c, getStatusFromError(err), err)
+    g.renderError(c, getStatusFromError(err), err, "")
     return
   }
   g.renderData(c, http.StatusCreated, usr)
@@ -80,17 +91,37 @@ func getStatusFromError(err error) int {
   case user.ErrNotFound:
     status = http.StatusNotFound
   default:
-    status = http.StatusInternalServerError
+    switch err.(type) {
+    case validator.ValidationErrors:
+      status = http.StatusBadRequest
+    default:
+      status = http.StatusInternalServerError
+    }
   }
   return status
 }
 
+func generateMessageFromError(err error) string {
+  switch e := err.(type) {
+  case validator.ValidationErrors:
+    var b strings.Builder
+    _, _ = fmt.Fprint(&b, "Missing value for:\n")
+    for _, verr := range e {
+      fieldName := verr.StructField()
+      _, _ = fmt.Fprintln(&b, fieldName)
+    }
+    return b.String()
+  default:
+    return ""
+  }
+}
 
 
-func (g *GinHandler) renderError(c *gin.Context, status int, err error) {
+func (g *GinHandler) renderError(c *gin.Context, status int, err error, msg string) {
   c.JSON(status, &Response{
     Error:   err.Error(),
     Success: false,
+    Message: msg,
   })
 }
 
@@ -115,7 +146,7 @@ func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{})
   }
 
   if err != nil {
-    g.renderError(c, getStatusFromError(err), err)
+    g.renderError(c, getStatusFromError(err), err, "")
     return
   }
 

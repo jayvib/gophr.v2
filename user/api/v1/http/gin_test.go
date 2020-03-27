@@ -223,7 +223,10 @@ func TestRegister(t *testing.T) {
 
     body := bytes.NewReader(payload)
     response := performRequest(e, http.MethodPost, "/users", body)
+    var got Response
+    err = json.NewDecoder(response.Body).Decode(&got)
     assert.Equal(t, http.StatusBadRequest, response.Code)
+    assert.Equal(t, "Missing value for:\nUsername\n", got.Message)
   })
 }
 
