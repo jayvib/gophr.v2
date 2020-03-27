@@ -114,12 +114,12 @@ func TestGetByEmail(t *testing.T) {
       Error: "item not found",
     }
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, errors.ErrorNotFound)
+    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 
     svc := service.New(repo)
     RegisterHandlers(e, svc)
 
-    response := performRequest(e, http.MethodGet, "/users/1",nil)
+    response := performRequest(e, http.MethodGet, "/users/email/luffy.monkey@gmail.com",nil)
 
     assert.Equal(t, http.StatusNotFound, response.Code)
     assertGetByID(t, want, response.Body)
