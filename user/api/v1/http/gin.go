@@ -2,6 +2,7 @@ package http
 
 import (
   "github.com/gin-gonic/gin"
+  "github.com/jayvib/golog"
   "gophr.v2/user"
   "net/http"
 )
@@ -15,7 +16,8 @@ type Response struct {
 
 func RegisterHandlers(r gin.IRouter, svc user.Service) {
   handler := New(svc)
-  r.GET("/users/:id", handler.GetByID)
+  r.GET("/users/id/:id", handler.GetByID)
+  r.GET("/users/email/:email", handler.GetByEmail)
 }
 
 func New(svc user.Service) *GinHandler {
@@ -48,4 +50,22 @@ func (g *GinHandler) GetByID(c *gin.Context) {
 }
 
 func (g *GinHandler) GetByEmail(c *gin.Context) {
+  email := c.Param("email")
+  golog.Debug("Email:", email)
+
+  usr, err := g.svc.GetByEmail(c.Request.Context(), email)
+  if err != nil {
+    resp := &Response{
+      Error: err.Error(),
+      Success: false,
+    }
+    c.JSON(http.StatusNotFound, resp)
+    return
+  }
+
+  c.JSON(http.StatusOK, &Response{
+    Data: usr,
+    Success: true,
+  })
+
 }
