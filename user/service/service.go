@@ -98,7 +98,7 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
 
 	usr.Password = string(hash)
 
-	return s.Save(ctx, usr)
+	return s.repo.Save(ctx, usr)
 }
 
 func (s *Service) Login(ctx context.Context, user *user.User) error {

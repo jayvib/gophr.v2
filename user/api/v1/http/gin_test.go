@@ -3,6 +3,7 @@
 package http
 
 import (
+  "bytes"
   "encoding/json"
   "flag"
   "github.com/gin-gonic/gin"
@@ -124,7 +125,7 @@ func TestGetByEmail(t *testing.T) {
   })
 }
 
-func TestGetByUsename(t *testing.T) {
+func TestGetByUsername(t *testing.T) {
   t.Run("StatusOK", func(t *testing.T){
     usr := &user.User{
       ID: 1,
@@ -170,13 +171,50 @@ func TestGetByUsename(t *testing.T) {
   })
 }
 
+func TestRegister(t *testing.T) {
+  usr := &user.User{
+    Username: "luffy.monkey",
+    Email: "luffy.monkey@gmail.com",
+    Password: "iampirateking",
+  }
+  e := gin.Default()
+  repo := new(mocks.Repository)
+  repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+  repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
+
+
+  svc := service.New(repo)
+
+  RegisterHandlers(e, svc)
+
+  payload, err := json.Marshal(usr)
+  require.NoError(t, err)
+
+  body := bytes.NewReader(payload)
+  response := performRequest(e, http.MethodPost, "/users", body)
+
+  assert.Equal(t, http.StatusCreated, response.Code)
+  var got Response
+  err = json.NewDecoder(response.Body).Decode(&got)
+  assert.NoError(t, err)
+  assert.True(t, got.Success)
+  assert.NotNil(t, got.Data)
+
+  gotUser, err := extractUserFromData(got)
+  require.NoError(t, err)
+  assert.NotEmpty(t, gotUser.CreatedAt)
+  assert.NotEmpty(t, gotUser.Password)
+
+  repo.AssertExpectations(t)
+}
+
 func assertResponse(t *testing.T, want Response, body io.Reader) {
   t.Helper()
   var got Response
   err := json.NewDecoder(body).Decode(&got)
   assert.NoError(t, err)
 
-  err, gotUser := extractUserFromData(err, got)
+  gotUser, err := extractUserFromData(got)
   require.NoError(t, err)
 
   if gotUser != nil {
@@ -186,14 +224,14 @@ func assertResponse(t *testing.T, want Response, body io.Reader) {
   assert.Equal(t, want, got)
 }
 
-func extractUserFromData(err error, got Response) (error, *user.User) {
+func extractUserFromData(got Response) (*user.User, error) {
   if got.Data == nil {
     return nil, nil
   }
   usrPayload, err := json.Marshal(got.Data)
   var gotUser user.User
   err = json.Unmarshal(usrPayload, &gotUser)
-  return err, &gotUser
+  return &gotUser, err
 }
 
 
