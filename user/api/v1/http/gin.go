@@ -10,6 +10,7 @@ type Response struct {
   Data interface{} `json:"data,omitempty"`
   Error string `json:"error,omitempty"`
   Success bool `json:"success,omitempty"`
+  Message string `json:"message,omitempty"`
 }
 
 func RegisterHandlers(r gin.IRouter, svc user.Service) {
@@ -32,8 +33,19 @@ func (g *GinHandler) GetByID(c *gin.Context) {
 
   usr, err := g.svc.GetByID(c.Request.Context(), id)
   if err != nil {
-    c.Writer.WriteHeader(http.StatusNotFound)
+    resp := &Response{
+      Error: err.Error(),
+      Success: false,
+    }
+    c.JSON(http.StatusNotFound, resp)
     return
   }
-  c.JSON(http.StatusOK, usr)
+
+  c.JSON(http.StatusOK, &Response{
+    Data:    usr,
+    Success: true,
+  })
+}
+
+func (g *GinHandler) GetByEmail(c *gin.Context) {
 }

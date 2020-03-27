@@ -26,15 +26,20 @@ func TestMain(m *testing.M) {
 
 func TestGetByID(t *testing.T) {
   t.Run("StatusOK", func(t *testing.T){
-    want := &user.User{
+    usr := &user.User{
       ID: 1,
       Username: "luffy.monkey",
       Email: "luffy.monkey@gmail.com",
     }
 
+    want := Response{
+      Success: true,
+      Data: usr,
+    }
+
     e := gin.Default()
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(want, nil)
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(usr, nil)
 
     svc := service.New(repo)
     RegisterHandlers(e, svc)
@@ -47,6 +52,10 @@ func TestGetByID(t *testing.T) {
 
   t.Run("NotFound", func(t *testing.T){
     e := gin.Default()
+    want := Response{
+      Success: false,
+      Error: "item not found",
+    }
     repo := new(mocks.Repository)
     repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, errors.ErrorNotFound)
 
@@ -56,15 +65,73 @@ func TestGetByID(t *testing.T) {
     response := performRequest(e, http.MethodGet, "/users/1",nil)
 
     assert.Equal(t, http.StatusNotFound, response.Code)
+    assertGetByID(t, want, response.Body)
   })
 }
 
-func assertGetByID(t *testing.T, want *user.User, body io.Reader) {
-  var got user.User
+//func TestGetByEmail(t *testing.T) {
+//  t.Run("StatusOK", func(t *testing.T){
+//    want := &user.User{
+//      ID: 1,
+//      Username: "luffy.monkey",
+//      Email: "luffy.monkey@gmail.com",
+//    }
+//
+//    e := gin.Default()
+//    repo := new(mocks.Repository)
+//    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(want, nil)
+//
+//    svc := service.New(repo)
+//    RegisterHandlers(e, svc)
+//
+//    response := performRequest(e, http.MethodGet, "/users/1",nil)
+//
+//    require.Equal(t, http.StatusOK, response.Code)
+//    assertGetByID(t, want, response.Body)
+//  })
+//
+//  t.Run("NotFound", func(t *testing.T){
+//    e := gin.Default()
+//    repo := new(mocks.Repository)
+//    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, errors.ErrorNotFound)
+//
+//    svc := service.New(repo)
+//    RegisterHandlers(e, svc)
+//
+//    response := performRequest(e, http.MethodGet, "/users/1",nil)
+//
+//    assert.Equal(t, http.StatusNotFound, response.Code)
+//  })
+//
+//}
+
+func assertGetByID(t *testing.T, want Response, body io.Reader) {
+  t.Helper()
+  var got Response
   err := json.NewDecoder(body).Decode(&got)
   assert.NoError(t, err)
-  assert.Equal(t, want, &got)
+
+  err, gotUser := extractUserFromData(err, got)
+  require.NoError(t, err)
+
+  if gotUser != nil {
+    got.Data = gotUser
+  }
+
+  assert.Equal(t, want, got)
 }
+
+func extractUserFromData(err error, got Response) (error, *user.User) {
+  if got.Data == nil {
+    return nil, nil
+  }
+  usrPayload, err := json.Marshal(got.Data)
+  var gotUser user.User
+  err = json.Unmarshal(usrPayload, &gotUser)
+  return err, &gotUser
+}
+
+
 
 func performRequest(h http.Handler, method string, path string, body io.Reader) *httptest.ResponseRecorder {
   req := httptest.NewRequest(method, path, body)
