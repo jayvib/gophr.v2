@@ -1,7 +1,8 @@
 package http
 
 import (
-	"github.com/gin-gonic/gin"
+  "context"
+  "github.com/gin-gonic/gin"
 	"github.com/jayvib/golog"
 	"gophr.v2/user"
 	"net/http"
@@ -33,45 +34,19 @@ type GinHandler struct {
 
 func (g *GinHandler) GetByID(c *gin.Context) {
 	id := c.Param("id")
-	usr, err := g.svc.GetByID(c.Request.Context(), id)
-	if err != nil {
-		c.JSON(http.StatusNotFound,
-			Response{
-				Error:   err.Error(),
-				Success: false,
-			})
-		return
-	}
-
-	c.JSON(http.StatusOK, &Response{
-		Data:    usr,
-		Success: true,
-	})
+	g.get(c, id, g.svc.GetByID)
 }
 
-func (g *GinHandler) GetByEmail(c *gin.Context) {
-	email := c.Param("email")
-	golog.Debug("Email:", email)
+func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{}) {
+  var usr *user.User
+  var err error
 
-	usr, err := g.svc.GetByEmail(c.Request.Context(), email)
-	if err != nil {
-    c.JSON(http.StatusNotFound,
-      Response{
-        Error:   err.Error(),
-        Success: false,
-      })
-		return
-	}
+  if fn, ok := getterFunc.(func(ctx context.Context, id interface{})(*user.User, error)); ok {
+    usr, err = fn(c.Request.Context(), id)
+  } else if fn, ok := getterFunc.(func(ctx context.Context, input string)(*user.User, error)); ok {
+    usr, err = fn(c.Request.Context(), id.(string))
+  }
 
-	c.JSON(http.StatusOK, &Response{
-		Data:    usr,
-		Success: true,
-	})
-}
-
-func (g *GinHandler) GetByUsername(c *gin.Context) {
-  username := c.Param("username")
-  usr, err := g.svc.GetByUsername(c.Request.Context(), username)
   if err != nil {
     c.JSON(http.StatusNotFound,
       Response{
@@ -85,4 +60,15 @@ func (g *GinHandler) GetByUsername(c *gin.Context) {
     Data:    usr,
     Success: true,
   })
+}
+
+func (g *GinHandler) GetByEmail(c *gin.Context) {
+	email := c.Param("email")
+	golog.Debug("Email:", email)
+	g.get(c, email, g.svc.GetByEmail)
+}
+
+func (g *GinHandler) GetByUsername(c *gin.Context) {
+  username := c.Param("username")
+  g.get(c, username, g.svc.GetByUsername)
 }
