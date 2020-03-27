@@ -17,9 +17,9 @@ type User struct {
 
 	// Base
 	ID        uint `json:"id,omitempty"`
-	CreatedAt *time.Time
-	UpdatedAt *time.Time
-	DeletedAt *time.Time `sql:"index"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	DeletedAt *time.Time `json:"deletedAt,omitempty" sql:"index"`
 }
 
 func GenerateID() string {
