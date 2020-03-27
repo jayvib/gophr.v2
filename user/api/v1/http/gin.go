@@ -57,10 +57,7 @@ func (g *GinHandler) Register(c *gin.Context) {
   err := json.NewDecoder(c.Request.Body).Decode(&usr)
   if err != nil {
     golog.Debug(err.Error())
-    c.JSON(http.StatusBadRequest, &Response{
-      Error: err.Error(),
-      Success: false,
-    })
+    g.renderError(c, http.StatusBadRequest, err)
     return
   }
 
@@ -69,18 +66,27 @@ func (g *GinHandler) Register(c *gin.Context) {
   err = g.svc.Register(c.Request.Context(), &usr)
   if err != nil {
     golog.Debug(err.Error())
-    c.JSON(http.StatusInternalServerError, &Response{
-      Error: err.Error(),
-      Success: false,
-    })
+    g.renderError(c, http.StatusInternalServerError, err)
     return
   }
 
-  c.JSON(http.StatusCreated, &Response{
-    Success: true,
-    Data: usr,
+  g.renderData(c, http.StatusCreated, usr)
+}
+
+func (g *GinHandler) renderError(c *gin.Context, status int, err error) {
+  c.JSON(status, &Response{
+    Error:   err.Error(),
+    Success: false,
   })
 }
+
+func (g *GinHandler) renderData(c *gin.Context, status int, data interface{}) {
+  c.JSON(status, &Response{
+    Success: true,
+    Data: data,
+  })
+}
+
 func (g *GinHandler) Login(c *gin.Context) {}
 
 func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{}) {
@@ -95,16 +101,9 @@ func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{})
   }
 
   if err != nil {
-    c.JSON(http.StatusNotFound,
-      Response{
-        Error:   err.Error(),
-        Success: false,
-      })
+    g.renderError(c, http.StatusNotFound, err)
     return
   }
 
-  c.JSON(http.StatusOK, &Response{
-    Data:    usr,
-    Success: true,
-  })
+  g.renderData(c, http.StatusOK, usr)
 }
