@@ -93,3 +93,17 @@ func (s *FileUserStore) Save(ctx context.Context, usr *user.User) error {
 	}
 	return nil
 }
+
+func (s *FileUserStore) Delete(ctx context.Context, id interface{}) error {
+  delete(s.users, id.(string))
+  return nil
+}
+
+func (s *FileUserStore) Update(ctx context.Context, usr *user.User) error {
+  id := fmt.Sprintf("%d", usr.ID)
+  if _, ok := s.users[id]; ok {
+    return user.ErrNotFound
+  }
+  s.users[id] = usr
+  return nil
+}
