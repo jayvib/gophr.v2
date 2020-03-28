@@ -111,10 +111,22 @@ func (s *FileUserStore) Delete(ctx context.Context, id interface{}) error {
 }
 
 func (s *FileUserStore) Update(ctx context.Context, usr *user.User) error {
+  const op = "Update"
   id := fmt.Sprintf("%d", usr.ID)
-  if _, ok := s.users[id]; ok {
+  golog.Debug("id:", id)
+  if _, ok := s.users[id]; !ok {
     return user.ErrNotFound
   }
   s.users[id] = usr
+
+  content, err := json.MarshalIndent(s.users, "", "	")
+  if err != nil {
+    return fmt.Errorf("%s: error while marsalling user: %w", op, err)
+  }
+
+  err = ioutil.WriteFile(s.filename, content, 0666)
+  if err != nil {
+    return fmt.Errorf("%s: error while writing to file: %w", op, err)
+  }
   return nil
 }

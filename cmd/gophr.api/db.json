@@ -19,7 +19,8 @@
 		"email": "pichy.vibandor@gmail.com",
 		"password": "$2a$10$sbs.avHkzatL.YPrC7byje2MH74Ff0jay5c1nzYEmG33j/iTaPWrq",
 		"id": 10,
-		"createdAt": "2020-03-28T04:11:06.473721Z"
+		"createdAt": "2020-03-28T04:11:06.473721Z",
+		"updatedAt": "2020-03-28T04:46:29.6239479Z"
 	},
 	"9": {
 		"userId": "80cfb7c3a0b85e5b99f850741618fecf",

@@ -3,6 +3,7 @@ package main
 import (
   "flag"
   "github.com/gin-gonic/gin"
+  "github.com/jayvib/golog"
   "gophr.v2/config"
   "gophr.v2/user/api/v1/http"
   "gophr.v2/user/repository/file"
@@ -10,14 +11,21 @@ import (
   "log"
 )
 
-var envF = flag.String("env", "devel", "Environment. [devel/stage/prod]")
-
+var (
+  envF = flag.String("env", "devel", "Environment. [devel/stage/prod]")
+  debug = flag.Bool("debug", false, "Debugging")
+)
 var (
   conf *config.Config
 )
 
 func init() {
+  flag.Parse()
   initializeConfig()
+  if *debug {
+    golog.Info("DEBUGGING MODE")
+    golog.SetLevel(golog.DebugLevel)
+  }
 }
 
 func main() {
