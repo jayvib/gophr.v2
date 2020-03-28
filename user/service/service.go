@@ -21,7 +21,11 @@ type Service struct {
 }
 
 func (s *Service) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
-	return s.repo.GetByID(ctx, id)
+	usr, err := s.repo.GetByID(ctx, id)
+	if err != nil {
+	  return nil, user.NewError(err).AddContext("ID", id)
+  }
+	return usr, nil
 }
 
 func (s *Service) GetByEmail(ctx context.Context, email string) (*user.User, error) {

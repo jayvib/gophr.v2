@@ -5,6 +5,8 @@ package service
 
 import (
   "context"
+  "errors"
+  "github.com/stretchr/testify/require"
   "gophr.v2/user/userutil"
   "gophr.v2/util/valueutil"
   "testing"
@@ -36,7 +38,8 @@ func TestService_GetByID(t *testing.T) {
 		repo.On("GetByID", mock.Anything, mock.AnythingOfType("int")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByID(context.Background(), 12345)
-		assert.Equal(t, want, got)
+	  require.IsType(t, new(user.Error), got)
+		assert.Equal(t, want, errors.Unwrap(got))
 	})
 }
 

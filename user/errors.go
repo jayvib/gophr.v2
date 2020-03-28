@@ -2,6 +2,8 @@ package user
 
 import (
   "errors"
+  "fmt"
+  "strings"
 )
 
 var (
@@ -15,3 +17,63 @@ var (
   ErrNotFound           = errors.New("user: item not found")
   ErrInvalidCredentials = errors.New("user: invalid credentials")
 )
+
+func NewError(origErr error) *Error {
+  e := &Error{
+    origErr: origErr,
+    context: make(map[interface{}]interface{}),
+  }
+  e.setMessage()
+  return e
+}
+
+func AddErrorContext(err error, key, value interface{}) {
+  if e, ok := err.(*Error); ok {
+    _ = e.AddContext(key, value)
+  }
+}
+
+type Error struct {
+  origErr error
+  message string
+  context map[interface{}]interface{}
+}
+
+func (s *Error) Error() string {
+  var b strings.Builder
+  _, _ = fmt.Fprintf(&b, "%s: %s", s.message, s.origErr)
+    for k, v := range s.context {
+      _, _ = fmt.Fprintf(&b, " %v: %v", k, v)
+    }
+  return b.String()
+}
+
+func (s *Error) AddContext(k, v interface{}) *Error {
+  s.context[k] = v
+  return s
+}
+
+func (s *Error) Unwrap() error {
+  return s.origErr
+}
+
+func (s *Error) Message() string {
+  return s.message
+}
+
+func (s *Error) getMessage() string {
+  switch s.origErr {
+  case ErrNotFound:
+    msg := "Failed getting the user because it didn't exist"
+
+    return msg
+  default:
+    var b strings.Builder
+    _, _ = fmt.Fprint(&b, "Unexpected error: ", s.origErr.Error())
+    return b.String()
+  }
+}
+
+func (s *Error) setMessage() {
+  s.message = s.getMessage()
+}

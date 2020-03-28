@@ -151,7 +151,6 @@ func getStatusFromError(err error) int {
   return status
 }
 
-
 func generateMessageFromError(err error) string {
   switch e := err.(type) {
   case validator.ValidationErrors:
@@ -162,6 +161,8 @@ func generateMessageFromError(err error) string {
       _, _ = fmt.Fprintln(&b, fieldName)
     }
     return b.String()
+  case *user.Error:
+    return e.Message()
   default:
     switch err {
     case user.ErrUserExists:
@@ -173,6 +174,10 @@ func generateMessageFromError(err error) string {
 }
 
 func (g *GinHandler) renderError(c *gin.Context, err error) {
+  if uerr, ok := err.(*user.Error); ok {
+    golog.Error(uerr)
+  }
+
   c.JSON(getStatusFromError(err), &Response{
     Error:   err.Error(),
     Success: false,
