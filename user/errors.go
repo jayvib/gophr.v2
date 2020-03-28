@@ -38,7 +38,7 @@ func (s *Error) Error() string {
   var b strings.Builder
   _, _ = fmt.Fprintf(&b, "%s: %s", s.message, s.origErr)
     for k, v := range s.context {
-      _, _ = fmt.Fprintf(&b, " %v: %v", k, v)
+      _, _ = fmt.Fprintf(&b, ": %v: %v", k, v)
     }
   return b.String()
 }

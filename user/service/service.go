@@ -92,7 +92,7 @@ func (s *Service) Update(ctx context.Context, usr *user.User) error {
     if err == user.ErrNotFound {
       err = user.ErrUserNotExists
     }
-    return user.NewError(err)
+    return user.NewError(err).AddContext("ID", usr.ID)
   }
 
 	usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
