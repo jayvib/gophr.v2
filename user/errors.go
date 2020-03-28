@@ -27,12 +27,6 @@ func NewError(origErr error) *Error {
   return e
 }
 
-func AddErrorContext(err error, key, value interface{}) {
-  if e, ok := err.(*Error); ok {
-    _ = e.AddContext(key, value)
-  }
-}
-
 type Error struct {
   origErr error
   message string
