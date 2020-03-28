@@ -63,7 +63,8 @@ func TestService_GetByEmail(t *testing.T) {
 		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByEmail(context.Background(), "12345")
-		assert.Equal(t, want, got)
+		require.IsType(t, new(user.Error), got)
+		assert.Equal(t, want, errors.Unwrap(got))
 	})
 }
 
@@ -87,7 +88,8 @@ func TestService_GetByUsername(t *testing.T) {
 		repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByUsername(context.Background(), "luffy.monkey")
-		assert.Equal(t, want, got)
+		require.IsType(t, new(user.Error), got)
+		assert.Equal(t, want, errors.Unwrap(got))
 	})
 
 }
@@ -138,7 +140,9 @@ func TestService_Register(t *testing.T) {
    input := *want
    err := svc.Register(context.Background(), &input)
    assert.Error(t, err)
-   assert.Equal(t, user.ErrEmptyUsername, err)
+   require.IsType(t, new(user.Error), err)
+   assert.Equal(t, user.ErrEmptyUsername, errors.Unwrap(err))
+   t.Log(err)
   })
 
   t.Run("During Registration Email is Empty", func(t *testing.T){
@@ -152,7 +156,8 @@ func TestService_Register(t *testing.T) {
     input := *want
     err := svc.Register(context.Background(), &input)
     assert.Error(t, err)
-    assert.Equal(t, user.ErrEmptyEmail, err)
+    assert.IsType(t, new(user.Error), err)
+    assert.Equal(t, user.ErrEmptyEmail, errors.Unwrap(err))
   })
 
   t.Run("During Registration Password is Empty", func(t *testing.T){
@@ -166,7 +171,8 @@ func TestService_Register(t *testing.T) {
     input := *want
     err := svc.Register(context.Background(), &input)
     assert.Error(t, err)
-    assert.Equal(t, user.ErrEmptyPassword, err)
+    assert.IsType(t, new(user.Error), err)
+    assert.Equal(t, user.ErrEmptyPassword, errors.Unwrap(err))
   })
 
   t.Run("Register User When Already Exists", func(t *testing.T){

@@ -29,11 +29,19 @@ func (s *Service) GetByID(ctx context.Context, id interface{}) (*user.User, erro
 }
 
 func (s *Service) GetByEmail(ctx context.Context, email string) (*user.User, error) {
-	return s.repo.GetByEmail(ctx, email)
+	usr, err := s.repo.GetByEmail(ctx, email)
+	if err != nil {
+	  return nil, user.NewError(err).AddContext("Email", email)
+  }
+	return usr, nil
 }
 
 func (s *Service) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
-	return s.repo.GetByUsername(ctx, uname)
+	usr, err := s.repo.GetByUsername(ctx, uname)
+	if err != nil {
+	  return nil, user.NewError(err).AddContext("Username", uname)
+  }
+	return usr, nil
 }
 
 func (s *Service) Save(ctx context.Context, usr *user.User) error {
@@ -83,7 +91,7 @@ func (s *Service) Update(ctx context.Context, user *user.User) error {
 
 func (s *Service) Register(ctx context.Context, usr *user.User) error {
 	if err := validateUser(usr); err != nil {
-		return err
+		return user.NewError(err)
 	}
 
   // Check first the usr if already exists

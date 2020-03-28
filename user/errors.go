@@ -58,13 +58,15 @@ func (s *Error) Message() string {
 func (s *Error) getMessage() string {
   switch s.origErr {
   case ErrNotFound:
-    msg := "Failed getting the user because it didn't exist"
-
-    return msg
+    return "Failed getting the user because it didn't exist"
+  case ErrEmptyEmail:
+    return "Failed because email is empty"
+  case ErrEmptyUsername:
+    return "Failed because username is empty"
+  case ErrEmptyPassword:
+    return "Failed because password is empty"
   default:
-    var b strings.Builder
-    _, _ = fmt.Fprint(&b, "Unexpected error: ", s.origErr.Error())
-    return b.String()
+    return "Unexpected error"
   }
 }
 
