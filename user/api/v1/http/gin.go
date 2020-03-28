@@ -9,6 +9,7 @@ import (
   "github.com/jayvib/golog"
 	"gophr.v2/user"
 	"net/http"
+  "strconv"
   "strings"
 )
 
@@ -24,8 +25,7 @@ type Response struct {
 func RegisterHandlers(r gin.IRouter, svc user.Service) {
 	handler := New(svc)
 	r.GET("/users/id/:id", handler.GetByID)
-  r.GET("/users/email/:email", handler.GetByEmail)
-  r.GET("/users/username/:username", handler.GetByUsername)
+	r.GET("/users", handler.GetAll)
   r.PUT("/users", handler.Register)
 	r.POST("/users", handler.Update)
   r.DELETE("/users/id/:id", handler.Delete)
@@ -108,7 +108,18 @@ func (g *GinHandler) Register(c *gin.Context) {
 }
 
 func (g *GinHandler) GetAll(c *gin.Context) {
+  numString := c.Query("num")
+  num, _ := strconv.Atoi(numString)
+  cursor := c.Query("cursor")
 
+  usrs, nextCursor, err := g.svc.GetAll(c.Request.Context(), cursor, num)
+  if err != nil {
+    g.renderError(c, err)
+    return
+  }
+
+  c.Header(`X-Cursor`, nextCursor)
+  g.renderData(c, http.StatusOK, usrs)
 }
 
 func (g *GinHandler) Login(c *gin.Context) {}

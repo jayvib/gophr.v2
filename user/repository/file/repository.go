@@ -8,8 +8,14 @@ import (
 	"gophr.v2/user"
 	"io"
 	"io/ioutil"
-	"os"
+  "math/rand"
+  "os"
+  "time"
 )
+
+func init() {
+  rand.Seed(time.Now().UnixNano())
+}
 
 func New(filename string) *FileUserStore {
 	file, err := os.Open(filename)
@@ -22,6 +28,7 @@ func New(filename string) *FileUserStore {
 	s := &FileUserStore{
 		filename: filename,
 		users:    make(map[string]*user.User),
+		idCounter: rand.Intn(16),
 	}
 
 	// meaning this is a path error not exists
@@ -40,6 +47,7 @@ type FileUserStore struct {
 	filename string
 	users    map[string]*user.User
 	user.Repository
+	idCounter int
 }
 
 func (s *FileUserStore) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
@@ -80,6 +88,9 @@ func (s *FileUserStore) Save(ctx context.Context, usr *user.User) error {
 		golog.Debug(err)
 		return user.ErrEmailExists
 	}
+
+	usr.ID = uint(s.idCounter)
+	s.idCounter++
 	s.users[fmt.Sprintf("%d", usr.ID)] = usr
 
 	content, err := json.MarshalIndent(s.users, "", "	")

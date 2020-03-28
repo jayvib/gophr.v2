@@ -1,9 +1,32 @@
 {
-  "1": {
-    "id": 1,
-    "userId": "12345",
-    "userName": "luffy.monkey",
-    "email": "luffy.monkey@gmail",
-    "password": "secret"
-  }
+	"0": {
+		"userId": "4a8922cc7f225295bc29408ce60c2ac3",
+		"username": "sanji.vinsmoke",
+		"email": "sanji.vinsmoke@gmail.com",
+		"password": "$2a$10$37.2ZIMCtRJrwHNv/.Wa3.q/ssgYVwYVZw0sA/vD6pMujNfecJUoa",
+		"createdAt": "2020-03-28T04:06:35.4612614Z"
+	},
+	"1": {
+		"userId": "12345",
+		"username": "luffy.monkey",
+		"email": "luffy.monkey@gmail",
+		"password": "secret",
+		"id": 1
+	},
+	"10": {
+		"userId": "0b555fd9115155a5b0fadb53d3edaf95",
+		"username": "pichy.vibandor",
+		"email": "pichy.vibandor@gmail.com",
+		"password": "$2a$10$sbs.avHkzatL.YPrC7byje2MH74Ff0jay5c1nzYEmG33j/iTaPWrq",
+		"id": 10,
+		"createdAt": "2020-03-28T04:11:06.473721Z"
+	},
+	"9": {
+		"userId": "80cfb7c3a0b85e5b99f850741618fecf",
+		"username": "judith.perez",
+		"email": "judith.perez@gmail.com",
+		"password": "$2a$10$fwajt7c5WwFlYCildqyZUe/W1gn7RlxozD6MS2tvWXUTKyG7WpI/6",
+		"id": 9,
+		"createdAt": "2020-03-28T04:10:11.3704358Z"
+	}
 }
