@@ -12,7 +12,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gophr.v2/user"
-	"gophr.v2/util/valueutil"
+  "gophr.v2/user/userutil"
+  "gophr.v2/util/valueutil"
 	"os"
 	"testing"
 	"time"
@@ -285,7 +286,7 @@ func TestRepository_GetAll(t *testing.T) {
 		mock.ExpectQuery(query).WillReturnRows(rows)
 
 		repo := New(db)
-		cursor := encodeCursor(valueutil.TimeValue(mockUsers[0].CreatedAt))
+		cursor := userutil.EncodeCursor(valueutil.TimeValue(mockUsers[0].CreatedAt))
 		list, nextCursor, err := repo.GetAll(context.Background(), cursor, 3)
 		_ = nextCursor
 		assert.NoError(t, err)

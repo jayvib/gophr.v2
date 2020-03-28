@@ -8,6 +8,7 @@ import (
 	log "github.com/jayvib/golog"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gophr.v2/user"
+  "gophr.v2/user/userutil"
 )
 
 var _ user.Repository = (*Repository)(nil)
@@ -101,7 +102,7 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 			created_at 
 		LIMIT ?`
 
-	decodedCursor, err := decodeCursor(cursor)
+	decodedCursor, err := userutil.DecodeCursor(cursor)
 	if err != nil {
 		return nil, "", err
 	}
@@ -114,7 +115,7 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 
 	// Generate next pagination cursor
 	if len(res) == int(num) {
-		nextCursor = encodeCursor(*res[len(res)-1].CreatedAt)
+		nextCursor = userutil.EncodeCursor(*res[len(res)-1].CreatedAt)
 	}
 
 	return res, nextCursor, nil

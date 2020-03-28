@@ -5,7 +5,10 @@ package service
 
 import (
   "context"
+  "gophr.v2/user/userutil"
+  "gophr.v2/util/valueutil"
   "testing"
+  "time"
 
   "github.com/stretchr/testify/assert"
   "github.com/stretchr/testify/mock"
@@ -184,7 +187,6 @@ func TestService_Login(t *testing.T) {
   // TODO: To be implemented
 }
 
-
 func TestService_Update(t *testing.T) {
   repo := new(mocks.Repository)
   repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
@@ -219,7 +221,45 @@ func TestService_Delete(t *testing.T) {
 }
 
 func TestService_GetAll(t *testing.T) {
-  // TODO: Please Implement Me
+  // Add the mock users to the rows
+  mockUsers := []*user.User{
+    {
+      ID:        1,
+      UserID:    "testid123",
+      Username:  "unit.test",
+      Email:     "unit.test@golang.com",
+      Password:  "qwerty",
+      CreatedAt: valueutil.TimePointer(time.Now()),
+      UpdatedAt: valueutil.TimePointer(time.Now()),
+    },
+    {
+      ID:        2,
+      UserID:    "testid124",
+      Username:  "unit.test01",
+      Email:     "unit.test01@golang.com",
+      Password:  "qwerty",
+      CreatedAt: valueutil.TimePointer(time.Now()),
+      UpdatedAt: valueutil.TimePointer(time.Now()),
+    },
+    {
+      ID:        3,
+      UserID:    "testid125",
+      Username:  "unit.test02",
+      Email:     "unit.test02@golang.com",
+      Password:  "qwerty",
+      CreatedAt: valueutil.TimePointer(time.Now()),
+      UpdatedAt: valueutil.TimePointer(time.Now()),
+    },
+  }
+
+  repo := new(mocks.Repository)
+  repo.On("GetAll", mock.Anything, mock.AnythingOfType("string"), mock.AnythingOfType("int")).Return(mockUsers, "", nil).Once()
+  svc := New(repo)
+
+  cursor := userutil.EncodeCursor(*mockUsers[0].CreatedAt)
+  got, _, _ := svc.GetAll(context.Background(), cursor, 3)
+  assert.Len(t, got, 3)
+  repo.AssertExpectations(t)
 }
 
 func TestService_GetAndComparePassword(t *testing.T) {
