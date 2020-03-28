@@ -197,20 +197,40 @@ func TestService_Login(t *testing.T) {
 }
 
 func TestService_Update(t *testing.T) {
-  repo := new(mocks.Repository)
-  repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-  svc := New(repo)
+  t.Run("Updating An Existing User", func(t *testing.T){
+    repo := new(mocks.Repository)
+    repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, nil).Once()
+    svc := New(repo)
 
-  want := &user.User{
-    ID:       12345,
-    Username: "luffy.monkey",
-    Email:    "luffy.monkey@gmail.com",
-  }
+    want := &user.User{
+      ID:       12345,
+      Username: "luffy.monkey",
+      Email:    "luffy.monkey@gmail.com",
+    }
 
-  err := svc.Update(context.Background(), want)
-  assert.NotEmpty(t, want.UpdatedAt)
-  assert.NoError(t, err)
-  repo.AssertExpectations(t)
+    err := svc.Update(context.Background(), want)
+    assert.NotEmpty(t, want.UpdatedAt)
+    assert.NoError(t, err)
+    repo.AssertExpectations(t)
+  })
+
+  t.Run("Updating A Non-Existing User", func(t *testing.T) {
+    repo := new(mocks.Repository)
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrUserNotExists).Once()
+    input := &user.User{
+      ID:       12345,
+      Username: "luffy.monkey",
+      Email:    "luffy.monkey@gmail.com",
+    }
+
+    svc := New(repo)
+    err := svc.Update(context.Background(), input)
+    require.Error(t, err)
+    assert.IsType(t, new(user.Error), err)
+    assert.Equal(t, user.ErrUserNotExists, errors.Unwrap(err))
+    t.Log(err)
+  })
 }
 
 func TestService_Delete(t *testing.T) {

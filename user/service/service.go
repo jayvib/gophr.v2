@@ -84,9 +84,19 @@ func (s *Service) Delete(ctx context.Context, id interface{}) error {
 	return s.repo.Delete(ctx, id)
 }
 
-func (s *Service) Update(ctx context.Context, user *user.User) error {
-	user.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
-	return s.repo.Update(ctx, user)
+func (s *Service) Update(ctx context.Context, usr *user.User) error {
+
+  // Check first if exists
+  _, err := s.repo.GetByID(ctx, usr.ID)
+  if err != nil {
+    if err == user.ErrNotFound {
+      err = user.ErrUserNotExists
+    }
+    return user.NewError(err)
+  }
+
+	usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
+	return s.repo.Update(ctx, usr)
 }
 
 func (s *Service) Register(ctx context.Context, usr *user.User) error {

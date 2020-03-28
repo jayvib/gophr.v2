@@ -15,6 +15,7 @@ var (
   ErrEmptyPassword      = errors.New("user: cannot process because password is empty")
   ErrUserExists         = errors.New("user: cannot create user because it is already exists")
   ErrNotFound           = errors.New("user: item not found")
+  ErrUserNotExists = errors.New("user: cannot do operation because user is not exists")
   ErrInvalidCredentials = errors.New("user: invalid credentials")
 )
 
@@ -65,6 +66,8 @@ func (s *Error) getMessage() string {
     return "Failed because username is empty"
   case ErrEmptyPassword:
     return "Failed because password is empty"
+  case ErrUserNotExists:
+    return "Failed because user is not exists"
   default:
     return "Unexpected error"
   }

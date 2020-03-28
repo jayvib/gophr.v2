@@ -64,7 +64,7 @@ func TestGetByID(t *testing.T) {
     e := gin.Default()
     want := Response{
       Success: false,
-      Error: "user: item not found",
+      Message: "Failed getting the user because it didn't exist",
     }
     repo := new(mocks.Repository)
     repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
@@ -73,98 +73,6 @@ func TestGetByID(t *testing.T) {
     RegisterHandlers(e, svc)
 
     response := performRequest(e, http.MethodGet, "/users/id/1",nil)
-
-    assert.Equal(t, http.StatusNotFound, response.Code)
-    assertResponse(t, want, response.Body)
-  })
-}
-
-func TestGetByEmail(t *testing.T) {
-  t.Run("StatusOK", func(t *testing.T){
-    usr := &user.User{
-      ID: 1,
-      Username: "luffy.monkey",
-      Email: "luffy.monkey@gmail.com",
-    }
-
-    want := Response{
-      Success: true,
-      Data: usr,
-    }
-
-    e := gin.Default()
-    repo := new(mocks.Repository)
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(usr, nil)
-
-    svc := service.New(repo)
-    RegisterHandlers(e, svc)
-
-    response := performRequest(e, http.MethodGet, "/users/email/luffy.monkey@gmail.com",nil)
-
-    require.Equal(t, http.StatusOK, response.Code)
-    assertResponse(t, want, response.Body)
-    repo.AssertExpectations(t)
-  })
-
-  t.Run("NotFound", func(t *testing.T){
-    e := gin.Default()
-    want := Response{
-      Success: false,
-      Error: "user: item not found",
-    }
-    repo := new(mocks.Repository)
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
-
-    svc := service.New(repo)
-    RegisterHandlers(e, svc)
-
-    response := performRequest(e, http.MethodGet, "/users/email/luffy.monkey@gmail.com",nil)
-
-    assert.Equal(t, http.StatusNotFound, response.Code)
-    assertResponse(t, want, response.Body)
-  })
-}
-
-func TestGetByUsername(t *testing.T) {
-  t.Run("StatusOK", func(t *testing.T){
-    usr := &user.User{
-      ID: 1,
-      Username: "luffy.monkey",
-      Email: "luffy.monkey@gmail.com",
-    }
-
-    want := Response{
-      Success: true,
-      Data: usr,
-    }
-
-    e := gin.Default()
-    repo := new(mocks.Repository)
-    repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(usr, nil)
-
-    svc := service.New(repo)
-    RegisterHandlers(e, svc)
-
-    response := performRequest(e, http.MethodGet, "/users/username/luffy.monkey",nil)
-
-    require.Equal(t, http.StatusOK, response.Code)
-    assertResponse(t, want, response.Body)
-    repo.AssertExpectations(t)
-  })
-
-  t.Run("NotFound", func(t *testing.T){
-    e := gin.Default()
-    want := Response{
-      Success: false,
-      Error: "user: item not found",
-    }
-    repo := new(mocks.Repository)
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
-
-    svc := service.New(repo)
-    RegisterHandlers(e, svc)
-
-    response := performRequest(e, http.MethodGet, "/users/email/luffy.monkey@gmail.com",nil)
 
     assert.Equal(t, http.StatusNotFound, response.Code)
     assertResponse(t, want, response.Body)
@@ -236,6 +144,7 @@ func TestDelete(t *testing.T) {
 func TestUpdate(t *testing.T) {
   t.Run("When Updating an Existed User", func(t *testing.T){
     repo := new(mocks.Repository)
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, nil).Once()
     repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
     svc := service.New(repo)
 
@@ -260,7 +169,8 @@ func TestUpdate(t *testing.T) {
 
   t.Run("When Updating to an Non-Exiting User", func(t *testing.T){
     repo := new(mocks.Repository)
-    repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(user.ErrUserExists).Once()
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrNotFound).Once()
+
     svc := service.New(repo)
 
     e := gin.Default()
@@ -280,7 +190,7 @@ func TestUpdate(t *testing.T) {
 
     got := extractResponse(t, response)
     assert.False(t, got.Success)
-    assert.Equal(t, "Update user failed because it did not exists", got.Message)
+    assert.Equal(t, "Failed because user is not exists", got.Message)
   })
 }
 

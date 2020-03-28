@@ -3,6 +3,7 @@ package http
 import (
   "context"
   "encoding/json"
+  "errors"
   "fmt"
   "github.com/gin-gonic/gin"
   "github.com/go-playground/validator/v10"
@@ -134,9 +135,12 @@ func (g *GinHandler) decodeUserFromBody(c *gin.Context) (*user.User, error) {
 }
 
 func getStatusFromError(err error) int {
+  golog.Debug(err)
   var status int
-  switch err {
+  switch errors.Unwrap(err) {
   case user.ErrEmptyUsername, user.ErrEmptyEmail, user.ErrEmptyPassword, user.ErrUserExists:
+    status = http.StatusBadRequest
+  case user.ErrUserNotExists:
     status = http.StatusBadRequest
   case user.ErrNotFound:
     status = http.StatusNotFound
@@ -179,7 +183,6 @@ func (g *GinHandler) renderError(c *gin.Context, err error) {
   }
 
   c.JSON(getStatusFromError(err), &Response{
-    Error:   err.Error(),
     Success: false,
     Message: generateMessageFromError(err),
   })
