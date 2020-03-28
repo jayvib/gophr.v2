@@ -14,11 +14,13 @@ import (
   "gophr.v2/user"
   "gophr.v2/user/mocks"
   "gophr.v2/user/service"
+  "gophr.v2/util/valueutil"
   "io"
   "net/http"
   "net/http/httptest"
   "os"
   "testing"
+  "time"
 )
 
 var debug = flag.Bool("debug", false, "Debugging")
@@ -230,6 +232,42 @@ func TestDelete(t *testing.T) {
   got := extractResponse(t, response)
   assert.True(t, got.Success)
   svc.AssertExpectations(t)
+}
+
+func TestGetAll(t *testing.T) {
+  mockUsers := []*user.User{
+    {
+      ID:        1,
+      UserID:    "testid123",
+      Username:  "unit.test",
+      Email:     "unit.test@golang.com",
+      Password:  "qwerty",
+      CreatedAt: valueutil.TimePointer(time.Now()),
+      UpdatedAt: valueutil.TimePointer(time.Now()),
+    },
+    {
+      ID:        2,
+      UserID:    "testid124",
+      Username:  "unit.test01",
+      Email:     "unit.test01@golang.com",
+      Password:  "qwerty",
+      CreatedAt: valueutil.TimePointer(time.Now()),
+      UpdatedAt: valueutil.TimePointer(time.Now()),
+    },
+    {
+      ID:        3,
+      UserID:    "testid125",
+      Username:  "unit.test02",
+      Email:     "unit.test02@golang.com",
+      Password:  "qwerty",
+      CreatedAt: valueutil.TimePointer(time.Now()),
+      UpdatedAt: valueutil.TimePointer(time.Now()),
+    },
+  }
+
+  repo := new(mocks.Repository)
+  repo.On("")
+  svc := service.New(repo)
 }
 
 func TestUpdate(t *testing.T) {

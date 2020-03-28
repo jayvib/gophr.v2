@@ -107,6 +107,12 @@ func (g *GinHandler) Register(c *gin.Context) {
   g.renderData(c, http.StatusCreated, usr)
 }
 
+func (g *GinHandler) GetAll(c *gin.Context) {
+
+}
+
+func (g *GinHandler) Login(c *gin.Context) {}
+
 func (g *GinHandler) decodeUserFromBody(c *gin.Context) (*user.User, error) {
   var usr user.User
   err := json.NewDecoder(c.Request.Body).Decode(&usr)
@@ -134,6 +140,7 @@ func getStatusFromError(err error) int {
   return status
 }
 
+
 func generateMessageFromError(err error) string {
   switch e := err.(type) {
   case validator.ValidationErrors:
@@ -154,7 +161,6 @@ func generateMessageFromError(err error) string {
   }
 }
 
-
 func (g *GinHandler) renderError(c *gin.Context, err error) {
   c.JSON(getStatusFromError(err), &Response{
     Error:   err.Error(),
@@ -169,8 +175,6 @@ func (g *GinHandler) renderData(c *gin.Context, status int, data interface{}) {
     Data: data,
   })
 }
-
-func (g *GinHandler) Login(c *gin.Context) {}
 
 func (g *GinHandler) get(c *gin.Context, id interface{}, getterFunc interface{}) {
   var usr *user.User
