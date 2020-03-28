@@ -107,7 +107,7 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
   // Check first the usr if already exists
   _, err := s.repo.GetByEmail(ctx, usr.Email)
   if err == nil {
-    return user.ErrUserExists
+    return user.NewError(user.ErrUserExists)
   }
 
 	usr.CreatedAt = valueutil.TimePointer(time.Now().UTC())
@@ -115,7 +115,7 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
 	// Create a password
 	hash, err := bcrypt.GenerateFromPassword([]byte(usr.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		return user.NewError(err)
 	}
 
 	usr.Password = string(hash)

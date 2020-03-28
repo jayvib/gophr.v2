@@ -68,6 +68,8 @@ func (s *Error) getMessage() string {
     return "Failed because password is empty"
   case ErrUserNotExists:
     return "Failed because user is not exists"
+  case ErrUserExists:
+    return "Failed because user exists"
   default:
     return "Unexpected error"
   }
