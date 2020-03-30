@@ -2,7 +2,8 @@
 #
 # Variables
 CLIENT_APP="gophr.client"
-API_APP="gophr.app"
+API_APP="gophr.api"
+API_BIN="gophr.engine"
 
 ################UTILITY#################
 mod: ## To download the dependency of the app
@@ -44,8 +45,6 @@ stop-development-services:
 unit-test:
 	@go test -tags=unit -covermode=atomic -short ./... | grep -v '^?'
 
-########################################
-
 build-client: mod ## Building executable file for the gophr client app
 	@echo "Building ${CLIENT_APP}"
 	if [ ! -e ./bin ]; then mkdir ./bin; fi
@@ -59,9 +58,17 @@ run-client: build-client-docker
 	docker-compose -f ./deployment/gophr.client/docker-compose.yml up -d --force-recreate
 
 run-client-step: run-client clean
+################API########################
 
-api-unit-test:
-	go test -tags=unit -covermode=atomic -short ./gophr.api/... | grep -v '^?'
+build-api-docker:
+	docker build -t ${API_APP} --file ./deployment/gophr.api/Dockerfile .
+
+build-api: mod
+	@echo "Building ${API_APP}"
+	if [ ! -e ./bin ]; then mkdir ./bin; fi
+	go build -o ./bin/${API_BIN} ./cmd/gophr.api/
+
+########################################
 
 #####THIRD-PARTY TOOL INSTALLATION####
 install-tools:

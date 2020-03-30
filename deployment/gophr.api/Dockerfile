@@ -7,7 +7,7 @@ RUN apk update && apk upgrade && \
 WORKDIR /go/src/gophr
 COPY . .
 ENV GO111MODULE on
-RUN make build-api
+RUN make build-api -s
 
 # STEP 2: Distribute the executable
 FROM alpine:3.7
@@ -19,7 +19,7 @@ RUN apk update && \
 RUN set -ex && apk add --no-cache --virtual bash musl-dev openssl
 RUN mkdir -p /home/gophr/
 EXPOSE 8080
-COPY --from=builder /go/src/gophr/gophr.engine /home/gophr/
+COPY --from=builder /go/src/gophr/bin/gophr.engine /home/gophr/
 RUN chmod +x /home/gophr/gophr.engine
 CMD /home/gophr/gophr.engine
 
