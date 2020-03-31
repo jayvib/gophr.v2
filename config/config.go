@@ -22,11 +22,11 @@ func New(env Env) (*Config, error) {
 	var configPath string
 	switch env {
 	case DevelopmentEnv:
-		configPath = "$HOME/.gophr/testenv/"
+		configPath = "$HOME/config-dev.yaml"
 	case StageEnv:
-		configPath = "$HOME/.gophr/stageenv/"
+		configPath = "$HOME/config-stage.yaml"
 	case ProdEnv:
-		configPath = "$HOME/.gophr/"
+		configPath = "$HOME/config.yaml"
 	}
 
 	var err error
@@ -44,6 +44,7 @@ func New(env Env) (*Config, error) {
 }
 
 type Config struct {
+  Environment Env `json:"environment"`
 	MySQL MySQL `json:"mysql"`
 }
 

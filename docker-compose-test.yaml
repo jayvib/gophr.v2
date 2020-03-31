@@ -1,25 +1,14 @@
 version: "3.7"
 services:
-  gophr:
-    image: gophr:latest
-    container_name: gophr
-    environment:
-      - GOPHR_ENV=PROD
-    ports:
-      - 8080:8080
-    depends_on:
-      - mysql
-    volumes:
-      - ./deployment/production/config.yaml:/home/config.yaml
-    restart: always
   mysql:
     image: mysql:5.7
-    container_name: mysql
+    container_name: mysql.test
     command: mysqld --user=root
     ports:
       - 3306:3306
     volumes:
-      - ./deployment/production/gophr.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./deployment/api/integration/gophr.sql:/docker-entrypoint-initdb.d/init.sql
+    network_mode: host
     environment:
       - MYSQL_DATABASE=gophr
       - MYSQL_USER=user

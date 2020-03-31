@@ -9,6 +9,7 @@ import (
   "gophr.v2/user/repository/file"
   "gophr.v2/user/service"
   "log"
+  "os"
 )
 
 var (
@@ -21,6 +22,7 @@ var (
 
 func init() {
   flag.Parse()
+
   initializeConfig()
   if *debug {
     golog.Info("DEBUGGING MODE")
@@ -41,12 +43,12 @@ func main() {
 func initializeConfig() {
   var err error
   var env config.Env
-  switch *envF {
-  case "devel":
+  switch os.Getenv("GOPHR_ENV") {
+  case "DEV":
     env = config.DevelopmentEnv
-  case "stage":
+  case "STAGE":
     env = config.StageEnv
-  case "prod":
+  case "PROD":
     env = config.ProdEnv
   }
   conf, err = config.New(env)

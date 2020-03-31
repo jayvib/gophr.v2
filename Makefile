@@ -2,8 +2,25 @@
 #
 # Variables
 CLIENT_APP="gophr.client"
-API_APP="gophr.api"
 API_BIN="gophr.engine"
+APPNAME=gophr
+
+unit-test:
+	@go test -tags=unit -covermode=atomic -short ./... | grep -v '^?'
+
+build-api: mod
+	@echo "Building ${APPNAME}"
+	if [ ! -e ./bin ]; then mkdir ./bin; fi
+	go build -o ./bin/${API_BIN} ./cmd/gophr/
+
+build:
+	docker build -t ${APPNAME} --file ./deployment/gophr/Dockerfile .
+
+up: build
+	docker-compose -f  docker-compose.yaml up -d
+
+down:
+	docker-compose -f  docker-compose.yaml down -d
 
 ################UTILITY#################
 mod: ## To download the dependency of the app
@@ -25,50 +42,6 @@ fmt: ## Format source files excluding the vendor directory
 
 help: ## Display the available targets and its description
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
-
-################BUILDS##################
-build-client-step: build-client-docker
-
-###############TESTING##################
-up-development-services:
-	docker-compose -f  docker-compose.yaml up -d
-
-down-development-services:
-	docker-compose -f docker-compose.yaml down
-
-start-development-services:
-	docker-compose -f docker-compose.yaml start -d
-
-stop-development-services:
-	docker-compose -f docker-compose.yaml stop
-
-unit-test:
-	@go test -tags=unit -covermode=atomic -short ./... | grep -v '^?'
-
-build-client: mod ## Building executable file for the gophr client app
-	@echo "Building ${CLIENT_APP}"
-	if [ ! -e ./bin ]; then mkdir ./bin; fi
-
-	go build -o ./bin/${CLIENT_APP} ./gophr.client/ 
-
-build-client-docker:
-	sudo docker build -t ${CLIENT_APP} --file ./deployment/gophr.client/Dockerfile .
-
-run-client: build-client-docker
-	docker-compose -f ./deployment/gophr.client/docker-compose.yml up -d --force-recreate
-
-run-client-step: run-client clean
-################API########################
-
-build-api-docker:
-	docker build -t ${API_APP} --file ./deployment/gophr.api/Dockerfile .
-
-build-api: mod
-	@echo "Building ${API_APP}"
-	if [ ! -e ./bin ]; then mkdir ./bin; fi
-	go build -o ./bin/${API_BIN} ./cmd/gophr.api/
-
-########################################
 
 #####THIRD-PARTY TOOL INSTALLATION####
 install-tools:
