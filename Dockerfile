@@ -5,7 +5,7 @@ FROM golang:1.13.7-alpine3.11 as builder
 RUN apk update && apk upgrade && \
     apk --update add git gcc make
 WORKDIR /go/src/gophr
-COPY . .
+COPY deployment/gophr .
 ENV GO111MODULE on
 RUN make build-api -s
 
