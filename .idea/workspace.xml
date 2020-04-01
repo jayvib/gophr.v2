@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/deployment/gophr/production/config.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/deployment/gophr/production/gophr.sql" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose-test.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gophr.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/gophr.api/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmd/gophr.api/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gophr/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployment/gophr.api/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/gophr/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployment/gophr.api/integration/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/gophr/development/config.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployment/gophr.api/integration/gophr.sql" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/gophr/development/gophr.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,19 +48,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deployment/gophr/Dockerfile">
+        <entry file="file://$PROJECT_DIR$/config/config.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+            <state relative-caret-position="172">
+              <caret line="46" column="25" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/config/config.go">
+        <entry file="file://$PROJECT_DIR$/docker-compose.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
+            <state relative-caret-position="196">
+              <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -74,44 +68,40 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docker-compose-test.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="140">
-              <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="11" selection-end-column="16" />
+            <state relative-caret-position="70">
+              <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/docker-compose.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="21" column="35" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/deployment/gophr/development/config.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="56">
-              <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cmd/gophr/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="275">
-              <caret line="46" column="12" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
+            <state relative-caret-position="448">
+              <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Documents/Work Files/Apollo Team/project/iSell/apollo-cloud/api/pkg/mod/github.com/jayvib/golog@v0.0.0-20191101112258-451da415b73f/golog.go">
+        <entry file="file://$PROJECT_DIR$/config.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-64">
-              <caret line="45" column="2" selection-start-line="45" selection-start-column="2" selection-end-line="45" selection-end-column="2" />
+            <state relative-caret-position="168">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/go.mod">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Documents/Work Files/Apollo Team/project/iSell/apollo-cloud/api/pkg/mod/github.com/spf13/viper@v1.6.2/viper.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="177">
+              <caret line="1195" column="5" selection-start-line="1195" selection-start-column="5" selection-end-line="1195" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -162,7 +152,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/config/config.yaml" />
         <option value="$PROJECT_DIR$/config/config_test.go" />
         <option value="$PROJECT_DIR$/user/repository/mysql/driver/mysql.go" />
         <option value="$PROJECT_DIR$/deployment/gophr.api/integration/config.yaml" />
@@ -210,8 +199,9 @@
         <option value="$PROJECT_DIR$/deployment/gophr.api/Dockerfile" />
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/deployment/gophr/Dockerfile" />
-        <option value="$PROJECT_DIR$/config/config.go" />
         <option value="$PROJECT_DIR$/docker-compose.yaml" />
+        <option value="$PROJECT_DIR$/config.yaml" />
+        <option value="$PROJECT_DIR$/config/config.go" />
         <option value="$PROJECT_DIR$/cmd/gophr/main.go" />
       </list>
     </option>
@@ -227,6 +217,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -245,29 +236,10 @@
               <item name="cmd" type="462c0819:PsiDirectoryNode" />
               <item name="gophr" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="v1" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -278,28 +250,28 @@
     <property name="editor.config.ad.shown" value="true" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cmd/gophr/main.go" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="go.vgo" />
   </component>
   <component name="RecentsManager">
-    <key name="GoMoveDeclarationDialog.RECENT_KEY">
-      <recent name="$PROJECT_DIR$/user/web" />
-      <recent name="$PROJECT_DIR$/user/repository/mysql" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\cygwin64\home\temp\gophr.v2\deployment\gophr\production" />
-      <recent name="C:\cygwin64\home\temp\gophr.v2" />
-      <recent name="C:\cygwin64\home\temp\gophr.v2\deployment\gophr.api\development" />
-      <recent name="$PROJECT_DIR$/deployment/gophr.api/integration" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\cygwin64\home\temp\gophr.v2\deployment\gophr\development" />
       <recent name="C:\cygwin64\home\temp\gophr.v2\user\errors" />
       <recent name="C:\cygwin64\home\temp\gophr.v2\user\userutil" />
       <recent name="C:\cygwin64\home\temp\gophr.v2\user\api\v1\http" />
       <recent name="C:\cygwin64\home\temp\gophr.v2\user\api\v1" />
+    </key>
+    <key name="GoMoveDeclarationDialog.RECENT_KEY">
+      <recent name="$PROJECT_DIR$/user/web" />
+      <recent name="$PROJECT_DIR$/user/repository/mysql" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\cygwin64\home\temp\gophr.v2" />
+      <recent name="C:\cygwin64\home\temp\gophr.v2\deployment\gophr\production" />
+      <recent name="C:\cygwin64\home\temp\gophr.v2\deployment\gophr.api\development" />
+      <recent name="$PROJECT_DIR$/deployment/gophr.api/integration" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -326,10 +298,16 @@
     </configuration>
     <configuration name="gophr.api" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="gophr.v2" />
-      <working_directory value="C:\cygwin64\home\temp\gophr.v2\cmd\gophr.api" />
+      <working_directory value="C:\cygwin64\home\temp\gophr.v2\cmd\gophr" />
       <parameters value="-debug=false" />
+      <envs>
+        <env name="GOPHR_ENV" value="PROD" />
+        <env name="GOPHR_PORT" value="8080" />
+        <env name="GOPHR_DEBUG" value="FALSE" />
+        <env name="HOME" value="C:\cygwin64\home\temp\gophr.v2" />
+      </envs>
       <kind value="FILE" />
-      <filePath value="$PROJECT_DIR$/cmd/gophr.api/main.go" />
+      <filePath value="C:\cygwin64\home\temp\gophr.v2\cmd\gophr\main.go" />
       <package value="gophr.v2" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
@@ -432,12 +410,12 @@
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1323043" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13450937" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3287234" />
-      <window_info anchor="bottom" x="142" y="410" width="1489" height="488" id="Run" order="2" weight="0.38297874" />
+      <window_info active="true" anchor="bottom" x="142" y="410" width="1489" height="488" id="Run" order="2" visible="true" weight="0.38297874" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -445,7 +423,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info active="true" anchor="bottom" x="151" y="269" width="1451" height="465" id="Terminal" order="10" sideWeight="0.49889746" visible="true" weight="0.37340426" />
+      <window_info anchor="bottom" x="151" y="269" width="1451" height="465" id="Terminal" order="10" sideWeight="0.49889746" weight="0.37340426" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5011025" side_tool="true" weight="0.3617021" />
       <window_info anchor="bottom" x="1397" y="243" width="1335" height="354" id="Database Console" order="12" type="WINDOWED" weight="0.3295082" />
       <window_info anchor="right" id="Coverage" order="0" side_tool="true" weight="0.08800623" />
@@ -490,14 +468,6 @@
     <proxy>direct</proxy>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/util/valueutil/util.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/029a8912-2e5a-4f1d-9b31-18bfc452bb12/console.sql" />
     <entry file="file://$PROJECT_DIR$/user/repository/mysql/testing.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -740,29 +710,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/deployment/gophr/production/gophr.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/deployment/gophr/Dockerfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
           <caret line="19" column="24" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docker-compose-test.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="11" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/deployment/gophr/development/config.yaml">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/deployment/gophr/development/config.yaml">
       <provider selected="true" editor-type-id="text-editor">
@@ -771,10 +724,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.dockerignore">
+    <entry file="file://$USER_HOME$/Documents/Work Files/Apollo Team/project/iSell/apollo-cloud/api/pkg/mod/github.com/jayvib/golog@v0.0.0-20191101112258-451da415b73f/golog.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="532">
+          <caret line="45" column="2" selection-start-line="45" selection-start-column="2" selection-end-line="45" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/deployment/gophr/production/gophr.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -785,31 +745,55 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/Documents/Work Files/Apollo Team/project/iSell/apollo-cloud/api/pkg/mod/github.com/jayvib/golog@v0.0.0-20191101112258-451da415b73f/golog.go">
+    <entry file="file://$PROJECT_DIR$/.dockerignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-64">
-          <caret line="45" column="2" selection-start-line="45" selection-start-column="2" selection-end-line="45" selection-end-column="2" />
+        <state relative-caret-position="14">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/config.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="45" column="19" selection-start-line="45" selection-start-column="19" selection-end-line="45" selection-end-column="19" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/go.mod">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/main.go">
+    <entry file="file://$PROJECT_DIR$/config.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="46" column="12" selection-start-line="46" selection-start-column="12" selection-end-line="46" selection-end-column="12" />
+        <state relative-caret-position="168">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docker-compose.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="21" column="35" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+        <state relative-caret-position="196">
+          <caret line="14" column="8" lean-forward="true" selection-start-line="14" selection-start-column="8" selection-end-line="14" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/config.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="46" column="25" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docker-compose-test.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/Work Files/Apollo Team/project/iSell/apollo-cloud/api/pkg/mod/github.com/spf13/viper@v1.6.2/viper.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="1195" column="5" selection-start-line="1195" selection-start-column="5" selection-end-line="1195" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
         </state>
       </provider>
     </entry>

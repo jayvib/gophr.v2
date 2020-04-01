@@ -44,8 +44,14 @@ func New(env Env) (*Config, error) {
 }
 
 type Config struct {
-  Environment Env `json:"environment"`
+  Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
+}
+
+type Gophr struct {
+  Port string `json:"port"`
+  Environment string `json:"env"`
+  Debug bool `json:"debug"`
 }
 
 type MySQL struct {

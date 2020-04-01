@@ -10,7 +10,7 @@ services:
     depends_on:
       - mysql
     volumes:
-      - ./deployment/production/config.yaml:/home/config.yaml
+      - ./config.yaml:/home/config.yaml
     restart: always
   mysql:
     image: mysql:5.7
@@ -19,7 +19,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - ./deployment/production/gophr.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./gophr.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - MYSQL_DATABASE=gophr
       - MYSQL_USER=user
@@ -29,3 +29,4 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 10
+

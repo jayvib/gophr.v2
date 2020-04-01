@@ -4,30 +4,23 @@ import (
   "flag"
   "github.com/gin-gonic/gin"
   "github.com/jayvib/golog"
+  "github.com/spf13/viper"
   "gophr.v2/config"
   "gophr.v2/user/api/v1/http"
   "gophr.v2/user/repository/file"
   "gophr.v2/user/service"
   "log"
-  "os"
 )
 
-var (
-  envF = flag.String("env", "devel", "Environment. [devel/stage/prod]")
-  debug = flag.Bool("debug", false, "Debugging")
-)
 var (
   conf *config.Config
 )
 
 func init() {
   flag.Parse()
-
+  initializeViper()
   initializeConfig()
-  if *debug {
-    golog.Info("DEBUGGING MODE")
-    golog.SetLevel(golog.DebugLevel)
-  }
+  initializeDebugging()
 }
 
 func main() {
@@ -43,7 +36,7 @@ func main() {
 func initializeConfig() {
   var err error
   var env config.Env
-  switch os.Getenv("GOPHR_ENV") {
+  switch viper.Get("env") {
   case "DEV":
     env = config.DevelopmentEnv
   case "STAGE":
@@ -57,3 +50,14 @@ func initializeConfig() {
   }
 }
 
+func initializeDebugging() {
+  if conf.Gophr.Debug {
+    golog.Info("DEBUGGING MODE")
+    golog.SetLevel(golog.DebugLevel)
+  }
+}
+
+func initializeViper() {
+  viper.AutomaticEnv()
+  viper.SetEnvPrefix("gophr")
+}
