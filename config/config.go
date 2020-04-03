@@ -19,22 +19,22 @@ var (
 )
 
 func New(env Env) (*Config, error) {
-	var configPath string
+	var configName string
 	switch env {
 	case DevelopmentEnv:
-		configPath = "$HOME/config-dev.yaml"
+		configName = "config-dev.yaml"
 	case StageEnv:
-		configPath = "$HOME/config-stage.yaml"
+		configName = "config-stage.yaml"
 	case ProdEnv:
-		configPath = "$HOME/config.yaml"
+		configName = "config.yaml"
 	}
 
 	var err error
 	once.Do(func() {
 		conf, err = loadConfig(
 			SetConfigType("yaml"),
-			SetConfig("config"),
-			AddConfigPath(configPath),
+			SetConfig(configName),
+			AddConfigPath("$HOME"),
 		)
 	})
 	if err != nil {

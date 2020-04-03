@@ -6,9 +6,9 @@ import (
   "github.com/jayvib/golog"
   "github.com/spf13/viper"
   "gophr.v2/config"
-  "gophr.v2/user/api/v1/http"
   "gophr.v2/user/repository/file"
   "gophr.v2/user/service"
+  "gophr.v2/view"
   "log"
 )
 
@@ -27,7 +27,11 @@ func main() {
   repo := file.New("./db.json")
   svc := service.New(repo)
   r := gin.New()
-  http.RegisterHandlers(r, svc)
+
+  view.RegisterRoutes(r, svc,
+    "templates/**/*.html",
+    "templates/layout.html")
+
   if err := r.Run(":8080"); err != nil {
     log.Fatal(err)
   }
@@ -60,4 +64,5 @@ func initializeDebugging() {
 func initializeViper() {
   viper.AutomaticEnv()
   viper.SetEnvPrefix("gophr")
+  viper.SetDefault("port", "8080")
 }
