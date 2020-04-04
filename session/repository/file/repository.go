@@ -58,7 +58,7 @@ func (r *repository) Save(ctx context.Context, s *session.Session) error {
 }
 
 func (r *repository) marshalToJSON() ([]byte, error) {
-  payload, err := json.Marshal(r.sessions)
+  payload, err := json.MarshalIndent(r.sessions, "", "  ")
   if err != nil {
     return nil, session.NewError(err, "failed to unmarshal sessions")
   }
