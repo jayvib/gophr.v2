@@ -10,6 +10,9 @@ import (
   "gophr.v2/user/service"
   "gophr.v2/view"
   "log"
+
+  sessionfilerepo "gophr.v2/session/repository/file"
+  sessionservice "gophr.v2/session/service"
 )
 
 var (
@@ -24,11 +27,14 @@ func init() {
 }
 
 func main() {
-  repo := file.New("./db.json")
-  svc := service.New(repo)
+  userrepo := file.New("./db.json")
+  usersvc := service.New(userrepo)
+
+  sessionRepo := sessionfilerepo.New("./sessions.json")
+  sessionService := sessionservice.New(sessionRepo)
   r := gin.New()
 
-  view.RegisterRoutes(r, svc,
+  view.RegisterRoutes(r, usersvc, sessionService,
     "templates/**/*.html",
     "templates/layout.html")
 
@@ -46,6 +52,7 @@ func initializeConfig() {
   case "STAGE":
     env = config.StageEnv
   case "PROD":
+    gin.SetMode(gin.ReleaseMode)
     env = config.ProdEnv
   }
   conf, err = config.New(env)

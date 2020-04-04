@@ -4,6 +4,8 @@ import (
   "bytes"
   "github.com/gin-gonic/gin"
   "github.com/jayvib/golog"
+  "gophr.v2/session"
+  "gophr.v2/session/sessionutil"
   "gophr.v2/user"
   "html/template"
   "net/http"
@@ -18,8 +20,8 @@ var funcs = template.FuncMap{
   },
 }
 
-func RegisterRoutes(r gin.IRouter, userService user.Service, templatesGlob, layoutPath string) {
-  h := NewHandler(userService, templatesGlob, layoutPath)
+func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) {
+  h := NewHandler(userService, sessionService, templatesGlob, layoutPath)
   r.StaticFS("/assets", http.Dir("assets/"))
   r.GET("/", h.HomePage)
   r.GET("/signup", h.Signup)
@@ -27,9 +29,10 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, templatesGlob, layo
   r.POST("/signup", h.HandleSignUp)
 }
 
-func NewHandler(userService user.Service, templatesGlob, layoutPath string) *ViewHandler {
+func NewHandler(userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) *ViewHandler {
   return &ViewHandler{
     usrService: userService,
+    sessionService: sessionService,
     templs: template.Must(template.ParseGlob(templatesGlob)),
     layout: template.Must(template.New("layout.html").
       Funcs(funcs).ParseFiles(layoutPath)),
@@ -40,6 +43,7 @@ type ViewHandler struct {
   templs *template.Template
   layout *template.Template
   usrService user.Service
+  sessionService session.Service
 }
 
 func (v *ViewHandler) HandleSignUp(c *gin.Context) {
@@ -54,18 +58,38 @@ func (v *ViewHandler) HandleSignUp(c *gin.Context) {
 
   err := v.usrService.Register(c.Request.Context(), usr)
   if err != nil {
-    v.renderTemplate(c, "other/error", map[string]interface{}{
+    v.renderTemplate(c, "users/signup", map[string]interface{}{
+      "User": usr,
       "Error": getMessage(err),
     })
     return
   }
+
+  sess := sessionutil.WriteSessionTo(c.Writer)
+  sess.UserID = usr.UserID
+
+  err = v.sessionService.Save(c.Request.Context(), sess)
+  if err != nil {
+    v.renderErrorTemplate(c, err)
+    return
+  }
+
   c.Redirect(http.StatusFound, "/?flash=User+created")
 }
 
+func (v *ViewHandler) renderErrorTemplate(c *gin.Context, err error) {
+  v.renderTemplate(c, "other/error", map[string]interface{}{
+    "Error": getMessage(err),
+  })
+}
+
 func getMessage(err error) string {
+  type messenger interface{
+    Message() string
+  }
   var message string
-  if uerr, ok := err.(*user.Error); ok {
-    message = uerr.Message()
+  if msger, ok := err.(messenger); ok {
+    message = msger.Message()
   } else {
     message = err.Error()
   }

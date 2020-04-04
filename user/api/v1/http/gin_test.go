@@ -11,6 +11,7 @@ import (
   "github.com/stretchr/testify/assert"
   "github.com/stretchr/testify/mock"
   "github.com/stretchr/testify/require"
+  "gophr.v2/http/httputil"
   "gophr.v2/user"
   "gophr.v2/user/mocks"
   "gophr.v2/user/service"
@@ -53,7 +54,7 @@ func TestGetByID(t *testing.T) {
     svc := service.New(repo)
     RegisterHandlers(e, svc)
 
-    response := performRequest(e, http.MethodGet, "/users/id/1",nil)
+    response := httputil.PerformRequest(e, http.MethodGet, "/users/id/1",nil)
 
     require.Equal(t, http.StatusOK, response.Code)
     assertResponse(t, want, response.Body)
@@ -72,7 +73,7 @@ func TestGetByID(t *testing.T) {
     svc := service.New(repo)
     RegisterHandlers(e, svc)
 
-    response := performRequest(e, http.MethodGet, "/users/id/1",nil)
+    response := httputil.PerformRequest(e, http.MethodGet, "/users/id/1",nil)
 
     assert.Equal(t, http.StatusNotFound, response.Code)
     assertResponse(t, want, response.Body)
@@ -97,7 +98,7 @@ func TestRegister(t *testing.T) {
     RegisterHandlers(e, svc)
 
     body := userToBody(t, usr)
-    response := performRequest(e, http.MethodPut, "/users", body)
+    response := httputil.PerformRequest(e, http.MethodPut, "/users", body)
 
     assert.Equal(t, http.StatusCreated, response.Code)
     got := extractResponse(t, response)
@@ -121,7 +122,7 @@ func TestRegister(t *testing.T) {
     RegisterHandlers(e, svc)
 
     body := userToBody(t, usr)
-    response := performRequest(e, http.MethodPut, "/users", body)
+    response := httputil.PerformRequest(e, http.MethodPut, "/users", body)
     got := extractResponse(t, response)
     assert.Equal(t, http.StatusBadRequest, response.Code)
     assert.Equal(t, "Missing value for:\nUsername\n", got.Message)
@@ -133,7 +134,7 @@ func TestDelete(t *testing.T) {
   svc := new(mocks.Service)
   svc.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
   RegisterHandlers(e, svc)
-  response := performRequest(e, http.MethodDelete, "/users/id/:id", nil)
+  response := httputil.PerformRequest(e, http.MethodDelete, "/users/id/:id", nil)
   assert.Equal(t, http.StatusOK, response.Code)
   got := extractResponse(t, response)
   assert.True(t, got.Success)
@@ -159,7 +160,7 @@ func TestUpdate(t *testing.T) {
     }
 
     body := userToBody(t, input)
-    response := performRequest(e, http.MethodPost, "/users", body)
+    response := httputil.PerformRequest(e, http.MethodPost, "/users", body)
     assert.Equal(t, http.StatusOK, response.Code)
     repo.AssertExpectations(t)
 
@@ -184,7 +185,7 @@ func TestUpdate(t *testing.T) {
     }
 
     body := userToBody(t, input)
-    response := performRequest(e, http.MethodPost, "/users", body)
+    response := httputil.PerformRequest(e, http.MethodPost, "/users", body)
     assert.Equal(t, http.StatusBadRequest, response.Code)
     repo.AssertExpectations(t)
 
@@ -237,9 +238,3 @@ func extractUserFromData(got Response) (*user.User, error) {
 
 
 
-func performRequest(h http.Handler, method string, path string, body io.Reader) *httptest.ResponseRecorder {
-  req := httptest.NewRequest(method, path, body)
-  w := httptest.NewRecorder()
-  h.ServeHTTP(w, req)
-  return w
-}

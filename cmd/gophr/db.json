@@ -23,12 +23,28 @@
 		"updatedAt": "2020-03-28T04:46:29.6239479Z"
 	},
 	"11": {
-		"userId": "d6920a52e08a5cbb98ea85081db814f6",
-		"username": "jaydith",
-		"email": "jaydith@gmail.com",
-		"password": "$2a$10$O8kFfMKxnAo0vTe4khVvoe7UJDdfHcuLj1qfdgKmFqP4zXDlSUuk2",
+		"userId": "555ec02a57fa51de85ce1fa4e531cbe3",
+		"username": "franky.mechanic",
+		"email": "franky.mechanic@gmail.com",
+		"password": "$2a$10$36jZjGoBQ8Y.i4qAcPAsPuFUpqYYeW79qrsXvlVTEavnW/Dl0l25W",
 		"id": 11,
-		"createdAt": "2020-04-03T10:33:09.0278671Z"
+		"createdAt": "2020-04-04T06:18:19.0177375Z"
+	},
+	"7": {
+		"userId": "1ef24058e6d959dc8b5a89e87fbe570a",
+		"username": "choper.doctor",
+		"email": "choper.doctor@gmail.com",
+		"password": "$2a$10$qfuDUKmtlQfCdVIsFJjnE.4W3BEGMTyfMt/u2rBOQJavqJlTeJc4.",
+		"id": 7,
+		"createdAt": "2020-04-04T06:11:48.601519Z"
+	},
+	"8": {
+		"userId": "79eb31c47ece5a59bd1b22663d98116b",
+		"username": "nami.navigator",
+		"email": "nami.navigator@gmail.com",
+		"password": "$2a$10$s65GXzxXSv062GEpkBKhSeElABQaEr553ba4yDR0gdiJBlttXjRvG",
+		"id": 8,
+		"createdAt": "2020-04-04T06:15:27.9330728Z"
 	},
 	"9": {
 		"userId": "80cfb7c3a0b85e5b99f850741618fecf",

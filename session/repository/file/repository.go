@@ -1,3 +1,5 @@
+//+build integration
+
 package file
 
 import (
@@ -13,6 +15,7 @@ func New(filename string) session.Repository {
     filename: filename,
     sessions: make(map[string]*session.Session),
   }
+  r.init()
   return r
 }
 
