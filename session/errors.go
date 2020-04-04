@@ -25,3 +25,7 @@ func (e *Error) Error() string {
 func (e *Error) Message() string {
   return e.message
 }
+
+func (e *Error) Unwrap() error {
+  return e.origErr
+}
