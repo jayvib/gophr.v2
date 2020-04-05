@@ -14,12 +14,24 @@
         </div>
         <div class="collapse navbar-collapse">
           <div class="navbar-text navbar-right">
-            <a href="/login" class="navbar-link">Login</a>
-            <a href="/signup" class="navbar-link">Signup</a>
+            {{ if .CurrentUser }}
+              <a href="/account" class="navbar-link">Account</a>
+              <a href="/signout" class="navbar-link">Sign Out</a>
+            {{ else }}
+              <a href="/login" class="navbar-link">Login</a>
+              <a href="/signup" class="navbar-link">Signup</a>
+            {{ end }}
           </div>
         </div>
       </div>
     </nav>
+    {{ if .Flash }}
+    <div class="container">
+      <div class="alert alert-info">
+        {{ .Flash }}
+      </div>
+    </div>
+    {{ end }}
   {{ end }}
 </body>
 </html>

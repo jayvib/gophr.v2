@@ -111,6 +111,14 @@ func (v *ViewHandler) UserEditPage(c *gin.Context) {}
 func (v *ViewHandler) DisplayUserDetails(c *gin.Context) {}
 
 func (v *ViewHandler) renderTemplate(c *gin.Context, name string, data map[string]interface{}) {
+   // Always attach the user's information
+  if data == nil {
+    data = make(map[string]interface{})
+  }
+
+  data["CurrentUser"] = v.getUserFromCookie(c)
+  data["Flash"] = c.Query("flash")
+
   f := template.FuncMap{
     "navbar": func() (template.HTML, error) {
       var buff bytes.Buffer
@@ -140,5 +148,18 @@ func (v *ViewHandler) renderTemplate(c *gin.Context, name string, data map[strin
       golog.Error(err)
     }
   }
+}
+
+func (v *ViewHandler) getUserFromCookie(c *gin.Context) *user.User {
+  cookieVal, _ := c.Cookie(session.CookieName)
+  sess, err := v.sessionService.Find(c.Request.Context(), cookieVal)
+  if err != nil {
+    return nil
+  }
+  usr, err := v.usrService.GetByID(c.Request.Context(), sess.ID)
+  if err != nil {
+    return nil
+  }
+  return usr
 }
 

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gophr</title>
+</head>
+<body>
+  {{ define "other/flash" }}
+    {{ if .Flash }}
+      <div class="alert alert-info">
+        {{ .Flash }}
+      </div>
+    {{ end }}
+  {{ end }}
+</body>
+</html>
