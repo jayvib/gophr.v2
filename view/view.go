@@ -22,10 +22,12 @@ var funcs = template.FuncMap{
 
 func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) {
   h := NewHandler(userService, sessionService, templatesGlob, layoutPath)
+
+  // Asset handler
   r.StaticFS("/assets", http.Dir("assets/"))
-  r.GET("/", h.HomePage)
 
   // View handlers
+  r.GET("/", h.HomePage)
   r.GET("/signup", h.Signup)
   r.GET("/login", h.Login)
 
