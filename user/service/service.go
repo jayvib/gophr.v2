@@ -125,11 +125,12 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
 
 func (s *Service) Login(ctx context.Context, usr *user.User) error {
   // Compare the value of user password and the existing user password
-  _, err := s.getAndComparePassword(ctx, usr.Username, usr.Password)
+  u, err := s.getAndComparePassword(ctx, usr.Username, usr.Password)
   if err != nil {
     return user.NewError(err)
   }
   usr.Password = ""
+  usr.UserID = u.UserID // I don't know if it is right
 	return nil
 }
 

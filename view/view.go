@@ -24,9 +24,14 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
   h := NewHandler(userService, sessionService, templatesGlob, layoutPath)
   r.StaticFS("/assets", http.Dir("assets/"))
   r.GET("/", h.HomePage)
+
+  // View handlers
   r.GET("/signup", h.Signup)
   r.GET("/login", h.Login)
+
+  // Controller handler
   r.POST("/signup", h.HandleSignUp)
+  r.POST("/login", h.HandleLogin)
 }
 
 func NewHandler(userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) *ViewHandler {
@@ -46,6 +51,7 @@ type ViewHandler struct {
   sessionService session.Service
 }
 
+// #################CONTROLLERS################
 func (v *ViewHandler) HandleSignUp(c *gin.Context) {
   email := c.PostForm("email")
   username := c.PostForm("username")
@@ -77,6 +83,45 @@ func (v *ViewHandler) HandleSignUp(c *gin.Context) {
   c.Redirect(http.StatusFound, "/?flash=User+created")
 }
 
+func (v *ViewHandler) HandleLogin(c *gin.Context) {
+  // Get the credentials
+  username := c.PostForm("username")
+  password := c.PostForm("password")
+  next := c.PostForm("next")
+  usr := &user.User{
+    Username: username,
+    Password: password,
+  }
+  // Get the user detail through username
+  err := v.usrService.Login(c.Request.Context(), usr)
+  if err != nil {
+    v.renderTemplate(c, "/login", map[string]interface{}{
+      "Error": err.Error(),
+      "User": usr,
+      "Next": next,
+    })
+    return
+  }
+
+  // Create a session
+  sess := sessionutil.WriteSessionTo(c.Writer)
+  sess.UserID = usr.UserID
+
+  // Save the session
+  err = v.sessionService.Save(c.Request.Context(), sess)
+  if err != nil {
+    v.renderErrorTemplate(c, err)
+    return
+  }
+
+  // When next is empty string then set it to '/' as default
+  if next == "" {
+    next = "/"
+  }
+
+  c.Redirect(http.StatusFound, next+"?flash=Signed+in")
+}
+
 func (v *ViewHandler) renderErrorTemplate(c *gin.Context, err error) {
   v.renderTemplate(c, "other/error", map[string]interface{}{
     "Error": getMessage(err),
@@ -99,11 +144,31 @@ func getMessage(err error) string {
 func (v *ViewHandler) HomePage(c *gin.Context) {
   v.renderTemplate(c, "index/navbar", nil)
 }
+
+// ###################VIEW####################
+
 func (v *ViewHandler) Signup(c *gin.Context) {
   v.renderTemplate(c, "users/signup", nil)
 }
+
 func (v *ViewHandler) Login(c *gin.Context) {
-  v.renderTemplate(c, "sessions/login", nil)
+  next := c.Query("next")
+  v.renderTemplate(c, "sessions/login",  map[string]interface{}{
+    "Next": next,
+  })
+}
+
+func (v *ViewHandler) SignOut(c *gin.Context) {
+  // Get session
+  sess := v.getSessionFromRequest(c)
+
+  // Delete session if not empty
+  if sess != nil {
+    _ = v.sessionService.Delete(c.Request.Context(), sess.ID)
+  }
+
+  // Render the signout template
+  v.renderTemplate(c, "sessions/destroy", nil)
 }
 
 func (v *ViewHandler) UserEditPage(c *gin.Context) {}
@@ -151,15 +216,24 @@ func (v *ViewHandler) renderTemplate(c *gin.Context, name string, data map[strin
 }
 
 func (v *ViewHandler) getUserFromCookie(c *gin.Context) *user.User {
-  cookieVal, _ := c.Cookie(session.CookieName)
-  sess, err := v.sessionService.Find(c.Request.Context(), cookieVal)
-  if err != nil {
+  sess := v.getSessionFromRequest(c)
+  if sess == nil {
     return nil
   }
+
   usr, err := v.usrService.GetByID(c.Request.Context(), sess.ID)
   if err != nil {
     return nil
   }
   return usr
+}
+
+func (v *ViewHandler) getSessionFromRequest(c *gin.Context) *session.Session {
+  cookieVal, _ := c.Cookie(session.CookieName)
+  sess, err := v.sessionService.Find(c.Request.Context(), cookieVal)
+  if err != nil {
+    return nil
+  }
+  return sess
 }
 
