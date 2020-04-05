@@ -50,7 +50,7 @@ func (s *Service) Save(ctx context.Context, usr *user.User) error {
 	return s.repo.Save(ctx, usr)
 }
 
-func (s *Service) GetAndComparePassword(ctx context.Context, username, password string) (*user.User, error) {
+func (s *Service) getAndComparePassword(ctx context.Context, username, password string) (*user.User, error) {
 	// Get the users information
 	usr, err := s.repo.GetByUsername(ctx, username)
 	if err != nil {
@@ -123,8 +123,13 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
 	return s.repo.Save(ctx, usr)
 }
 
-func (s *Service) Login(ctx context.Context, user *user.User) error {
-  // TODO: To be implemented
+func (s *Service) Login(ctx context.Context, usr *user.User) error {
+  // Compare the value of user password and the existing user password
+  _, err := s.getAndComparePassword(ctx, usr.Username, usr.Password)
+  if err != nil {
+    return user.NewError(err)
+  }
+  usr.Password = ""
 	return nil
 }
 

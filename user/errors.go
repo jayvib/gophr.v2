@@ -70,6 +70,8 @@ func (s *Error) getMessage() string {
     return "Failed because user is not exists"
   case ErrUserExists:
     return "Failed because user exists"
+  case ErrInvalidCredentials:
+    return "Invalid Username/Password"
   default:
     return "Unexpected error"
   }

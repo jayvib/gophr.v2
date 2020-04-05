@@ -1,11 +1,11 @@
 //+build unit
 
-
 package service
 
 import (
   "context"
   "errors"
+  "github.com/jayvib/golog"
   "github.com/stretchr/testify/require"
   "gophr.v2/user/userutil"
   "gophr.v2/util/valueutil"
@@ -193,7 +193,63 @@ func TestService_Register(t *testing.T) {
 }
 
 func TestService_Login(t *testing.T) {
-  // TODO: To be implemented
+  t.Run("Valid Credential", func(t *testing.T){
+    golog.SetLevel(golog.DebugLevel)
+    // Simulate registration
+    usr := &user.User{
+      Email: "luffy.monkey@gmail.com",
+      Username: "luffy.monkey",
+      Password: "iampirateking",
+    }
+
+    cpy := *usr
+    clonedUsr := &cpy
+    repo := new(mocks.Repository)
+    repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
+    repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(clonedUsr, nil).Once()
+    svc := New(repo)
+    err := svc.Register(context.Background(), clonedUsr)
+    require.NoError(t, err)
+
+    // Login
+    err = svc.Login(context.Background(), usr)
+    assert.NoError(t, err)
+    repo.AssertExpectations(t)
+  })
+
+  t.Run("Invalid Credential", func(t *testing.T){
+    golog.SetLevel(golog.DebugLevel)
+    // Simulate registration
+    usr := &user.User{
+      Email: "luffy.monkey@gmail.com",
+      Username: "luffy.monkey",
+      Password: "iampirateking",
+    }
+
+    cpy := *usr
+    clonedUsr := &cpy
+
+    // Modify to make the password invalid
+    usr.Password = "invalidpassword"
+
+    repo := new(mocks.Repository)
+    repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
+    repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(clonedUsr, nil).Once()
+    svc := New(repo)
+    err := svc.Register(context.Background(), clonedUsr)
+    assert.NoError(t, err)
+
+    // Login
+    err = svc.Login(context.Background(), usr)
+    require.Error(t, err)
+
+    want := user.NewError(user.ErrInvalidCredentials)
+    assert.Equal(t, want, err)
+    repo.AssertExpectations(t)
+  })
+
 }
 
 func TestService_Update(t *testing.T) {
