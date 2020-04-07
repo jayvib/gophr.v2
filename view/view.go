@@ -4,6 +4,7 @@ import (
   "bytes"
   "github.com/gin-gonic/gin"
   "github.com/jayvib/golog"
+  "golang.org/x/crypto/bcrypt"
   "gophr.v2/session"
   "gophr.v2/session/sessionutil"
   "gophr.v2/user"
@@ -30,10 +31,13 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
   r.GET("/", h.HomePage)
   r.GET("/signup", h.Signup)
   r.GET("/login", h.Login)
+  r.GET("/account", h.EditUser)
+  r.GET("/signout", h.SignOut)
 
   // Controller handler
   r.POST("/signup", h.HandleSignUp)
   r.POST("/login", h.HandleLogin)
+  r.POST("/account", h.HandleEditUser)
 }
 
 func NewHandler(userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) *ViewHandler {
@@ -97,8 +101,8 @@ func (v *ViewHandler) HandleLogin(c *gin.Context) {
   // Get the user detail through username
   err := v.usrService.Login(c.Request.Context(), usr)
   if err != nil {
-    v.renderTemplate(c, "/login", map[string]interface{}{
-      "Error": err.Error(),
+    v.renderTemplate(c, "sessions/login", map[string]interface{}{
+      "Error": getMessage(err),
       "User": usr,
       "Next": next,
     })
@@ -122,6 +126,60 @@ func (v *ViewHandler) HandleLogin(c *gin.Context) {
   }
 
   c.Redirect(http.StatusFound, next+"?flash=Signed+in")
+}
+
+func (v *ViewHandler) HandleEditUser(c *gin.Context) {
+  // Get the current user
+  usr := v.getUserFromCookie(c)
+
+  // Get the updated information
+  email := c.PostForm("email")
+  newPassword := c.PostForm("newPassword")
+  currentPassword := c.PostForm("currentPassword")
+
+  // Check first if the current password is correct
+
+  tmpUser := &user.User{
+    Email: email,
+    Username: usr.Username,
+    Password: currentPassword,
+  }
+  if newPassword != "" {
+    err := v.usrService.Login(c.Request.Context(), tmpUser)
+    if err != nil {
+      v.renderTemplate(c, "users/edit", map[string]interface{}{
+        "Error": err.Error(),
+        "User": tmpUser,
+      })
+      return
+    }
+
+    // ===============NOT SURE IF IT BELONGS HERE==============
+    hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
+    if err != nil {
+      err := user.NewError(err)
+      v.renderTemplate(c, "users/edit", map[string]interface{}{
+        "Error": err.Error(),
+        "User": tmpUser,
+      })
+    }
+    usr.Password = string(hash)
+    // ========================================================
+  }
+
+  usr.Email = email
+
+  // Save to repository
+  err := v.usrService.Update(c.Request.Context(), usr)
+  if err != nil {
+    v.renderTemplate(c, "users/edit", map[string]interface{}{
+      "Error": err.Error(),
+      "User":  tmpUser,
+    })
+  }
+
+  // redirect to "/account"
+  c.Redirect(http.StatusOK, "/account?flash=User+updated")
 }
 
 func (v *ViewHandler) renderErrorTemplate(c *gin.Context, err error) {
@@ -160,6 +218,13 @@ func (v *ViewHandler) Login(c *gin.Context) {
   })
 }
 
+func (v *ViewHandler) EditUser(c *gin.Context) {
+  usr := v.getUserFromCookie(c)
+  v.renderTemplate(c, "users/edit", map[string]interface{}{
+    "User": usr,
+  })
+}
+
 func (v *ViewHandler) SignOut(c *gin.Context) {
   // Get session
   sess := v.getSessionFromRequest(c)
@@ -170,7 +235,7 @@ func (v *ViewHandler) SignOut(c *gin.Context) {
   }
 
   // Render the signout template
-  v.renderTemplate(c, "sessions/destroy", nil)
+  v.renderTemplate(c, "sessions/signout", nil)
 }
 
 func (v *ViewHandler) UserEditPage(c *gin.Context) {}
@@ -223,8 +288,9 @@ func (v *ViewHandler) getUserFromCookie(c *gin.Context) *user.User {
     return nil
   }
 
-  usr, err := v.usrService.GetByID(c.Request.Context(), sess.ID)
+  usr, err := v.usrService.GetByID(c.Request.Context(), sess.UserID)
   if err != nil {
+    golog.Debug("while getting user by ID:", err)
     return nil
   }
   return usr

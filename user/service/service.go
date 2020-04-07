@@ -96,6 +96,9 @@ func (s *Service) Update(ctx context.Context, usr *user.User) error {
   }
 
 	usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
+
+  // TODO: Hash the password
+
 	return s.repo.Update(ctx, usr)
 }
 

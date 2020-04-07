@@ -62,7 +62,7 @@ func initializeConfig() {
 }
 
 func initializeDebugging() {
-  if conf.Gophr.Debug {
+  if viper.GetBool("debug") {
     golog.Info("DEBUGGING MODE")
     golog.SetLevel(golog.DebugLevel)
   }

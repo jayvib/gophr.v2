@@ -51,11 +51,12 @@ type FileUserStore struct {
 }
 
 func (s *FileUserStore) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
-	usr, ok := s.users[id.(string)]
-	if !ok {
-		return nil, user.ErrNotFound
-	}
-	return usr, nil
+  for _, usr := range s.users {
+    if usr.UserID == id {
+        return usr, nil
+    }
+  }
+  return nil, user.ErrNotFound
 }
 func (s *FileUserStore) GetByEmail(ctx context.Context, email string) (*user.User, error) {
 	for _, usr := range s.users {
