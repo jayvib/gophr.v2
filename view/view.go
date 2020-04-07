@@ -144,11 +144,13 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
     Username: usr.Username,
     Password: currentPassword,
   }
+  golog.Debug("New Password:", newPassword)
+  golog.Debug("Current Password:", currentPassword)
   if newPassword != "" {
     err := v.usrService.Login(c.Request.Context(), tmpUser)
     if err != nil {
       v.renderTemplate(c, "users/edit", map[string]interface{}{
-        "Error": err.Error(),
+        "Error": getMessage(err),
         "User": tmpUser,
       })
       return
@@ -159,7 +161,7 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
     if err != nil {
       err := user.NewError(err)
       v.renderTemplate(c, "users/edit", map[string]interface{}{
-        "Error": err.Error(),
+        "Error": getMessage(err),
         "User": tmpUser,
       })
     }
@@ -173,13 +175,13 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
   err := v.usrService.Update(c.Request.Context(), usr)
   if err != nil {
     v.renderTemplate(c, "users/edit", map[string]interface{}{
-      "Error": err.Error(),
+      "Error": getMessage(err),
       "User":  tmpUser,
     })
   }
 
   // redirect to "/account"
-  c.Redirect(http.StatusOK, "/account?flash=User+updated")
+  c.Redirect(http.StatusTemporaryRedirect, "/account?flash=User+updated")
 }
 
 func (v *ViewHandler) renderErrorTemplate(c *gin.Context, err error) {
