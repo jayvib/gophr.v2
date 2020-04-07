@@ -87,12 +87,12 @@ func (s *Service) Delete(ctx context.Context, id interface{}) error {
 func (s *Service) Update(ctx context.Context, usr *user.User) error {
 
   // Check first if exists
-  _, err := s.repo.GetByID(ctx, usr.ID)
+  _, err := s.repo.GetByID(ctx, usr.UserID)
   if err != nil {
     if err == user.ErrNotFound {
       err = user.ErrUserNotExists
     }
-    return user.NewError(err).AddContext("ID", usr.ID)
+    return user.NewError(err).AddContext("ID", usr.UserID)
   }
 
 	usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())

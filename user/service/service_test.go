@@ -23,21 +23,22 @@ func TestService_GetByID(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := &user.User{
 			ID:       12345,
+			UserID: userutil.GenerateID(),
 			Username: "luffy.monkey",
 			Email:    "luffy.monkey@gmail.com",
 		}
-		repo.On("GetByID", mock.Anything, mock.AnythingOfType("int")).Return(want, nil)
+		repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(want, nil)
 		svc := New(repo)
-		got, _ := svc.GetByID(context.Background(), 12345)
+		got, _ := svc.GetByID(context.Background(), want.UserID)
 		assert.Equal(t, want, got)
 	})
 
 	t.Run("Not existing user should return a ErrNotFound error", func(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := user.ErrNotFound
-		repo.On("GetByID", mock.Anything, mock.AnythingOfType("int")).Return(nil, user.ErrNotFound)
+		repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
-		_, got := svc.GetByID(context.Background(), 12345)
+		_, got := svc.GetByID(context.Background(), "n12341afal;ief")
 	  require.IsType(t, new(user.Error), got)
 		assert.Equal(t, want, errors.Unwrap(got))
 	})
@@ -256,11 +257,12 @@ func TestService_Update(t *testing.T) {
   t.Run("Updating An Existing User", func(t *testing.T){
     repo := new(mocks.Repository)
     repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, nil).Once()
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
     svc := New(repo)
 
     want := &user.User{
       ID:       12345,
+      UserID: userutil.GenerateID(),
       Username: "luffy.monkey",
       Email:    "luffy.monkey@gmail.com",
     }
@@ -273,9 +275,10 @@ func TestService_Update(t *testing.T) {
 
   t.Run("Updating A Non-Existing User", func(t *testing.T) {
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrUserNotExists).Once()
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrUserNotExists).Once()
     input := &user.User{
       ID:       12345,
+      UserID: userutil.GenerateID(),
       Username: "luffy.monkey",
       Email:    "luffy.monkey@gmail.com",
     }
@@ -285,7 +288,6 @@ func TestService_Update(t *testing.T) {
     require.Error(t, err)
     assert.IsType(t, new(user.Error), err)
     assert.Equal(t, user.ErrUserNotExists, errors.Unwrap(err))
-    t.Log(err)
   })
 }
 

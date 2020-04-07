@@ -11,6 +11,7 @@ require (
 	github.com/jayvib/golog v0.0.0-20191101112258-451da415b73f
 	github.com/jinzhu/gorm v1.9.12
 	github.com/magiconair/properties v1.8.1
+	github.com/prometheus/common v0.4.0
 	github.com/rs/xid v1.2.1
 	github.com/satori/go.uuid v1.2.0
 	github.com/spf13/viper v1.6.2

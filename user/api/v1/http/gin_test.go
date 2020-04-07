@@ -15,6 +15,7 @@ import (
   "gophr.v2/user"
   "gophr.v2/user/mocks"
   "gophr.v2/user/service"
+  "gophr.v2/user/userutil"
   "io"
   "net/http"
   "net/http/httptest"
@@ -38,6 +39,7 @@ func TestGetByID(t *testing.T) {
   t.Run("StatusOK", func(t *testing.T){
     usr := &user.User{
       ID: 1,
+      UserID: userutil.GenerateID(),
       Username: "luffy.monkey",
       Email: "luffy.monkey@gmail.com",
     }
@@ -145,7 +147,7 @@ func TestDelete(t *testing.T) {
 func TestUpdate(t *testing.T) {
   t.Run("When Updating an Existed User", func(t *testing.T){
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, nil).Once()
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
     repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
     svc := service.New(repo)
 
@@ -154,6 +156,7 @@ func TestUpdate(t *testing.T) {
 
     input := &user.User{
       ID: 1,
+      UserID: userutil.GenerateID(),
       Username: "luffy.monkey",
       Email: "luffy.monkey@gmail.com",
       Password: "Secret",
@@ -170,7 +173,7 @@ func TestUpdate(t *testing.T) {
 
   t.Run("When Updating to an Non-Exiting User", func(t *testing.T){
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrNotFound).Once()
+    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
 
     svc := service.New(repo)
 
