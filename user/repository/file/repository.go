@@ -8,9 +8,9 @@ import (
 	"gophr.v2/user"
 	"io"
 	"io/ioutil"
-  "math/rand"
-  "os"
-  "time"
+	"math/rand"
+	"os"
+	"time"
 )
 
 func init() {
@@ -53,7 +53,7 @@ type FileUserStore struct {
 func (s *FileUserStore) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
   for _, usr := range s.users {
     if usr.UserID == id {
-        return usr, nil
+        return usr.Clone(), nil
     }
   }
   return nil, user.ErrNotFound
@@ -61,15 +61,16 @@ func (s *FileUserStore) GetByID(ctx context.Context, id interface{}) (*user.User
 func (s *FileUserStore) GetByEmail(ctx context.Context, email string) (*user.User, error) {
 	for _, usr := range s.users {
 		if usr.Email == email {
-			return usr, nil
+			return usr.Clone(), nil
 		}
 	}
 	return nil, user.ErrNotFound
 }
+
 func (s *FileUserStore) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
 	for _, usr := range s.users {
 		if usr.Username == uname {
-			return usr, nil
+			return usr.Clone(), nil
 		}
 	}
 	return nil, user.ErrNotFound

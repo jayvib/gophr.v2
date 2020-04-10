@@ -114,6 +114,7 @@ func (v *ViewHandler) HandleLogin(c *gin.Context) {
   sess.UserID = usr.UserID
 
   // Save the session
+
   err = v.sessionService.Save(c.Request.Context(), sess)
   if err != nil {
     v.renderErrorTemplate(c, err)
@@ -165,11 +166,15 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
         "User": tmpUser,
       })
     }
+    golog.Debug("New Hashed password:", string(hash))
     usr.Password = string(hash)
     // ========================================================
   }
 
+
   usr.Email = email
+
+  golog.Debugf("Updating: %#v\n", usr)
 
   // Save to repository
   err := v.usrService.Update(c.Request.Context(), usr)
@@ -181,7 +186,7 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
   }
 
   // redirect to "/account"
-  c.Redirect(http.StatusTemporaryRedirect, "/account?flash=User+updated")
+  c.Redirect(http.StatusFound, "/account?flash=User+updated")
 }
 
 func (v *ViewHandler) renderErrorTemplate(c *gin.Context, err error) {

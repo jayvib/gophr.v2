@@ -60,6 +60,7 @@ func (s *Service) getAndComparePassword(ctx context.Context, username, password 
 	// compare the password
 	golog.Debug(username)
 	golog.Debug(password)
+	golog.Debugf("%#v\n", usr)
 	err = bcrypt.CompareHashAndPassword([]byte(usr.Password), []byte(password))
 	if err != nil {
 		golog.Debug(err)

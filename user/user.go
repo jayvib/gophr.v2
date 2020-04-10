@@ -22,6 +22,11 @@ type User struct {
 	DeletedAt *time.Time `json:"deletedAt,omitempty" sql:"index"`
 }
 
+func (u *User) Clone() *User {
+	cpy := *u
+	return &cpy
+}
+
 func GenerateID() string {
 	guid := xid.New()
 	return guid.String()
