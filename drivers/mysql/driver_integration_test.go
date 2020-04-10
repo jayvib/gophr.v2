@@ -1,6 +1,6 @@
 //+build integration,mysql
 
-package driver_test
+package mysql_test
 
 import (
   "github.com/jayvib/golog"
