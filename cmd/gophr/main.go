@@ -13,7 +13,7 @@ import (
   sessionfilerepo "gophr.v2/session/repository/file"
   sessionservice "gophr.v2/session/service"
   usermysql "gophr.v2/user/repository/mysql"
-  mysqldriver "gophr.v2/user/repository/mysql/driver"
+  mysqldriver "gophr.v2/driver/mysql"
 )
 
 var (
