@@ -18,7 +18,6 @@ RUN apk update && \
     apk add --no-cache openssh
 RUN set -ex && apk add --no-cache --virtual bash musl-dev openssl
 WORKDIR /home/gophr/
-ENV HOME /home/
 EXPOSE 8080
 COPY --from=builder /go/src/gophr/bin/gophr.engine /home/gophr/
 RUN chmod +x /home/gophr/gophr.engine

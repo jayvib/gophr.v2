@@ -20,7 +20,7 @@ up: build
 	docker-compose up -d
 
 down:
-	docker-compose down -d
+	docker-compose down
 
 ################UTILITY#################
 mod: ## To download the dependency of the app
