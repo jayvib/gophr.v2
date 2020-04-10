@@ -12,6 +12,7 @@ import (
 	"gophr.v2/user"
 	"gophr.v2/user/repository/mysql"
 	"gophr.v2/user/repository/mysql/driver"
+	"gophr.v2/user/userutil"
 	"gophr.v2/util/valueutil"
 	"log"
 	"os"
@@ -222,7 +223,7 @@ func deleteSaved(t *testing.T, id interface{}) {
 
 func getTimeCursor(t time.Time) string {
 	subTime := t.Add(-time.Second)
-	cursor := mysql.EncodeCursor(subTime)
+	cursor := userutil.EncodeCursor(subTime)
 	golog.Debugf("Cursor: %s\n", cursor)
 
 	// Get all

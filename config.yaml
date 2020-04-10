@@ -2,9 +2,9 @@
 
 mysql:
   database: gophr
-  user: root
+  user: user
   password: mypassword
-  host: 127.0.0.1
+  host: database
   port: 3306
 
 gophr:

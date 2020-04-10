@@ -14,13 +14,13 @@ build-api: mod
 	go build -o ./bin/${API_BIN} ./cmd/gophr/
 
 build:
-	docker build -t ${APPNAME} --file ./deployment/gophr/Dockerfile .
+	docker build -t ${APPNAME} .
 
 up: build
-	docker-compose -f  docker-compose.yaml up -d
+	docker-compose up -d
 
 down:
-	docker-compose -f  docker-compose.yaml down -d
+	docker-compose down
 
 ################UTILITY#################
 mod: ## To download the dependency of the app

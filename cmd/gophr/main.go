@@ -6,13 +6,14 @@ import (
   "github.com/jayvib/golog"
   "github.com/spf13/viper"
   "gophr.v2/config"
-  "gophr.v2/user/repository/file"
   "gophr.v2/user/service"
   "gophr.v2/view"
   "log"
 
   sessionfilerepo "gophr.v2/session/repository/file"
   sessionservice "gophr.v2/session/service"
+  usermysql "gophr.v2/user/repository/mysql"
+  mysqldriver "gophr.v2/user/repository/mysql/driver"
 )
 
 var (
@@ -27,7 +28,18 @@ func init() {
 }
 
 func main() {
-  userrepo := file.New("./db.json")
+  driver, err := mysqldriver.InitializeDriver(conf)
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer func() {
+    err = driver.Close()
+    if err != nil {
+      golog.Error(err)
+    }
+  }()
+
+	userrepo := usermysql.New(driver)
   usersvc := service.New(userrepo)
 
   sessionRepo := sessionfilerepo.New("./sessions.json")

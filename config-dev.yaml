@@ -2,12 +2,12 @@
 
 mysql:
   database: gophr
-  user: root
+  user: user
   password: mypassword
   host: 127.0.0.1
   port: 3306
 
 gophr:
   port: 8080
-  env: PROD
+  env: DEV
   debug: false
