@@ -25,13 +25,7 @@
         </div>
       </div>
     </nav>
-    {{ if .Flash }}
-    <div class="container">
-      <div class="alert alert-info">
-        {{ .Flash }}
-      </div>
-    </div>
-    {{ end }}
+    {{ template "other/flash" . }}
   {{ end }}
 </body>
 </html>

@@ -145,8 +145,7 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
     Username: usr.Username,
     Password: currentPassword,
   }
-  golog.Debug("New Password:", newPassword)
-  golog.Debug("Current Password:", currentPassword)
+
   if newPassword != "" {
     err := v.usrService.Login(c.Request.Context(), tmpUser)
     if err != nil {
@@ -166,15 +165,11 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
         "User": tmpUser,
       })
     }
-    golog.Debug("New Hashed password:", string(hash))
     usr.Password = string(hash)
     // ========================================================
   }
 
-
   usr.Email = email
-
-  golog.Debugf("Updating: %#v\n", usr)
 
   // Save to repository
   err := v.usrService.Update(c.Request.Context(), usr)
@@ -229,6 +224,7 @@ func (v *ViewHandler) EditUser(c *gin.Context) {
   usr := v.getUserFromCookie(c)
   v.renderTemplate(c, "users/edit", map[string]interface{}{
     "User": usr,
+    "CurrentUser": usr,
   })
 }
 
