@@ -11,6 +11,8 @@ services:
       - mysql
     volumes:
       - ./config.yaml:/home/config.yaml
+      - ./cmd/gophr/assets:/home/gophr/assets
+      - ./cmd/gophr/templates:/home/gophr/templates
     restart: always
   mysql:
     image: mysql:5.7
