@@ -26,6 +26,7 @@ CREATE TABLE images(
   `created_at` datetime DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL,
   `userId` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
+  `imageId` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `name` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `location` varchar(45) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(100) COLLATE utf8_unicode_ci NOT NULL,

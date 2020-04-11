@@ -9,6 +9,7 @@ type Image struct {
 	DeletedAt *time.Time `json:"deletedAt,omitempty" sql:"index"`
 
 	UserID      string `json:"userId,omitempty"`
+	ImageID     string `json:"imageId,omitempty"`
 	Name        string `json:"name,omitempty"`
 	Location    string `json:"location,omitempty"`
 	Size        int64  `json:"size,omitempty"`
