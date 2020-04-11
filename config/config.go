@@ -36,11 +36,19 @@ func New(env Env) (*Config, error) {
 			SetConfig(configName),
 			AddConfigPath("$HOME"),
 		)
+		initializeViper()
 	})
 	if err != nil {
 		return nil, err
 	}
 	return conf, nil
+}
+
+func initializeViper() {
+	viper.AutomaticEnv()
+	viper.BindEnv()
+	viper.SetEnvPrefix("gophr")
+	viper.SetDefault("port", "8080")
 }
 
 type Config struct {

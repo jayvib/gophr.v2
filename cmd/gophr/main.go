@@ -22,7 +22,6 @@ var (
 
 func init() {
   flag.Parse()
-  initializeViper()
   initializeConfig()
   initializeDebugging()
 }
@@ -80,8 +79,3 @@ func initializeDebugging() {
   }
 }
 
-func initializeViper() {
-  viper.AutomaticEnv()
-  viper.SetEnvPrefix("gophr")
-  viper.SetDefault("port", "8080")
-}
