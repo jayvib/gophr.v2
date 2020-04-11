@@ -22,7 +22,7 @@ up: build
 down:
 	docker-compose down
 
-################UTILITY#################
+################UTILITY##################
 mod: ## To download the dependency of the app
 	go mod download
 
