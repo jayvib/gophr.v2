@@ -22,6 +22,13 @@ up: build
 down:
 	docker-compose down
 
+###############TESTINGS##################
+up-test:
+	docker-compose -f docker-compose-integ.yaml up -d
+
+down-test:
+	docker-compose -f docker-compose-integ.yaml down
+
 ################UTILITY#################
 mod: ## To download the dependency of the app
 	go mod download

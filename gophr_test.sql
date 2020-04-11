@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `gophr`;
-USE `gophr`;
+CREATE DATABASE IF NOT EXISTS `gophr_test`;
+USE `gophr_test`;
 
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`(

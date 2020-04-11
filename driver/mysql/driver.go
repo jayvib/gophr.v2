@@ -21,7 +21,7 @@ func InitializeDriver(conf *config.Config) (*sql.DB, error) {
 		var e error
 		format := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
 			conf.MySQL.User, conf.MySQL.Password, conf.MySQL.Host, conf.MySQL.Port, conf.MySQL.Database)
-
+		golog.Info(format)
 		val := url.Values{}
 		val.Add("parseTime", "1")
 		val.Add("loc", "Asia/Manila")
