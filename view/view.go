@@ -33,11 +33,13 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
   r.GET("/login", h.LoginPage)
   r.GET("/account", h.EditUserPage)
   r.GET("/signout", h.SignOutPage)
+  r.GET("/images/new", h.UploadImagePage)
 
   // Controller handler
   r.POST("/signup", h.HandleSignUp)
   r.POST("/login", h.HandleLogin)
   r.POST("/account", h.HandleEditUser)
+  r.POST("/images/new", h.HandleImage)
 }
 
 func NewHandler(userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) *ViewHandler {
@@ -88,6 +90,8 @@ func (v *ViewHandler) HandleSignUp(c *gin.Context) {
 
   c.Redirect(http.StatusFound, "/?flash=User+created")
 }
+
+func (v *ViewHandler) HandleImage(c *gin.Context) {}
 
 func (v *ViewHandler) HandleLogin(c *gin.Context) {
   // Get the credentials
@@ -239,6 +243,10 @@ func (v *ViewHandler) SignOutPage(c *gin.Context) {
 
   // Render the signout template
   v.renderTemplate(c, "sessions/signout", nil)
+}
+
+func (v *ViewHandler) UploadImagePage(c *gin.Context) {
+  v.renderTemplate(c, "images/new", nil)
 }
 
 func (v *ViewHandler) UserEditPage(c *gin.Context) {}
