@@ -18,7 +18,7 @@ func (s *service) Save(ctx context.Context, image *image.Image) error {
 }
 
 func (s *service) Find(ctx context.Context, id string) (*image.Image, error) {
-	return nil, nil
+	return s.repo.Find(ctx, id)
 }
 
 func (s *service) FindAll(ctx context.Context, offset int) ([]*image.Image, error) {
