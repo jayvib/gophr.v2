@@ -8,6 +8,8 @@ import (
 	"gophr.v2/image"
 )
 
+const pageSize = 25
+
 func New(db *sql.DB) image.Repository {
 	return &repository{
 		conn: db,
@@ -78,7 +80,12 @@ func (r *repository) Find(ctx context.Context, id string) (*image.Image, error) 
 }
 
 func (r *repository) FindAll(ctx context.Context, offset int) ([]*image.Image, error) {
-	return nil, nil
+	query := `SELECT id, userId, imageId, name, location, description, size, created_at, updated_at, deleted_at 
+						FROM images
+						ORDER BY created_at DESC
+						LIMIT ?
+						OFFSET ?`
+	return r.doQuery(ctx, query, pageSize, offset)
 }
 
 func (r *repository) FindAllByUser(ctx context.Context, userId string, offset int) ([]*image.Image, error) {

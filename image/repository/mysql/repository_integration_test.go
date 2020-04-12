@@ -9,12 +9,12 @@ import (
 	"gophr.v2/driver/mysql"
 	"gophr.v2/image"
 	"gophr.v2/image/imageutil"
+	mysqlrepo "gophr.v2/image/repository/mysql"
 	"gophr.v2/user/userutil"
 	"gophr.v2/util/valueutil"
 	"os"
 	"testing"
 	"time"
-	mysqlrepo "gophr.v2/image/repository/mysql"
 )
 
 var db *sql.DB
@@ -33,6 +33,7 @@ func setup() {
 func TestMain(m *testing.M) {
 	setup()
 	code := m.Run()
+	deleteAllInDB()
 	err := db.Close()
 	if err != nil {
 		panic(err)
@@ -86,11 +87,71 @@ func TestRepository_Find(t *testing.T) {
 	})
 }
 
+func TestRepository_FindAll(t *testing.T) {
+	// Delete the existing contents
+	deleteAllInDB()
+	images := []*image.Image{
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "Luffy Monkey",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Pirate King from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "Roronoa Zoro",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Swordsman from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "Sanji Vinsmoke",
+			Location: "West Blue",
+			Size: 1024,
+			Description: "A Cook from West Blue",
+		},
+	}
+
+	repo := mysqlrepo.New(db)
+	storeImages(t, repo, images)
+
+	got, err := repo.FindAll(context.Background(), 0)
+	assert.NoError(t, err)
+	assert.Len(t, got, 3)
+}
+
+func storeImages(t *testing.T, repo image.Repository, images []*image.Image) {
+	for _, img := range images {
+		err := repo.Save(context.Background(), img)
+		require.NoError(t, err)
+	}
+}
+
+
+func deleteAllInDB() {
+	query := "DELETE FROM images"
+	_, err := db.Exec(query)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func assertSavedImage(t *testing.T, input *image.Image) {
 	query := "SELECT id, userId, imageId, name, location, description, size, created_at, updated_at, deleted_at FROM images WHERE id = ?"
 	row, err := db.QueryContext(context.Background(), query, input.ID)
 	require.NoError(t, err)
-	defer row.Close()
+	defer func() {
+		err = row.Close()
+		require.NoError(t, err)
+	}()
 	var img image.Image
 	for row.Next() {
 		err = row.Scan(&img.ID, &img.UserID, &img.ImageID, &img.Name, &img.Location, &img.Description, &img.Size, &img.CreatedAt, &img.UpdatedAt, &img.DeletedAt)
