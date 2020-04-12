@@ -1,4 +1,4 @@
-//+build integration,mysql
+//+build integration
 
 package mysql_test
 
@@ -11,7 +11,7 @@ import (
 	"gophr.v2/config"
 	"gophr.v2/user"
 	"gophr.v2/user/repository/mysql"
-	"gophr.v2/user/repository/mysql/driver"
+	mysqldriver "gophr.v2/driver/mysql"
 	"gophr.v2/user/userutil"
 	"gophr.v2/util/valueutil"
 	"log"
@@ -31,7 +31,7 @@ func setup() error {
 		return err
 	}
 
-	db, err = driver.InitializeDriver(conf)
+	db, err = mysqldriver.InitializeDriver(conf)
 	if err != nil {
 		return err
 	}

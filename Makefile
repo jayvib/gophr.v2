@@ -8,6 +8,9 @@ APPNAME=gophr
 unit-test:
 	@go test -tags=unit -covermode=atomic -short ./... | grep -v '^?'
 
+integration-test:
+	@go test -tags=integration -covermode=atomic -short ./... | grep -v '^?'
+
 build-api: mod
 	@echo "Building ${APPNAME}"
 	if [ ! -e ./bin ]; then mkdir ./bin; fi
