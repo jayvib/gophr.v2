@@ -75,7 +75,9 @@ func (r *repository) doSave(fn func(tx *sql.Tx) error) (err error) {
 }
 
 func (r *repository) Find(ctx context.Context, id string) (*image.Image, error) {
-	query := "SELECT id, userId, imageId, name, location, description, size, created_at, updated_at, deleted_at FROM images WHERE imageId = ?"
+	query := `SELECT id, userId, imageId, name, location, description, size, created_at, updated_at, deleted_at 
+						FROM images 
+						WHERE imageId = ?`
 	return r.doQuerySingleReturn(ctx, query, id)
 }
 
@@ -89,7 +91,13 @@ func (r *repository) FindAll(ctx context.Context, offset int) ([]*image.Image, e
 }
 
 func (r *repository) FindAllByUser(ctx context.Context, userId string, offset int) ([]*image.Image, error) {
-	return nil, nil
+	query := `SELECT id, userId, imageId, name, location, description, size, created_at, updated_at, deleted_at 
+						FROM images
+						WHERE userId = ?
+						ORDER BY created_at DESC
+						LIMIT ?
+						OFFSET ?`
+	return r.doQuery(ctx, query, userId, pageSize, offset)
 }
 
 func (r *repository) checkError(err error) error {

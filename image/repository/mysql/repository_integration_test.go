@@ -128,6 +128,44 @@ func TestRepository_FindAll(t *testing.T) {
 	assert.Len(t, got, 3)
 }
 
+func TestRepository_FindAllByUser(t *testing.T) {
+	userId := userutil.GenerateID()
+	images := []*image.Image{
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userId,
+			ImageID: imageutil.GenerateID(),
+			Name: "Luffy Monkey",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Pirate King from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userId,
+			ImageID: imageutil.GenerateID(),
+			Name: "Roronoa Zoro",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Swordsman from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "Sanji Vinsmoke",
+			Location: "West Blue",
+			Size: 1024,
+			Description: "A Cook from West Blue",
+		},
+	}
+	repo := mysqlrepo.New(db)
+	storeImages(t, repo, images)
+	got, err := repo.FindAllByUser(context.Background(), userId, 0)
+	assert.NoError(t, err)
+	assert.Len(t, got, 2)
+}
+
 func storeImages(t *testing.T, repo image.Repository, images []*image.Image) {
 	for _, img := range images {
 		err := repo.Save(context.Background(), img)
