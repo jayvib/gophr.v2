@@ -47,3 +47,100 @@ func TestService_Find(t *testing.T) {
 		assert.Equal(t, image.ErrNotFound, err)
 	})
 }
+
+func TestService_Save(t *testing.T) {
+	want := &image.Image{
+		UserID: userutil.GenerateID(),
+		Name: "Luffy Monkey",
+		Location: "East Blue",
+		Size: 1024,
+		Description: "A Pirate King from East Blue",
+	}
+	repo := new(mocks.Repository)
+	repo.On("Save", mock.Anything, mock.AnythingOfType("*image.Image")).Return(nil).Once()
+	svc := New(repo)
+	err := svc.Save(dummyContext, want)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, want.ImageID)
+	assert.NotEmpty(t, want.CreatedAt)
+	repo.AssertExpectations(t)
+}
+
+func TestService_FindAll(t *testing.T) {
+	images := []*image.Image{
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "Luffy Monkey",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Pirate King from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "Roronoa Zoro",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Swordsman from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "Sanji Vinsmoke",
+			Location: "West Blue",
+			Size: 1024,
+			Description: "A Cook from West Blue",
+		},
+	}
+	repo := new(mocks.Repository)
+	repo.On("FindAll", mock.Anything, mock.AnythingOfType("int")).Return(images, nil).Once()
+	svc := New(repo)
+	got, err := svc.FindAll(dummyContext, 0)
+	assert.NoError(t, err)
+	assert.Len(t, got, 3)
+	repo.AssertExpectations(t)
+}
+
+func TestService_FindAllByUser(t *testing.T) {
+	userId := userutil.GenerateID()
+	images := []*image.Image{
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userId,
+			ImageID: imageutil.GenerateID(),
+			Name: "Luffy Monkey",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Pirate King from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userId,
+			ImageID: imageutil.GenerateID(),
+			Name: "Roronoa Zoro",
+			Location: "East Blue",
+			Size: 1024,
+			Description: "A Swordsman from East Blue",
+		},
+		{
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UserID: userId,
+			ImageID: imageutil.GenerateID(),
+			Name: "Sanji Vinsmoke",
+			Location: "West Blue",
+			Size: 1024,
+			Description: "A Cook from West Blue",
+		},
+	}
+	repo := new(mocks.Repository)
+	repo.On("FindAllByUser", mock.Anything, mock.AnythingOfType("string"), mock.AnythingOfType("int")).Return(images, nil).Once()
+	svc := New(repo)
+	got, err := svc.FindAllByUser(dummyContext, userId, 0)
+	assert.NoError(t, err)
+	assert.Len(t, got, 3)
+	repo.AssertExpectations(t)
+}
