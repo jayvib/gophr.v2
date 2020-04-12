@@ -2,6 +2,12 @@ package image
 
 import "time"
 
+var MimeExtensions = map[string]string{
+	"image/png": ".png",
+	"image/jpeg": ".jpg",
+	"image/gif": ".gif",
+}
+
 type Image struct {
 	ID        uint       `json:"id,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
@@ -15,3 +21,4 @@ type Image struct {
 	Size        int64  `json:"size,omitempty"`
 	Description string `json:"description,omitempty"`
 }
+

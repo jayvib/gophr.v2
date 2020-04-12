@@ -39,7 +39,7 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
   r.POST("/signup", h.HandleSignUp)
   r.POST("/login", h.HandleLogin)
   r.POST("/account", h.HandleEditUser)
-  r.POST("/images/new", h.HandleImage)
+  r.POST("/images/new", h.HandleImageUpload)
 }
 
 func NewHandler(userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) *ViewHandler {
@@ -91,7 +91,27 @@ func (v *ViewHandler) HandleSignUp(c *gin.Context) {
   c.Redirect(http.StatusFound, "/?flash=User+created")
 }
 
-func (v *ViewHandler) HandleImage(c *gin.Context) {}
+func (v *ViewHandler) HandleImageUpload(c *gin.Context) {
+  switch {
+  case c.PostForm("url") != "":
+    v.createImageFromURL(c)
+  default:
+    v.createImageFromFile(c)
+  }
+}
+
+func (v *ViewHandler) createImageFromURL(c *gin.Context) {
+	// Get the user from the session
+	//usr := v.getUserFromCookie(c)
+	//img := &image.Image{ UserID: usr.UserID }
+
+	// Create an image object
+
+
+}
+
+func (v *ViewHandler) createImageFromFile(c *gin.Context) {
+}
 
 func (v *ViewHandler) HandleLogin(c *gin.Context) {
   // Get the credentials
