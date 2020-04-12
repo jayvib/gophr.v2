@@ -213,7 +213,7 @@ func TestService_Login(t *testing.T) {
     err := svc.Register(context.Background(), clonedUsr)
     require.NoError(t, err)
 
-    // Login
+    // LoginPage
     err = svc.Login(context.Background(), usr)
     assert.NoError(t, err)
     repo.AssertExpectations(t)
@@ -242,7 +242,7 @@ func TestService_Login(t *testing.T) {
     err := svc.Register(context.Background(), clonedUsr)
     assert.NoError(t, err)
 
-    // Login
+    // LoginPage
     err = svc.Login(context.Background(), usr)
     require.Error(t, err)
 

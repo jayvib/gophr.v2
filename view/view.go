@@ -29,10 +29,10 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
 
   // View handlers
   r.GET("/", h.HomePage)
-  r.GET("/signup", h.Signup)
-  r.GET("/login", h.Login)
-  r.GET("/account", h.EditUser)
-  r.GET("/signout", h.SignOut)
+  r.GET("/signup", h.SignupPage)
+  r.GET("/login", h.LoginPage)
+  r.GET("/account", h.EditUserPage)
+  r.GET("/signout", h.SignOutPage)
 
   // Controller handler
   r.POST("/signup", h.HandleSignUp)
@@ -209,18 +209,18 @@ func (v *ViewHandler) HomePage(c *gin.Context) {
 
 // ###################VIEW####################
 
-func (v *ViewHandler) Signup(c *gin.Context) {
+func (v *ViewHandler) SignupPage(c *gin.Context) {
   v.renderTemplate(c, "users/signup", nil)
 }
 
-func (v *ViewHandler) Login(c *gin.Context) {
+func (v *ViewHandler) LoginPage(c *gin.Context) {
   next := c.Query("next")
   v.renderTemplate(c, "sessions/login",  map[string]interface{}{
     "Next": next,
   })
 }
 
-func (v *ViewHandler) EditUser(c *gin.Context) {
+func (v *ViewHandler) EditUserPage(c *gin.Context) {
   usr := v.getUserFromCookie(c)
   v.renderTemplate(c, "users/edit", map[string]interface{}{
     "User": usr,
@@ -228,7 +228,7 @@ func (v *ViewHandler) EditUser(c *gin.Context) {
   })
 }
 
-func (v *ViewHandler) SignOut(c *gin.Context) {
+func (v *ViewHandler) SignOutPage(c *gin.Context) {
   // Get session
   sess := v.getSessionFromRequest(c)
 

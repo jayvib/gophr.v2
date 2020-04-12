@@ -124,7 +124,7 @@ func (_m *Service) GetByUsername(ctx context.Context, uname string) (*user.User,
 	return r0, r1
 }
 
-// Login provides a mock function with given fields: ctx, _a1
+// LoginPage provides a mock function with given fields: ctx, _a1
 func (_m *Service) Login(ctx context.Context, _a1 *user.User) error {
 	ret := _m.Called(ctx, _a1)
 
