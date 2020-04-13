@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"github.com/spf13/afero"
 	"gophr.v2/image"
-	"gophr.v2/image/file"
 	"gophr.v2/image/imageutil"
 	"gophr.v2/util/valueutil"
 	"io"
 	"mime"
 	"net/http"
+	"path"
 	"path/filepath"
 	"time"
 )
@@ -112,6 +112,38 @@ func (s *service) CreateImageFromURL(ctx context.Context, imageUrl string, userI
 	return img, nil
 }
 
-func (s *service) CreateImageFromFile(ctx context.Context, f file.File, metadata *file.Metadata) (*image.Image, error) {
-	return nil, nil
+func (s *service) CreateImageFromFile(ctx context.Context, r io.Reader, filename , description, userId string) (*image.Image, error) {
+	imageName := filename
+	imageId := imageutil.GenerateID()
+	imageDescription := description
+	imageLocation := filepath.Join(imageId, path.Ext(imageName))
+
+	savedFile, err := s.fs.Create(filepath.Join("./data/images/", imageLocation))
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		_ = savedFile.Close()
+	}()
+
+	size, err := io.Copy(savedFile, r)
+	if err != nil {
+		return nil, err
+	}
+
+	img := &image.Image{
+		ImageID: imageId,
+		UserID: userId,
+		Name: imageName,
+		Location: imageLocation,
+		Description: imageDescription,
+		Size: size,
+	}
+
+	err = s.Save(ctx, img)
+	if err != nil {
+		return nil, err
+	}
+
+	return img, nil
 }

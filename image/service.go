@@ -2,7 +2,7 @@ package image
 
 import (
 	"context"
-	"gophr.v2/image/file"
+	"io"
 )
 
 //go:generate mockery --name=Service
@@ -13,5 +13,5 @@ type Service interface {
 	FindAll(ctx context.Context, offset int) ([]*Image, error)
 	FindAllByUser(ctx context.Context, userId string, offset int) ([]*Image, error)
 	CreateImageFromURL(ctx context.Context, url, userId, description string) (*Image, error)
-	CreateImageFromFile(ctx context.Context, f file.File, meta *file.Metadata) (*Image, error)
+	CreateImageFromFile(ctx context.Context, r io.Reader, filename, description, userId string) (*Image, error)
 }

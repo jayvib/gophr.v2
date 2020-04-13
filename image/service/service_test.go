@@ -20,6 +20,7 @@ import (
 	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strings"
 	"testing"
@@ -175,7 +176,7 @@ func TestService_CreateImageFromURL(t *testing.T) {
 		dummyDescription := "A Unit Testing"
 		got, err := svc.CreateImageFromURL(dummyContext, "http://127.0.0.1/image.png", dummyUserID, dummyDescription)
 		assert.NoError(t, err)
-		assertImage(t, got, dummyImage, "image.png", ".png", dummyUserID, dummyDescription)
+		assertImage(t, got, int64(len(dummyImage)), "image.png", ".png", dummyUserID, dummyDescription)
 		assertImageContent(err, dummyFs, got, t, dummyImage)
 		repo.AssertExpectations(t)
 	})
@@ -209,6 +210,23 @@ func TestService_CreateImageFromURL(t *testing.T) {
 	})
 }
 
+func TestService_CreateImageFromFile(t *testing.T) {
+	stat, err := os.Stat("./testdata/simple.png")
+	require.NoError(t, err)
+	f, err := os.Open("./testdata/simple.png")
+	require.NoError(t, err)
+	defer f.Close()
+
+	dummyFs := afero.NewMemMapFs()
+	repo := new(mocks.Repository)
+	repo.On("Save", mock.Anything, mock.AnythingOfType("*image.Image")).Return(nil).Once()
+	svc := New( repo, dummyFs, nil)
+	got, err := svc.CreateImageFromFile(dummyContext, f, "simple.png", "A Unit Test", "user12345")
+	assert.NoError(t, err)
+	assertImage(t, got, stat.Size(), "simple.png", ".png", "user12345", "A Unit Test")
+	repo.AssertExpectations(t)
+}
+
 func setupServerAndClient(t *testing.T) ([]byte, *http.Client, func()) {
 	dummyImage, err := ioutil.ReadFile("./testdata/simple.png")
 	require.NoError(t, err)
@@ -235,13 +253,13 @@ func assertImageContent(err error, dummyFs afero.Fs, got *image.Image, t *testin
 	assert.True(t, bytes.Equal(dummyImage, gotContent))
 }
 
-func assertImage(t *testing.T, got *image.Image, dummyImage []byte, name, ext, userId, desc string) {
+func assertImage(t *testing.T, got *image.Image, size int64, name, ext, userId, desc string) {
 	assert.Equal(t, name, got.Name)
 	assert.True(t, strings.HasSuffix(got.Location, ext))
 	assert.Equal(t, userId, got.UserID)
 	assert.NotEmpty(t, got.ImageID)
 	assert.NotEmpty(t, got.CreatedAt)
 	assert.Equal(t, got.Description, desc)
-	assert.Equal(t, len(dummyImage), int(got.Size))
+	assert.Equal(t, size, got.Size)
 }
 

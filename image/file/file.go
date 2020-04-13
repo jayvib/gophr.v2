@@ -11,4 +11,5 @@ type File interface {
 
 type Metadata struct {
 	Filename string
+	Description string
 }
