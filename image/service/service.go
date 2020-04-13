@@ -82,29 +82,15 @@ func (s *service) CreateImageFromURL(ctx context.Context, imageUrl string, userI
 	imageID := imageutil.GenerateID()
 	imageLocation := fmt.Sprintf("%s%s", imageID, ext)
 
-	savedFile, err := s.fs.Create(filepath.Join("./data/images/", imageLocation))
-	if err != nil {
-		return nil, err
-	}
-	defer func() {
-		_ = savedFile.Close()
-	}()
-
-	size, err := io.Copy(savedFile, resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	img := &image.Image{
 		ImageID: imageID,
 		UserID: userId,
 		Name: imageName,
 		Location: imageLocation,
 		Description: description,
-		Size: size,
 	}
 
-	err = s.Save(ctx, img)
+	err = s.createImageFromFile(ctx, resp.Body, img, imageLocation)
 	if err != nil {
 		return nil, err
 	}
@@ -113,14 +99,29 @@ func (s *service) CreateImageFromURL(ctx context.Context, imageUrl string, userI
 }
 
 func (s *service) CreateImageFromFile(ctx context.Context, r io.Reader, filename , description, userId string) (*image.Image, error) {
-	imageName := filename
 	imageId := imageutil.GenerateID()
-	imageDescription := description
-	imageLocation := filepath.Join(imageId, path.Ext(imageName))
+	imageLocation := filepath.Join(imageId, path.Ext(filename))
 
-	savedFile, err := s.fs.Create(filepath.Join("./data/images/", imageLocation))
+	img := &image.Image{
+		ImageID: imageId,
+		UserID: userId,
+		Name: filename,
+		Location: imageLocation,
+		Description: description,
+	}
+
+	err := s.createImageFromFile(ctx, r, img, imageLocation)
 	if err != nil {
 		return nil, err
+	}
+
+	return img, nil
+}
+
+func (s *service) createImageFromFile(ctx context.Context, r io.Reader, img *image.Image, imageLocation string) error {
+	savedFile, err := s.fs.Create(filepath.Join("./data/images/", imageLocation))
+	if err != nil {
+		return err
 	}
 	defer func() {
 		_ = savedFile.Close()
@@ -128,22 +129,14 @@ func (s *service) CreateImageFromFile(ctx context.Context, r io.Reader, filename
 
 	size, err := io.Copy(savedFile, r)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	img := &image.Image{
-		ImageID: imageId,
-		UserID: userId,
-		Name: imageName,
-		Location: imageLocation,
-		Description: imageDescription,
-		Size: size,
-	}
+	img.Size = size
 
 	err = s.Save(ctx, img)
 	if err != nil {
-		return nil, err
+		return err
 	}
-
-	return img, nil
+	return nil
 }
