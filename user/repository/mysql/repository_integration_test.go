@@ -8,6 +8,7 @@ import (
 	"flag"
 	"github.com/jayvib/golog"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"gophr.v2/config"
 	"gophr.v2/user"
 	"gophr.v2/user/repository/mysql"
@@ -40,6 +41,14 @@ func setup() error {
 	return nil
 }
 
+func teardown() {
+	query := "DELETE FROM gophr_test.user"
+	_, err := db.Exec(query)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func TestMain(t *testing.M) {
 	flag.Parse()
 	if *debug {
@@ -49,6 +58,7 @@ func TestMain(t *testing.M) {
 		log.Fatal(err)
 	}
 	code := t.Run()
+	teardown()
 	if err := db.Close(); err != nil {
 		log.Fatal(err)
 	}
@@ -56,16 +66,18 @@ func TestMain(t *testing.M) {
 }
 
 func TestRepository_GetByEmail(t *testing.T) {
-
+	defer teardown()
 	t.Run("found", func(t *testing.T) {
 		email := "luffy.monkey@gmail.com"
 		want := &user.User{
-			ID:       1,
 			UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
 			Username: "luffy.monkey",
 			Email:    "luffy.monkey@gmail.com",
 			Password: "secretpass",
 		}
+
+		err := repo.Save(context.Background(), want)
+		require.NoError(t, err)
 
 		got, err := repo.GetByEmail(context.Background(), email)
 		assert.NoError(t, err)
@@ -80,6 +92,7 @@ func TestRepository_GetByEmail(t *testing.T) {
 }
 
 func TestRepository_GetByID(t *testing.T) {
+	defer teardown()
 	want := &user.User{
 		ID:       1,
 		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
@@ -88,12 +101,16 @@ func TestRepository_GetByID(t *testing.T) {
 		Password: "secretpass",
 	}
 
-	got, err := repo.GetByID(context.Background(), 1)
+	err := repo.Save(context.Background(), want)
+	require.NoError(t, err)
+
+	got, err := repo.GetByID(context.Background(), want.ID)
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
 }
 
 func TestRepository_GetByUsername(t *testing.T) {
+	defer teardown()
 	want := &user.User{
 		ID:       1,
 		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
@@ -101,6 +118,9 @@ func TestRepository_GetByUsername(t *testing.T) {
 		Email:    "luffy.monkey@gmail.com",
 		Password: "secretpass",
 	}
+
+	err := repo.Save(context.Background(), want)
+	require.NoError(t, err)
 
 	got, err := repo.GetByUsername(context.Background(), "luffy.monkey")
 	assert.NoError(t, err)
@@ -108,6 +128,8 @@ func TestRepository_GetByUsername(t *testing.T) {
 }
 
 func TestRepository_Update(t *testing.T) {
+	defer teardown()
+
 	input := &user.User{
 		UserID:   "abc123defe34f334df232dsdfweffewe2fecswf",
 		Username: "luffy.monkey",
@@ -115,8 +137,8 @@ func TestRepository_Update(t *testing.T) {
 		Password: "secretpass",
 	}
 
-	teardown := setupUpdate(t, input)
-	defer teardown()
+	err := repo.Save(context.Background(), input)
+	require.NoError(t, err)
 
 	want := &user.User{
 		ID:       input.ID,
@@ -129,7 +151,7 @@ func TestRepository_Update(t *testing.T) {
 	// For update
 	input.Email = "luffy.monkeys@gmail.com"
 
-	err := repo.Update(context.Background(), input)
+	err = repo.Update(context.Background(), input)
 	assert.NoError(t, err)
 
 	assertUpdate(t, want, input.ID)
@@ -141,13 +163,9 @@ func TestRepository_Delete(t *testing.T) {
 		Username: "sanji.vinsmoke",
 		Email:    "sanji.vinsmoke@gmail.com",
 		Password: "secretpass",
-
-		// NOTE: Remove the time-based field value
-		// because it create problem during asserting values
 	}
 
 	setupDelete(t, want)
-
 	err := repo.Delete(context.Background(), want.ID)
 	assert.NoError(t, err)
 
@@ -161,9 +179,6 @@ func TestRepository_Save(t *testing.T) {
 		Username: "sanji.vinsmoke",
 		Email:    "sanji.vinsmoke@gmail.com",
 		Password: "secretpass",
-
-		// NOTE: Remove the time-based field value
-		// because it create problem during asserting values
 	}
 
 	err := repo.Save(context.Background(), want)
@@ -265,16 +280,6 @@ func assertUpdate(t *testing.T, want *user.User, id interface{}) {
 	got, err := repo.GetByID(context.Background(), id)
 	assert.NoError(t, err)
 	assert.Equal(t, want, got)
-}
-
-func setupUpdate(t *testing.T, input *user.User) (teardown func()) {
-	t.Helper()
-	err := repo.Save(context.Background(), input)
-	assert.NoError(t, err)
-	return func() {
-		err = repo.Delete(context.Background(), input.ID)
-		assert.NoError(t, err)
-	}
 }
 
 func assertDelete(t *testing.T, id interface{}) {

@@ -16,6 +16,10 @@ import (
 )
 
 func New(repo image.Repository, fs afero.Fs, client *http.Client) image.Service {
+	if client == nil {
+		client = http.DefaultClient
+	}
+
 	return &service{
 		repo: repo,
 		client: client,

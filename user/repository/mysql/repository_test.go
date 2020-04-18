@@ -125,9 +125,9 @@ func TestRepository_GetByID(t *testing.T) {
 		mockUser.DeletedAt,
 	)
 
-	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE id = ?"
+	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE userId = ?"
 	mock.ExpectQuery(query).WillReturnRows(rows)
-	u, err := repo.GetByID(defaultCtx, mockUser.ID)
+	u, err := repo.GetByID(defaultCtx, mockUser.UserID)
 	checkErr(t, err)
 	assert.Equal(t, mockUser, u)
 }

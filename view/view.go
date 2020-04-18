@@ -5,6 +5,7 @@ import (
   "github.com/gin-gonic/gin"
   "github.com/jayvib/golog"
   "golang.org/x/crypto/bcrypt"
+  "gophr.v2/image"
   "gophr.v2/session"
   "gophr.v2/session/sessionutil"
   "gophr.v2/user"
@@ -21,8 +22,8 @@ var funcs = template.FuncMap{
   },
 }
 
-func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) {
-  h := NewHandler(userService, sessionService, templatesGlob, layoutPath)
+func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath string) {
+  h := NewHandler(userService, sessionService, imageService, templatesGlob, layoutPath)
 
   // Asset handler
   r.StaticFS("/assets", http.Dir("assets/"))
@@ -42,10 +43,11 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
   r.POST("/images/new", h.HandleImageUpload)
 }
 
-func NewHandler(userService user.Service, sessionService session.Service, templatesGlob, layoutPath string) *ViewHandler {
+func NewHandler(userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath string) *ViewHandler {
   return &ViewHandler{
     usrService: userService,
     sessionService: sessionService,
+    imageService: imageService,
     templs: template.Must(template.ParseGlob(templatesGlob)),
     layout: template.Must(template.New("layout.html").
       Funcs(funcs).ParseFiles(layoutPath)),
@@ -57,6 +59,7 @@ type ViewHandler struct {
   layout *template.Template
   usrService user.Service
   sessionService session.Service
+  imageService image.Service
 }
 
 // #################CONTROLLERS################
@@ -102,15 +105,54 @@ func (v *ViewHandler) HandleImageUpload(c *gin.Context) {
 
 func (v *ViewHandler) createImageFromURL(c *gin.Context) {
 	// Get the user from the session
-	//usr := v.getUserFromCookie(c)
-	//img := &image.Image{ UserID: usr.UserID }
+	usr := v.getUserFromCookie(c)
+  url := c.PostForm("url")
+  desc := c.PostForm("description")
 
 	// Create an image object
-
-
+  img, err := v.imageService.CreateImageFromURL(c.Request.Context(), url, usr.UserID, desc)
+  if err != nil {
+    v.renderTemplate(c, "images/new", map[string]interface{}{
+      "Error": err,
+      "ImageURL": url,
+      "Image": img,
+    })
+    return
+  }
+  c.Redirect(http.StatusOK, "/?flash=Image+Uploaded+Successfully")
 }
 
 func (v *ViewHandler) createImageFromFile(c *gin.Context) {
+  usr := v.getUserFromCookie(c)
+  desc := c.PostForm("description")
+  formFile, err := c.FormFile("file")
+  if err != nil {
+    v.renderTemplate(c, "images/new", map[string]interface{}{
+      "Error": err,
+    })
+    return
+  }
+  f, err := formFile.Open()
+  if err != nil {
+    v.renderTemplate(c, "images/new", map[string]interface{}{
+      "Error": err,
+    })
+    return
+  }
+  defer func() {
+    _ = f.Close()
+  }()
+
+  golog.Debug(f, formFile, desc, usr)
+  img, err := v.imageService.CreateImageFromFile(c.Request.Context(), f, formFile.Filename, desc, usr.UserID)
+  if err != nil {
+    v.renderTemplate(c, "images/new", map[string]interface{}{
+      "Error": err,
+      "Image": img,
+    })
+    return
+  }
+  c.Redirect(http.StatusOK, "/?flash=Image+Uploaded+Successfully")
 }
 
 func (v *ViewHandler) HandleLogin(c *gin.Context) {
@@ -319,6 +361,7 @@ func (v *ViewHandler) getUserFromCookie(c *gin.Context) *user.User {
     return nil
   }
 
+  golog.Debug(sess.UserID)
   usr, err := v.usrService.GetByID(c.Request.Context(), sess.UserID)
   if err != nil {
     golog.Debug("while getting user by ID:", err)
