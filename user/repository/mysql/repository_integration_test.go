@@ -109,6 +109,23 @@ func TestRepository_GetByID(t *testing.T) {
 	assert.Equal(t, want, got)
 }
 
+func TestRepository_GetByUserID(t *testing.T) {
+	defer teardown()
+	want := &user.User{
+		UserID:   userutil.GenerateID(),
+		Username: "luffy.monkey",
+		Email:    "luffy.monkey@gmail.com",
+		Password: "secretpass",
+	}
+
+	err := repo.Save(context.Background(), want)
+	require.NoError(t, err)
+
+	got, err := repo.GetByID(context.Background(), want.ID)
+	assert.NoError(t, err)
+	assert.Equal(t, want, got)
+}
+
 func TestRepository_GetByUsername(t *testing.T) {
 	defer teardown()
 	want := &user.User{

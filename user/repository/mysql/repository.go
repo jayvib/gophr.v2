@@ -21,6 +21,11 @@ type Repository struct {
 	conn *sql.DB
 }
 
+func (r *Repository) GetByUserID(ctx context.Context, userID string) (u *user.User, err error) {
+	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE userId = ?"
+	return r.doQuerySingleReturn(ctx, query, userID)
+}
+
 func (r *Repository) GetByID(ctx context.Context, id interface{}) (u *user.User, err error) {
 	query := "SELECT id,userId,username,email,password,created_at,updated_at,deleted_at FROM user WHERE id = ?"
 	return r.doQuerySingleReturn(ctx, query, id)
