@@ -3,22 +3,47 @@
 package service
 
 import (
-  "context"
-  "errors"
-  "github.com/jayvib/golog"
-  "github.com/stretchr/testify/require"
-  "gophr.v2/user/userutil"
-  "gophr.v2/util/valueutil"
-  "testing"
-  "time"
+	"context"
+	"errors"
+	"github.com/stretchr/testify/require"
+	"gophr.v2/user/userutil"
+	"gophr.v2/util/valueutil"
+	"testing"
+	"time"
 
-  "github.com/stretchr/testify/assert"
-  "github.com/stretchr/testify/mock"
-  "gophr.v2/user"
-  "gophr.v2/user/mocks"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+	"gophr.v2/user"
+	"gophr.v2/user/mocks"
 )
 
 func TestService_GetByID(t *testing.T) {
+	t.Run("Existing user id should return the user information", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		want := &user.User{
+			ID:       12345,
+			UserID: userutil.GenerateID(),
+			Username: "luffy.monkey",
+			Email:    "luffy.monkey@gmail.com",
+		}
+		repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(want, nil)
+		svc := New(repo)
+		got, _ := svc.GetByID(context.Background(), want.ID)
+		assert.Equal(t, want, got)
+	})
+
+	t.Run("Not existing user should return a ErrNotFound error", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		want := user.ErrNotFound
+		repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrNotFound)
+		svc := New(repo)
+		_, got := svc.GetByID(context.Background(), uint(9999))
+	  require.IsType(t, new(user.Error), got)
+		assert.Equal(t, want, errors.Unwrap(got))
+	})
+}
+
+func TestService_GetByUserID(t *testing.T) {
 	t.Run("Existing user id should return the user information", func(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := &user.User{
@@ -38,8 +63,8 @@ func TestService_GetByID(t *testing.T) {
 		want := user.ErrNotFound
 		repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
-		_, got := svc.GetByID(context.Background(), "n12341afal;ief")
-	  require.IsType(t, new(user.Error), got)
+		_, got := svc.GetByID(context.Background(), "")
+		require.IsType(t, new(user.Error), got)
 		assert.Equal(t, want, errors.Unwrap(got))
 	})
 }
@@ -195,7 +220,6 @@ func TestService_Register(t *testing.T) {
 
 func TestService_Login(t *testing.T) {
   t.Run("Valid Credential", func(t *testing.T){
-    golog.SetLevel(golog.DebugLevel)
     // Simulate registration
     usr := &user.User{
       Email: "luffy.monkey@gmail.com",
@@ -220,7 +244,6 @@ func TestService_Login(t *testing.T) {
   })
 
   t.Run("Invalid Credential", func(t *testing.T){
-    golog.SetLevel(golog.DebugLevel)
     // Simulate registration
     usr := &user.User{
       Email: "luffy.monkey@gmail.com",
