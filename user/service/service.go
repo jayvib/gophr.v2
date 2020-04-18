@@ -28,6 +28,14 @@ func (s *Service) GetByID(ctx context.Context, id interface{}) (*user.User, erro
 	return usr, nil
 }
 
+func (s *Service) GetByUserID(ctx context.Context, userId string) (*user.User, error) {
+	usr, err := s.repo.GetByUserID(ctx, userId)
+	if err != nil {
+		return nil, user.NewError(err).AddContext("User ID", userId)
+	}
+	return usr, nil
+}
+
 func (s *Service) GetByEmail(ctx context.Context, email string) (*user.User, error) {
 	usr, err := s.repo.GetByEmail(ctx, email)
 	if err != nil {
