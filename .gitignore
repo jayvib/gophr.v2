@@ -2,7 +2,6 @@ bin/
 .idea/
 
 *.swp
-*.xml
 *.exe
 *.engine
 *.json

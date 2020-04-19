@@ -25,8 +25,7 @@ var (
 
 func init() {
 	flag.Parse()
-	initializeViper()
-	initializeConfig()
+	conf = config.Load()
 	initializeDebugging()
 }
 
@@ -60,32 +59,6 @@ func main() {
 	if err := r.Run(":8080"); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func initializeConfig() {
-	var err error
-	var env config.Env
-	switch viper.Get("env") {
-	case "DEV":
-		env = config.DevelopmentEnv
-	case "STAGE":
-		env = config.StageEnv
-	case "PROD":
-		gin.SetMode(gin.ReleaseMode)
-		env = config.ProdEnv
-	}
-	golog.Info(env)
-	conf, err = config.New(env)
-	if err != nil {
-		log.Fatal(err)
-	}
-}
-
-func initializeViper() {
-	viper.AutomaticEnv()
-	viper.BindEnv()
-	viper.SetEnvPrefix("gophr")
-	viper.SetDefault("port", "8080")
 }
 
 func initializeDebugging() {
