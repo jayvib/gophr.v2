@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  database:
+    image: mysql:5.7
+    container_name: database
+    command: mysqld --user=root
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./gophr.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_DATABASE=gophr
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=mypassword
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+
