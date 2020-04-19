@@ -30,15 +30,15 @@ import (
 var dummyContext = context.Background()
 
 func TestService_Find(t *testing.T) {
-	t.Run("Image Found", func(t *testing.T){
+	t.Run("Image Found", func(t *testing.T) {
 		want := &image.Image{
-			ID: 1,
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			Name: "Luffy Monkey",
-			Location: "East Blue",
-			Size: 1024,
+			ID:          1,
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			Name:        "Luffy Monkey",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Pirate King from East Blue",
 		}
 
@@ -51,7 +51,7 @@ func TestService_Find(t *testing.T) {
 		assert.Equal(t, want, got)
 	})
 
-	t.Run("Image Not Found", func(t *testing.T){
+	t.Run("Image Not Found", func(t *testing.T) {
 		repo := new(mocks.Repository)
 		repo.On("Find", mock.Anything, mock.AnythingOfType("string")).Return(nil, image.ErrNotFound).Once()
 
@@ -64,10 +64,10 @@ func TestService_Find(t *testing.T) {
 
 func TestService_Save(t *testing.T) {
 	want := &image.Image{
-		UserID: userutil.GenerateID(),
-		Name: "Luffy Monkey",
-		Location: "East Blue",
-		Size: 1024,
+		UserID:      userutil.GenerateID(),
+		Name:        "Luffy Monkey",
+		Location:    "East Blue",
+		Size:        1024,
 		Description: "A Pirate King from East Blue",
 	}
 	repo := new(mocks.Repository)
@@ -83,30 +83,30 @@ func TestService_Save(t *testing.T) {
 func TestService_FindAll(t *testing.T) {
 	images := []*image.Image{
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Luffy Monkey",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Luffy Monkey",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Pirate King from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Roronoa Zoro",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Roronoa Zoro",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Swordsman from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Sanji Vinsmoke",
-			Location: "West Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Sanji Vinsmoke",
+			Location:    "West Blue",
+			Size:        1024,
 			Description: "A Cook from West Blue",
 		},
 	}
@@ -123,30 +123,30 @@ func TestService_FindAllByUser(t *testing.T) {
 	userId := userutil.GenerateID()
 	images := []*image.Image{
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userId,
-			ImageID: imageutil.GenerateID(),
-			Name: "Luffy Monkey",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userId,
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Luffy Monkey",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Pirate King from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userId,
-			ImageID: imageutil.GenerateID(),
-			Name: "Roronoa Zoro",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userId,
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Roronoa Zoro",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Swordsman from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userId,
-			ImageID: imageutil.GenerateID(),
-			Name: "Sanji Vinsmoke",
-			Location: "West Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userId,
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Sanji Vinsmoke",
+			Location:    "West Blue",
+			Size:        1024,
 			Description: "A Cook from West Blue",
 		},
 	}
@@ -181,7 +181,7 @@ func TestService_CreateImageFromURL(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 
-	t.Run("Error while Doing Client Request", func(t *testing.T){
+	t.Run("Error while Doing Client Request", func(t *testing.T) {
 		url := "127.0.0.1:12345/testingerror"
 		svc := New(nil, nil, client)
 		_, err := svc.CreateImageFromURL(dummyContext, url, "user123", "testing the client request error")
@@ -189,9 +189,9 @@ func TestService_CreateImageFromURL(t *testing.T) {
 		assert.Equal(t, image.ErrInvalidImageURL, err)
 	})
 
-	t.Run("Failed Request To Remote", func(t *testing.T){
+	t.Run("Failed Request To Remote", func(t *testing.T) {
 		mux := http.NewServeMux()
-		mux.HandleFunc("/image.png", func(w http.ResponseWriter, r *http.Request){
+		mux.HandleFunc("/image.png", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 		})
 
@@ -205,7 +205,7 @@ func TestService_CreateImageFromURL(t *testing.T) {
 		assert.Equal(t, image.ErrFailedRequest, err)
 	})
 
-	t.Run("Invalid Content Type", func(t *testing.T){
+	t.Run("Invalid Content Type", func(t *testing.T) {
 		// TODO: Pls implement
 	})
 }
@@ -220,7 +220,7 @@ func TestService_CreateImageFromFile(t *testing.T) {
 	dummyFs := afero.NewMemMapFs()
 	repo := new(mocks.Repository)
 	repo.On("Save", mock.Anything, mock.AnythingOfType("*image.Image")).Return(nil).Once()
-	svc := New( repo, dummyFs, nil)
+	svc := New(repo, dummyFs, nil)
 	got, err := svc.CreateImageFromFile(dummyContext, f, "simple.png", "A Unit Test", "user12345")
 	assert.NoError(t, err)
 	assertImage(t, got, stat.Size(), "simple.png", ".png", "user12345", "A Unit Test")
@@ -262,4 +262,3 @@ func assertImage(t *testing.T, got *image.Image, size int64, name, ext, userId, 
 	assert.Equal(t, got.Description, desc)
 	assert.Equal(t, size, got.Size)
 }
-

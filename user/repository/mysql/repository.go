@@ -8,7 +8,7 @@ import (
 	log "github.com/jayvib/golog"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gophr.v2/user"
-  "gophr.v2/user/userutil"
+	"gophr.v2/user/userutil"
 )
 
 var _ user.Repository = (*Repository)(nil)

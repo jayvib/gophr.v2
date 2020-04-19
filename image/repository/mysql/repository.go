@@ -22,7 +22,7 @@ type repository struct {
 
 func (r *repository) Save(ctx context.Context, image *image.Image) error {
 	query := "INSERT INTO images(userId, imageId, name, location, description, size, created_at, updated_at, deleted_at) VALUES(?,?,?,?,?,?,?,?,?)"
-	return r.doSave(func(tx *sql.Tx)error{
+	return r.doSave(func(tx *sql.Tx) error {
 		res, err := tx.ExecContext(ctx, query,
 			image.UserID,
 			image.ImageID,

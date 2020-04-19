@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/jayvib/golog"
 	"github.com/spf13/afero"
 	"gophr.v2/image"
 	"gophr.v2/image/imageutil"
@@ -10,27 +11,37 @@ import (
 	"io"
 	"mime"
 	"net/http"
+	"os"
 	"path"
 	"path/filepath"
 	"time"
 )
+
+const DefaultImagePathLocation = "./data/images"
 
 func New(repo image.Repository, fs afero.Fs, client *http.Client) image.Service {
 	if client == nil {
 		client = http.DefaultClient
 	}
 
+	if _, err := os.Stat(DefaultImagePathLocation); os.IsNotExist(err) {
+		err = fs.MkdirAll(DefaultImagePathLocation, 0777)
+		if err != nil {
+			panic(err)
+		}
+	}
+
 	return &service{
-		repo: repo,
+		repo:   repo,
 		client: client,
-		fs: fs,
+		fs:     fs,
 	}
 }
 
 type service struct {
-	repo image.Repository
+	repo   image.Repository
 	client *http.Client
-	fs afero.Fs
+	fs     afero.Fs
 }
 
 func (s *service) Save(ctx context.Context, image *image.Image) error {
@@ -87,10 +98,10 @@ func (s *service) CreateImageFromURL(ctx context.Context, imageUrl string, userI
 	imageLocation := fmt.Sprintf("%s%s", imageID, ext)
 
 	img := &image.Image{
-		ImageID: imageID,
-		UserID: userId,
-		Name: imageName,
-		Location: imageLocation,
+		ImageID:     imageID,
+		UserID:      userId,
+		Name:        imageName,
+		Location:    imageLocation,
 		Description: description,
 	}
 
@@ -102,30 +113,37 @@ func (s *service) CreateImageFromURL(ctx context.Context, imageUrl string, userI
 	return img, nil
 }
 
-func (s *service) CreateImageFromFile(ctx context.Context, r io.Reader, filename , description, userId string) (*image.Image, error) {
+func (s *service) CreateImageFromFile(ctx context.Context, r io.Reader, filename, description, userId string) (*image.Image, error) {
 	imageId := imageutil.GenerateID()
-	imageLocation := filepath.Join(imageId, path.Ext(filename))
+	imageLocation := fmt.Sprintf("%s%s", imageId, path.Ext(filename))
 
 	img := &image.Image{
-		ImageID: imageId,
-		UserID: userId,
-		Name: filename,
-		Location: imageLocation,
+		ImageID:     imageId,
+		UserID:      userId,
+		Name:        filename,
+		Location:    imageLocation,
 		Description: description,
 	}
 
 	err := s.createImageFromFile(ctx, r, img, imageLocation)
 	if err != nil {
-		return nil, err
+		return img, err
 	}
 
 	return img, nil
 }
 
 func (s *service) createImageFromFile(ctx context.Context, r io.Reader, img *image.Image, imageLocation string) error {
-	savedFile, err := s.fs.Create(filepath.Join("./data/images/", imageLocation))
+	golog.Debug(imageLocation)
+	filePath := filepath.Join(DefaultImagePathLocation, imageLocation)
+	if _, e := s.fs.Stat(DefaultImagePathLocation); os.IsNotExist(e) {
+		golog.Debug("Not exist:", DefaultImagePathLocation)
+	} else {
+		golog.Debug("Exists:", DefaultImagePathLocation)
+	}
+	savedFile, err := s.fs.Create(filePath)
 	if err != nil {
-		return err
+		return fmt.Errorf("problem while creating: %w", err)
 	}
 	defer func() {
 		_ = savedFile.Close()

@@ -14,7 +14,7 @@ import (
 )
 
 func init() {
-  rand.Seed(time.Now().UnixNano())
+	rand.Seed(time.Now().UnixNano())
 }
 
 func New(filename string) *FileUserStore {
@@ -26,8 +26,8 @@ func New(filename string) *FileUserStore {
 	}
 
 	s := &FileUserStore{
-		filename: filename,
-		users:    make(map[string]*user.User),
+		filename:  filename,
+		users:     make(map[string]*user.User),
 		idCounter: rand.Intn(16),
 	}
 
@@ -51,12 +51,12 @@ type FileUserStore struct {
 }
 
 func (s *FileUserStore) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
-  for _, usr := range s.users {
-    if usr.UserID == id {
-        return usr.Clone(), nil
-    }
-  }
-  return nil, user.ErrNotFound
+	for _, usr := range s.users {
+		if usr.UserID == id {
+			return usr.Clone(), nil
+		}
+	}
+	return nil, user.ErrNotFound
 }
 func (s *FileUserStore) GetByEmail(ctx context.Context, email string) (*user.User, error) {
 	for _, usr := range s.users {
@@ -108,27 +108,27 @@ func (s *FileUserStore) Save(ctx context.Context, usr *user.User) error {
 }
 
 func (s *FileUserStore) Delete(ctx context.Context, id interface{}) error {
-  delete(s.users, id.(string))
-  return nil
+	delete(s.users, id.(string))
+	return nil
 }
 
 func (s *FileUserStore) Update(ctx context.Context, usr *user.User) error {
-  const op = "Update"
-  id := fmt.Sprintf("%d", usr.ID)
-  golog.Debug("id:", id)
-  if _, ok := s.users[id]; !ok {
-    return user.ErrNotFound
-  }
-  s.users[id] = usr
+	const op = "Update"
+	id := fmt.Sprintf("%d", usr.ID)
+	golog.Debug("id:", id)
+	if _, ok := s.users[id]; !ok {
+		return user.ErrNotFound
+	}
+	s.users[id] = usr
 
-  content, err := json.MarshalIndent(s.users, "", "	")
-  if err != nil {
-    return fmt.Errorf("%s: error while marsalling user: %w", op, err)
-  }
+	content, err := json.MarshalIndent(s.users, "", "	")
+	if err != nil {
+		return fmt.Errorf("%s: error while marsalling user: %w", op, err)
+	}
 
-  err = ioutil.WriteFile(s.filename, content, 0666)
-  if err != nil {
-    return fmt.Errorf("%s: error while writing to file: %w", op, err)
-  }
-  return nil
+	err = ioutil.WriteFile(s.filename, content, 0666)
+	if err != nil {
+		return fmt.Errorf("%s: error while writing to file: %w", op, err)
+	}
+	return nil
 }

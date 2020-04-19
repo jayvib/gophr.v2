@@ -1,13 +1,13 @@
 package service
 
 import (
-  "context"
-  "github.com/jayvib/golog"
-  "golang.org/x/crypto/bcrypt"
-  "gophr.v2/user"
-  "gophr.v2/user/userutil"
-  "gophr.v2/util/valueutil"
-  "time"
+	"context"
+	"github.com/jayvib/golog"
+	"golang.org/x/crypto/bcrypt"
+	"gophr.v2/user"
+	"gophr.v2/user/userutil"
+	"gophr.v2/util/valueutil"
+	"time"
 )
 
 var _ user.Service = (*Service)(nil)
@@ -23,8 +23,8 @@ type Service struct {
 func (s *Service) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
 	usr, err := s.repo.GetByID(ctx, id)
 	if err != nil {
-	  return nil, user.NewError(err).AddContext("ID", id)
-  }
+		return nil, user.NewError(err).AddContext("ID", id)
+	}
 	return usr, nil
 }
 
@@ -39,16 +39,16 @@ func (s *Service) GetByUserID(ctx context.Context, userId string) (*user.User, e
 func (s *Service) GetByEmail(ctx context.Context, email string) (*user.User, error) {
 	usr, err := s.repo.GetByEmail(ctx, email)
 	if err != nil {
-	  return nil, user.NewError(err).AddContext("Email", email)
-  }
+		return nil, user.NewError(err).AddContext("Email", email)
+	}
 	return usr, nil
 }
 
 func (s *Service) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
 	usr, err := s.repo.GetByUsername(ctx, uname)
 	if err != nil {
-	  return nil, user.NewError(err).AddContext("Username", uname)
-  }
+		return nil, user.NewError(err).AddContext("Username", uname)
+	}
 	return usr, nil
 }
 
@@ -95,18 +95,18 @@ func (s *Service) Delete(ctx context.Context, id interface{}) error {
 
 func (s *Service) Update(ctx context.Context, usr *user.User) error {
 
-  // Check first if exists
-  _, err := s.repo.GetByUserID(ctx, usr.UserID)
-  if err != nil {
-    if err == user.ErrNotFound {
-      err = user.ErrUserNotExists
-    }
-    return user.NewError(err).AddContext("ID", usr.UserID)
-  }
+	// Check first if exists
+	_, err := s.repo.GetByUserID(ctx, usr.UserID)
+	if err != nil {
+		if err == user.ErrNotFound {
+			err = user.ErrUserNotExists
+		}
+		return user.NewError(err).AddContext("ID", usr.UserID)
+	}
 
 	usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
 
-  // TODO: Hash the password
+	// TODO: Hash the password
 
 	return s.repo.Update(ctx, usr)
 }
@@ -116,11 +116,11 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
 		return user.NewError(err)
 	}
 
-  // Check first the usr if already exists
-  _, err := s.repo.GetByEmail(ctx, usr.Email)
-  if err == nil {
-    return user.NewError(user.ErrUserExists)
-  }
+	// Check first the usr if already exists
+	_, err := s.repo.GetByEmail(ctx, usr.Email)
+	if err == nil {
+		return user.NewError(user.ErrUserExists)
+	}
 
 	usr.CreatedAt = valueutil.TimePointer(time.Now().UTC())
 	usr.UserID = userutil.GenerateID()
@@ -136,13 +136,13 @@ func (s *Service) Register(ctx context.Context, usr *user.User) error {
 }
 
 func (s *Service) Login(ctx context.Context, usr *user.User) error {
-  // Compare the value of user password and the existing user password
-  u, err := s.getAndComparePassword(ctx, usr.Username, usr.Password)
-  if err != nil {
-    return user.NewError(err)
-  }
-  usr.Password = ""
-  usr.UserID = u.UserID // I don't know if it is right
+	// Compare the value of user password and the existing user password
+	u, err := s.getAndComparePassword(ctx, usr.Username, usr.Password)
+	if err != nil {
+		return user.NewError(err)
+	}
+	usr.Password = ""
+	usr.UserID = u.UserID // I don't know if it is right
 	return nil
 }
 
@@ -156,7 +156,7 @@ func validateUser(usr *user.User) error {
 	}
 
 	if usr.Password == "" {
-	  return user.ErrEmptyPassword
-  }
+		return user.ErrEmptyPassword
+	}
 	return nil
 }

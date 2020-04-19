@@ -3,9 +3,9 @@ package image
 import "time"
 
 var MimeExtensions = map[string]string{
-	"image/png": ".png",
+	"image/png":  ".png",
 	"image/jpeg": ".jpg",
-	"image/gif": ".gif",
+	"image/gif":  ".gif",
 }
 
 type Image struct {
@@ -21,4 +21,3 @@ type Image struct {
 	Size        int64  `json:"size,omitempty"`
 	Description string `json:"description,omitempty"`
 }
-

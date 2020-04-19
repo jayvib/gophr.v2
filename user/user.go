@@ -16,7 +16,7 @@ type User struct {
 	Password string `json:"password,omitempty" validate:"required,gte=8,lte=130" gorm:"password"`
 
 	// Base
-	ID        uint `json:"id,omitempty"`
+	ID        uint       `json:"id,omitempty"`
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	DeletedAt *time.Time `json:"deletedAt,omitempty" sql:"index"`

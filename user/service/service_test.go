@@ -22,7 +22,7 @@ func TestService_GetByID(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := &user.User{
 			ID:       12345,
-			UserID: userutil.GenerateID(),
+			UserID:   userutil.GenerateID(),
 			Username: "luffy.monkey",
 			Email:    "luffy.monkey@gmail.com",
 		}
@@ -38,7 +38,7 @@ func TestService_GetByID(t *testing.T) {
 		repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByID(context.Background(), uint(9999))
-	  require.IsType(t, new(user.Error), got)
+		require.IsType(t, new(user.Error), got)
 		assert.Equal(t, want, errors.Unwrap(got))
 	})
 }
@@ -48,7 +48,7 @@ func TestService_GetByUserID(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := &user.User{
 			ID:       12345,
-			UserID: userutil.GenerateID(),
+			UserID:   userutil.GenerateID(),
 			Username: "luffy.monkey",
 			Email:    "luffy.monkey@gmail.com",
 		}
@@ -137,241 +137,241 @@ func TestService_Save(t *testing.T) {
 }
 
 func TestService_Register(t *testing.T) {
-  t.Run("Register User When Not Yet Exists", func(t *testing.T){
-    repo := new(mocks.Repository)
-    repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
-    svc := New(repo)
-    want := &user.User{
-      Username: "luffy.monkey",
-      Email:    "luffy.monkey@gmail.com",
-      Password: "iampirateking",
-    }
+	t.Run("Register User When Not Yet Exists", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
+		svc := New(repo)
+		want := &user.User{
+			Username: "luffy.monkey",
+			Email:    "luffy.monkey@gmail.com",
+			Password: "iampirateking",
+		}
 
-    input := *want
-    err := svc.Register(context.Background(), &input)
-    assert.NoError(t, err)
-    assert.NotEqual(t, want.Password, input.Password)
-    repo.AssertExpectations(t)
-  })
+		input := *want
+		err := svc.Register(context.Background(), &input)
+		assert.NoError(t, err)
+		assert.NotEqual(t, want.Password, input.Password)
+		repo.AssertExpectations(t)
+	})
 
-  t.Run("During Registration Username is Empty", func(t *testing.T){
-   repo := new(mocks.Repository)
-   svc := New(repo)
-   want := &user.User{
-     Email:    "luffy.monkey@gmail.com",
-     Password: "iampirateking",
-   }
+	t.Run("During Registration Username is Empty", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		svc := New(repo)
+		want := &user.User{
+			Email:    "luffy.monkey@gmail.com",
+			Password: "iampirateking",
+		}
 
-   input := *want
-   err := svc.Register(context.Background(), &input)
-   assert.Error(t, err)
-   require.IsType(t, new(user.Error), err)
-   assert.Equal(t, user.ErrEmptyUsername, errors.Unwrap(err))
-   t.Log(err)
-  })
+		input := *want
+		err := svc.Register(context.Background(), &input)
+		assert.Error(t, err)
+		require.IsType(t, new(user.Error), err)
+		assert.Equal(t, user.ErrEmptyUsername, errors.Unwrap(err))
+		t.Log(err)
+	})
 
-  t.Run("During Registration Email is Empty", func(t *testing.T){
-    repo := new(mocks.Repository)
-    svc := New(repo)
-    want := &user.User{
-      Username: "luffy.monkey",
-      Password: "iampirateking",
-    }
+	t.Run("During Registration Email is Empty", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		svc := New(repo)
+		want := &user.User{
+			Username: "luffy.monkey",
+			Password: "iampirateking",
+		}
 
-    input := *want
-    err := svc.Register(context.Background(), &input)
-    assert.Error(t, err)
-    assert.IsType(t, new(user.Error), err)
-    assert.Equal(t, user.ErrEmptyEmail, errors.Unwrap(err))
-  })
+		input := *want
+		err := svc.Register(context.Background(), &input)
+		assert.Error(t, err)
+		assert.IsType(t, new(user.Error), err)
+		assert.Equal(t, user.ErrEmptyEmail, errors.Unwrap(err))
+	})
 
-  t.Run("During Registration Password is Empty", func(t *testing.T){
-    repo := new(mocks.Repository)
-    svc := New(repo)
-    want := &user.User{
-      Email: "luffy.monkey@gmail.com",
-      Username: "luffy.monkey",
-    }
+	t.Run("During Registration Password is Empty", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		svc := New(repo)
+		want := &user.User{
+			Email:    "luffy.monkey@gmail.com",
+			Username: "luffy.monkey",
+		}
 
-    input := *want
-    err := svc.Register(context.Background(), &input)
-    assert.Error(t, err)
-    assert.IsType(t, new(user.Error), err)
-    assert.Equal(t, user.ErrEmptyPassword, errors.Unwrap(err))
-  })
+		input := *want
+		err := svc.Register(context.Background(), &input)
+		assert.Error(t, err)
+		assert.IsType(t, new(user.Error), err)
+		assert.Equal(t, user.ErrEmptyPassword, errors.Unwrap(err))
+	})
 
-  t.Run("Register User When Already Exists", func(t *testing.T){
-    res := &user.User{
-      Username: "luffy.monkey",
-      Email:    "luffy.monkey@gmail.com",
-      Password: "iampirateking",
-    }
+	t.Run("Register User When Already Exists", func(t *testing.T) {
+		res := &user.User{
+			Username: "luffy.monkey",
+			Email:    "luffy.monkey@gmail.com",
+			Password: "iampirateking",
+		}
 
-    repo := new(mocks.Repository)
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(res, nil).Once()
-    svc := New(repo)
+		repo := new(mocks.Repository)
+		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(res, nil).Once()
+		svc := New(repo)
 
-    err := svc.Register(context.Background(), res)
-    assert.Error(t, user.ErrUserExists, err)
-    repo.AssertExpectations(t)
-  })
+		err := svc.Register(context.Background(), res)
+		assert.Error(t, user.ErrUserExists, err)
+		repo.AssertExpectations(t)
+	})
 }
 
 func TestService_Login(t *testing.T) {
-  t.Run("Valid Credential", func(t *testing.T){
-    // Simulate registration
-    usr := &user.User{
-      Email: "luffy.monkey@gmail.com",
-      Username: "luffy.monkey",
-      Password: "iampirateking",
-    }
+	t.Run("Valid Credential", func(t *testing.T) {
+		// Simulate registration
+		usr := &user.User{
+			Email:    "luffy.monkey@gmail.com",
+			Username: "luffy.monkey",
+			Password: "iampirateking",
+		}
 
-    cpy := *usr
-    clonedUsr := &cpy
-    repo := new(mocks.Repository)
-    repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
-    repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(clonedUsr, nil).Once()
-    svc := New(repo)
-    err := svc.Register(context.Background(), clonedUsr)
-    require.NoError(t, err)
+		cpy := *usr
+		clonedUsr := &cpy
+		repo := new(mocks.Repository)
+		repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
+		repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(clonedUsr, nil).Once()
+		svc := New(repo)
+		err := svc.Register(context.Background(), clonedUsr)
+		require.NoError(t, err)
 
-    // LoginPage
-    err = svc.Login(context.Background(), usr)
-    assert.NoError(t, err)
-    repo.AssertExpectations(t)
-  })
+		// LoginPage
+		err = svc.Login(context.Background(), usr)
+		assert.NoError(t, err)
+		repo.AssertExpectations(t)
+	})
 
-  t.Run("Invalid Credential", func(t *testing.T){
-    // Simulate registration
-    usr := &user.User{
-      Email: "luffy.monkey@gmail.com",
-      Username: "luffy.monkey",
-      Password: "iampirateking",
-    }
+	t.Run("Invalid Credential", func(t *testing.T) {
+		// Simulate registration
+		usr := &user.User{
+			Email:    "luffy.monkey@gmail.com",
+			Username: "luffy.monkey",
+			Password: "iampirateking",
+		}
 
-    cpy := *usr
-    clonedUsr := &cpy
+		cpy := *usr
+		clonedUsr := &cpy
 
-    // Modify to make the password invalid
-    usr.Password = "invalidpassword"
+		// Modify to make the password invalid
+		usr.Password = "invalidpassword"
 
-    repo := new(mocks.Repository)
-    repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-    repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
-    repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(clonedUsr, nil).Once()
-    svc := New(repo)
-    err := svc.Register(context.Background(), clonedUsr)
-    assert.NoError(t, err)
+		repo := new(mocks.Repository)
+		repo.On("Save", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+		repo.On("GetByEmail", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
+		repo.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(clonedUsr, nil).Once()
+		svc := New(repo)
+		err := svc.Register(context.Background(), clonedUsr)
+		assert.NoError(t, err)
 
-    // LoginPage
-    err = svc.Login(context.Background(), usr)
-    require.Error(t, err)
+		// LoginPage
+		err = svc.Login(context.Background(), usr)
+		require.Error(t, err)
 
-    want := user.NewError(user.ErrInvalidCredentials)
-    assert.Equal(t, want, err)
-    repo.AssertExpectations(t)
-  })
+		want := user.NewError(user.ErrInvalidCredentials)
+		assert.Equal(t, want, err)
+		repo.AssertExpectations(t)
+	})
 
 }
 
 func TestService_Update(t *testing.T) {
-  t.Run("Updating An Existing User", func(t *testing.T){
-    repo := new(mocks.Repository)
-    repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-    repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
-    svc := New(repo)
+	t.Run("Updating An Existing User", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
+		repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
+		svc := New(repo)
 
-    want := &user.User{
-      ID:       12345,
-      UserID: userutil.GenerateID(),
-      Username: "luffy.monkey",
-      Email:    "luffy.monkey@gmail.com",
-    }
+		want := &user.User{
+			ID:       12345,
+			UserID:   userutil.GenerateID(),
+			Username: "luffy.monkey",
+			Email:    "luffy.monkey@gmail.com",
+		}
 
-    err := svc.Update(context.Background(), want)
-    assert.NotEmpty(t, want.UpdatedAt)
-    assert.NoError(t, err)
-    repo.AssertExpectations(t)
-  })
+		err := svc.Update(context.Background(), want)
+		assert.NotEmpty(t, want.UpdatedAt)
+		assert.NoError(t, err)
+		repo.AssertExpectations(t)
+	})
 
-  t.Run("Updating A Non-Existing User", func(t *testing.T) {
-    repo := new(mocks.Repository)
-    repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrUserNotExists).Once()
-    input := &user.User{
-      ID:       12345,
-      UserID: userutil.GenerateID(),
-      Username: "luffy.monkey",
-      Email:    "luffy.monkey@gmail.com",
-    }
+	t.Run("Updating A Non-Existing User", func(t *testing.T) {
+		repo := new(mocks.Repository)
+		repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrUserNotExists).Once()
+		input := &user.User{
+			ID:       12345,
+			UserID:   userutil.GenerateID(),
+			Username: "luffy.monkey",
+			Email:    "luffy.monkey@gmail.com",
+		}
 
-    svc := New(repo)
-    err := svc.Update(context.Background(), input)
-    require.Error(t, err)
-    assert.IsType(t, new(user.Error), err)
-    assert.Equal(t, user.ErrUserNotExists, errors.Unwrap(err))
-  })
+		svc := New(repo)
+		err := svc.Update(context.Background(), input)
+		require.Error(t, err)
+		assert.IsType(t, new(user.Error), err)
+		assert.Equal(t, user.ErrUserNotExists, errors.Unwrap(err))
+	})
 }
 
 func TestService_Delete(t *testing.T) {
-  repo := new(mocks.Repository)
-  repo.On("Delete", mock.Anything, mock.AnythingOfType("uint")).Return(nil).Once()
-  svc := New(repo)
+	repo := new(mocks.Repository)
+	repo.On("Delete", mock.Anything, mock.AnythingOfType("uint")).Return(nil).Once()
+	svc := New(repo)
 
-  want := &user.User{
-    ID:       12345,
-    Username: "luffy.monkey",
-    Email:    "luffy.monkey@gmail.com",
-  }
+	want := &user.User{
+		ID:       12345,
+		Username: "luffy.monkey",
+		Email:    "luffy.monkey@gmail.com",
+	}
 
-  err := svc.Delete(context.Background(), want.ID)
-  assert.NoError(t, err)
-  repo.AssertExpectations(t)
+	err := svc.Delete(context.Background(), want.ID)
+	assert.NoError(t, err)
+	repo.AssertExpectations(t)
 }
 
 func TestService_GetAll(t *testing.T) {
-  // Add the mock users to the rows
-  mockUsers := []*user.User{
-    {
-      ID:        1,
-      UserID:    "testid123",
-      Username:  "unit.test",
-      Email:     "unit.test@golang.com",
-      Password:  "qwerty",
-      CreatedAt: valueutil.TimePointer(time.Now()),
-      UpdatedAt: valueutil.TimePointer(time.Now()),
-    },
-    {
-      ID:        2,
-      UserID:    "testid124",
-      Username:  "unit.test01",
-      Email:     "unit.test01@golang.com",
-      Password:  "qwerty",
-      CreatedAt: valueutil.TimePointer(time.Now()),
-      UpdatedAt: valueutil.TimePointer(time.Now()),
-    },
-    {
-      ID:        3,
-      UserID:    "testid125",
-      Username:  "unit.test02",
-      Email:     "unit.test02@golang.com",
-      Password:  "qwerty",
-      CreatedAt: valueutil.TimePointer(time.Now()),
-      UpdatedAt: valueutil.TimePointer(time.Now()),
-    },
-  }
+	// Add the mock users to the rows
+	mockUsers := []*user.User{
+		{
+			ID:        1,
+			UserID:    "testid123",
+			Username:  "unit.test",
+			Email:     "unit.test@golang.com",
+			Password:  "qwerty",
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UpdatedAt: valueutil.TimePointer(time.Now()),
+		},
+		{
+			ID:        2,
+			UserID:    "testid124",
+			Username:  "unit.test01",
+			Email:     "unit.test01@golang.com",
+			Password:  "qwerty",
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UpdatedAt: valueutil.TimePointer(time.Now()),
+		},
+		{
+			ID:        3,
+			UserID:    "testid125",
+			Username:  "unit.test02",
+			Email:     "unit.test02@golang.com",
+			Password:  "qwerty",
+			CreatedAt: valueutil.TimePointer(time.Now()),
+			UpdatedAt: valueutil.TimePointer(time.Now()),
+		},
+	}
 
-  repo := new(mocks.Repository)
-  repo.On("GetAll", mock.Anything, mock.AnythingOfType("string"), mock.AnythingOfType("int")).Return(mockUsers, "", nil).Once()
-  svc := New(repo)
+	repo := new(mocks.Repository)
+	repo.On("GetAll", mock.Anything, mock.AnythingOfType("string"), mock.AnythingOfType("int")).Return(mockUsers, "", nil).Once()
+	svc := New(repo)
 
-  cursor := userutil.EncodeCursor(*mockUsers[0].CreatedAt)
-  got, _, _ := svc.GetAll(context.Background(), cursor, 3)
-  assert.Len(t, got, 3)
-  repo.AssertExpectations(t)
+	cursor := userutil.EncodeCursor(*mockUsers[0].CreatedAt)
+	got, _, _ := svc.GetAll(context.Background(), cursor, 3)
+	assert.Len(t, got, 3)
+	repo.AssertExpectations(t)
 }
 
 func TestService_GetAndComparePassword(t *testing.T) {
-  // TODO: Please Implement me
+	// TODO: Please Implement me
 }

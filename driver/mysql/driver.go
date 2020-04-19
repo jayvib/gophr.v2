@@ -1,13 +1,13 @@
 package mysql
 
 import (
-  "database/sql"
-  "fmt"
-  _ "github.com/go-sql-driver/mysql"
-  "github.com/jayvib/golog"
-  "gophr.v2/config"
-  "net/url"
-  "sync"
+	"database/sql"
+	"fmt"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jayvib/golog"
+	"gophr.v2/config"
+	"net/url"
+	"sync"
 )
 
 var (

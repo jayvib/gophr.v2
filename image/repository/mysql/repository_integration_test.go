@@ -45,12 +45,12 @@ func TestMain(m *testing.M) {
 
 func TestRepository_Save(t *testing.T) {
 	input := &image.Image{
-		CreatedAt: valueutil.TimePointer(time.Now()),
-		UserID: userutil.GenerateID(),
-		ImageID: imageutil.GenerateID(),
-		Name: "Luffy Monkey",
-		Location: "East Blue",
-		Size: 1024,
+		CreatedAt:   valueutil.TimePointer(time.Now()),
+		UserID:      userutil.GenerateID(),
+		ImageID:     imageutil.GenerateID(),
+		Name:        "Luffy Monkey",
+		Location:    "East Blue",
+		Size:        1024,
 		Description: "A Pirate King from East Blue",
 	}
 
@@ -64,14 +64,14 @@ func TestRepository_Save(t *testing.T) {
 func TestRepository_Find(t *testing.T) {
 	repo := mysqlrepo.New(db)
 
-	t.Run("Image Found", func(t *testing.T){
+	t.Run("Image Found", func(t *testing.T) {
 		want := &image.Image{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Luffy Monkey",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Luffy Monkey",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Pirate King from East Blue",
 		}
 		err := repo.Save(context.Background(), want)
@@ -82,7 +82,7 @@ func TestRepository_Find(t *testing.T) {
 		assertImage(t, want, got)
 	})
 
-	t.Run("Image Not Found", func(t *testing.T){
+	t.Run("Image Not Found", func(t *testing.T) {
 		_, err := repo.Find(context.Background(), "notfoundid")
 		assert.Error(t, err)
 		assert.Equal(t, image.ErrNotFound, err)
@@ -94,30 +94,30 @@ func TestRepository_FindAll(t *testing.T) {
 	deleteAllInDB()
 	images := []*image.Image{
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Luffy Monkey",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Luffy Monkey",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Pirate King from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Roronoa Zoro",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Roronoa Zoro",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Swordsman from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Sanji Vinsmoke",
-			Location: "West Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Sanji Vinsmoke",
+			Location:    "West Blue",
+			Size:        1024,
 			Description: "A Cook from West Blue",
 		},
 	}
@@ -134,30 +134,30 @@ func TestRepository_FindAllByUser(t *testing.T) {
 	userId := userutil.GenerateID()
 	images := []*image.Image{
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userId,
-			ImageID: imageutil.GenerateID(),
-			Name: "Luffy Monkey",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userId,
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Luffy Monkey",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Pirate King from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userId,
-			ImageID: imageutil.GenerateID(),
-			Name: "Roronoa Zoro",
-			Location: "East Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userId,
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Roronoa Zoro",
+			Location:    "East Blue",
+			Size:        1024,
 			Description: "A Swordsman from East Blue",
 		},
 		{
-			CreatedAt: valueutil.TimePointer(time.Now()),
-			UserID: userutil.GenerateID(),
-			ImageID: imageutil.GenerateID(),
-			Name: "Sanji Vinsmoke",
-			Location: "West Blue",
-			Size: 1024,
+			CreatedAt:   valueutil.TimePointer(time.Now()),
+			UserID:      userutil.GenerateID(),
+			ImageID:     imageutil.GenerateID(),
+			Name:        "Sanji Vinsmoke",
+			Location:    "West Blue",
+			Size:        1024,
 			Description: "A Cook from West Blue",
 		},
 	}
@@ -174,7 +174,6 @@ func storeImages(t *testing.T, repo image.Repository, images []*image.Image) {
 		require.NoError(t, err)
 	}
 }
-
 
 func deleteAllInDB() {
 	query := "DELETE FROM images"
@@ -206,4 +205,3 @@ func assertImage(t *testing.T, want *image.Image, got *image.Image) {
 	got.CreatedAt = nil
 	assert.Equal(t, want, got)
 }
-
