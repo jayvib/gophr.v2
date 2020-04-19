@@ -280,7 +280,7 @@ func TestService_Update(t *testing.T) {
   t.Run("Updating An Existing User", func(t *testing.T){
     repo := new(mocks.Repository)
     repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
+    repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
     svc := New(repo)
 
     want := &user.User{
@@ -298,7 +298,7 @@ func TestService_Update(t *testing.T) {
 
   t.Run("Updating A Non-Existing User", func(t *testing.T) {
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrUserNotExists).Once()
+    repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrUserNotExists).Once()
     input := &user.User{
       ID:       12345,
       UserID: userutil.GenerateID(),

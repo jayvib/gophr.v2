@@ -147,7 +147,7 @@ func TestDelete(t *testing.T) {
 func TestUpdate(t *testing.T) {
   t.Run("When Updating an Existed User", func(t *testing.T){
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
+    repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, nil).Once()
     repo.On("Update", mock.Anything, mock.AnythingOfType("*user.User")).Return(nil).Once()
     svc := service.New(repo)
 
@@ -173,7 +173,7 @@ func TestUpdate(t *testing.T) {
 
   t.Run("When Updating to an Non-Exiting User", func(t *testing.T){
     repo := new(mocks.Repository)
-    repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
+    repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound).Once()
 
     svc := service.New(repo)
 

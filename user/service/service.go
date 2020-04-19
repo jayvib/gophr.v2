@@ -96,7 +96,7 @@ func (s *Service) Delete(ctx context.Context, id interface{}) error {
 func (s *Service) Update(ctx context.Context, usr *user.User) error {
 
   // Check first if exists
-  _, err := s.repo.GetByID(ctx, usr.UserID)
+  _, err := s.repo.GetByUserID(ctx, usr.UserID)
   if err != nil {
     if err == user.ErrNotFound {
       err = user.ErrUserNotExists

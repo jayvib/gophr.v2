@@ -237,6 +237,7 @@ func (v *ViewHandler) HandleEditUser(c *gin.Context) {
 
   usr.Email = email
 
+  golog.Tracef("Updating: %#v\n", usr)
   // Save to repository
   err := v.usrService.Update(c.Request.Context(), usr)
   if err != nil {
@@ -362,7 +363,7 @@ func (v *ViewHandler) getUserFromCookie(c *gin.Context) *user.User {
   }
 
   golog.Debug(sess.UserID)
-  usr, err := v.usrService.GetByID(c.Request.Context(), sess.UserID)
+  usr, err := v.usrService.GetByUserID(c.Request.Context(), sess.UserID)
   if err != nil {
     golog.Debug("while getting user by ID:", err)
     return nil
