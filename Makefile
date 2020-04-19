@@ -32,6 +32,9 @@ up-test:
 down-test:
 	docker-compose -f docker-compose-integ.yaml down
 
+up-services:
+	docker-compose -f docker-compose-services.yaml up -d
+
 ################UTILITY#################
 mod: ## To download the dependency of the app
 	go mod download
