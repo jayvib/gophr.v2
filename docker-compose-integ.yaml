@@ -1,6 +1,6 @@
 version: "3.7"
 services:
-  database:
+  database_test:
     image: mysql:5.7
     container_name: database_test
     command: mysqld --user=root

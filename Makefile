@@ -25,6 +25,12 @@ up: build
 down:
 	docker-compose down
 
+stop:
+	docker-compose stop
+
+start:
+	docker-compose start
+
 ###############TESTINGS##################
 up-test:
 	docker-compose -f docker-compose-integ.yaml up -d
