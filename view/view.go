@@ -119,7 +119,7 @@ func (v *ViewHandler) createImageFromURL(c *gin.Context) {
 		})
 		return
 	}
-	c.Redirect(http.StatusOK, "/?flash=Image+Uploaded+Successfully")
+	c.Redirect(http.StatusFound, "/?flash=Image+Uploaded+Successfully")
 }
 
 func (v *ViewHandler) createImageFromFile(c *gin.Context) {

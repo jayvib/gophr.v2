@@ -28,6 +28,7 @@ import (
 )
 
 var dummyContext = context.Background()
+var dummyFileSystem = afero.NewMemMapFs()
 
 func TestService_Find(t *testing.T) {
 	t.Run("Image Found", func(t *testing.T) {
@@ -45,7 +46,7 @@ func TestService_Find(t *testing.T) {
 		repo := new(mocks.Repository)
 		repo.On("Find", mock.Anything, mock.AnythingOfType("string")).Return(want, nil).Once()
 
-		svc := New(repo, nil, nil)
+		svc := New(repo, dummyFileSystem, nil)
 		got, err := svc.Find(dummyContext, want.ImageID)
 		assert.NoError(t, err)
 		assert.Equal(t, want, got)
@@ -55,7 +56,7 @@ func TestService_Find(t *testing.T) {
 		repo := new(mocks.Repository)
 		repo.On("Find", mock.Anything, mock.AnythingOfType("string")).Return(nil, image.ErrNotFound).Once()
 
-		svc := New(repo, nil, nil)
+		svc := New(repo, dummyFileSystem, nil)
 		_, err := svc.Find(dummyContext, "notexists")
 		assert.Error(t, err)
 		assert.Equal(t, image.ErrNotFound, err)
@@ -72,7 +73,7 @@ func TestService_Save(t *testing.T) {
 	}
 	repo := new(mocks.Repository)
 	repo.On("Save", mock.Anything, mock.AnythingOfType("*image.Image")).Return(nil).Once()
-	svc := New(repo, nil, nil)
+	svc := New(repo, dummyFileSystem, nil)
 	err := svc.Save(dummyContext, want)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, want.ImageID)
@@ -112,7 +113,7 @@ func TestService_FindAll(t *testing.T) {
 	}
 	repo := new(mocks.Repository)
 	repo.On("FindAll", mock.Anything, mock.AnythingOfType("int")).Return(images, nil).Once()
-	svc := New(repo, nil, nil)
+	svc := New(repo, dummyFileSystem, nil)
 	got, err := svc.FindAll(dummyContext, 0)
 	assert.NoError(t, err)
 	assert.Len(t, got, 3)
@@ -152,7 +153,7 @@ func TestService_FindAllByUser(t *testing.T) {
 	}
 	repo := new(mocks.Repository)
 	repo.On("FindAllByUser", mock.Anything, mock.AnythingOfType("string"), mock.AnythingOfType("int")).Return(images, nil).Once()
-	svc := New(repo, nil, nil)
+	svc := New(repo, dummyFileSystem, nil)
 	got, err := svc.FindAllByUser(dummyContext, userId, 0)
 	assert.NoError(t, err)
 	assert.Len(t, got, 3)
@@ -183,7 +184,7 @@ func TestService_CreateImageFromURL(t *testing.T) {
 
 	t.Run("Error while Doing Client Request", func(t *testing.T) {
 		url := "127.0.0.1:12345/testingerror"
-		svc := New(nil, nil, client)
+		svc := New(nil, dummyFileSystem, client)
 		_, err := svc.CreateImageFromURL(dummyContext, url, "user123", "testing the client request error")
 		assert.Error(t, err)
 		assert.Equal(t, image.ErrInvalidImageURL, err)
@@ -199,7 +200,7 @@ func TestService_CreateImageFromURL(t *testing.T) {
 		defer teardown()
 
 		url := "http://127.0.0.1/image.png"
-		svc := New(nil, nil, client)
+		svc := New(nil, dummyFileSystem, client)
 		_, err := svc.CreateImageFromURL(dummyContext, url, "user123", "testing the client request failed status")
 		assert.Error(t, err)
 		assert.Equal(t, image.ErrFailedRequest, err)
