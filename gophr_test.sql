@@ -14,11 +14,6 @@ CREATE TABLE `user`(
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-LOCK TABLES `user` WRITE;
-INSERT INTO `user` VALUES
-  (1, 'abc123defe34f334df232dsdfweffewe2fecswf', 'luffy.monkey', 'luffy.monkey@gmail.com', 'secretpass', NULL, NULL, NULL);
-UNLOCK TABLES;
-
 DROP TABLE IF EXISTS images;
 CREATE TABLE images(
   `id` int(36) NOT NULL	AUTO_INCREMENT,
