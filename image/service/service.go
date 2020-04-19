@@ -3,7 +3,6 @@ package service
 import (
 	"context"
 	"fmt"
-	"github.com/jayvib/golog"
 	"github.com/spf13/afero"
 	"gophr.v2/image"
 	"gophr.v2/image/imageutil"
@@ -134,13 +133,7 @@ func (s *service) CreateImageFromFile(ctx context.Context, r io.Reader, filename
 }
 
 func (s *service) createImageFromFile(ctx context.Context, r io.Reader, img *image.Image, imageLocation string) error {
-	golog.Debug(imageLocation)
 	filePath := filepath.Join(DefaultImagePathLocation, imageLocation)
-	if _, e := s.fs.Stat(DefaultImagePathLocation); os.IsNotExist(e) {
-		golog.Debug("Not exist:", DefaultImagePathLocation)
-	} else {
-		golog.Debug("Exists:", DefaultImagePathLocation)
-	}
 	savedFile, err := s.fs.Create(filePath)
 	if err != nil {
 		return fmt.Errorf("problem while creating: %w", err)
