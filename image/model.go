@@ -21,3 +21,11 @@ type Image struct {
 	Size        int64  `json:"size,omitempty"`
 	Description string `json:"description,omitempty"`
 }
+
+func (i *Image) StaticRoute() string {
+	return "/im/"+i.Location
+}
+
+func (i *Image) ShowRoute() string {
+	return "/image/"+i.ImageID
+}

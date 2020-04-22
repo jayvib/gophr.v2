@@ -27,6 +27,7 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
 
 	// Asset handler
 	r.StaticFS("/assets", http.Dir("assets/"))
+	r.StaticFS("/im/", http.Dir("data/images/"))
 
 	// View handlers
 	r.GET("/", h.HomePage)
@@ -271,7 +272,17 @@ func getMessage(err error) string {
 }
 
 func (v *ViewHandler) HomePage(c *gin.Context) {
-	v.renderTemplate(c, "index/navbar", nil)
+	images, err := v.imageService.FindAll(c.Request.Context(), 0)
+	if err != nil {
+		v.renderTemplate(c, "index/home", map[string]interface{}{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	v.renderTemplate(c, "index/home",  map[string]interface{}{
+		"Images": images,
+	})
 }
 
 // ###################VIEW####################
