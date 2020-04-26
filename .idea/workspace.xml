@@ -441,8 +441,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.gophr" />
       <item itemvalue="Go Build.go build main.go" />
+      <item itemvalue="Go Build.gophr" />
       <item itemvalue="Go Test.TestRepository_GetByEmail in gophr.v2/user/repository/mysql" />
       <item itemvalue="Go Test.TestRepository_GetByUserID in gophr.v2/user/repository/mysql" />
       <item itemvalue="Go Test.TestService_GetByUserID in gophr.v2/user/service" />
