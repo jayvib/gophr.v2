@@ -25,6 +25,7 @@ up: build
 down:
 	docker-compose down
 
+<<<<<<< HEAD
 stop:
 	docker-compose stop
 
@@ -47,7 +48,7 @@ stop-test:
 up-services:
 	docker-compose -f docker-compose-services.yaml up -d
 
-################UTILITY#################
+################UTILITY##################
 mod: ## To download the dependency of the app
 	go mod download
 
