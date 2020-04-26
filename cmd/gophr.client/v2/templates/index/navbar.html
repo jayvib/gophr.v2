@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{.PageName}}</title>
+  <link href="../../assets/css/navbar.css" rel="stylesheet" type="text/css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  {{ define "index/navbar" }}
+    <div class="nav">
+      <a href="/">Gophr</a>
+			<a class="active" href="/">Home</a>
+      <a href="#">User</a>
+      <a href="#">Image</a>
+      <a href="#">About</a>
+			<div class="nav-link-right">
+        <a href="#">Login</a>
+      </div>
+    </div>
+  {{ end }}
+</body>
+</html>
