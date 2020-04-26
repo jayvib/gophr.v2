@@ -2,7 +2,10 @@ bin/
 .idea/
 
 *.swp
-*.xml
 *.exe
 *.engine
 *.json
+*.jpg
+*.png
+*.jpeg
+*.gif

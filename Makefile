@@ -8,6 +8,9 @@ APPNAME=gophr
 unit-test:
 	@go test -tags=unit -covermode=atomic -short ./... | grep -v '^?'
 
+integration-test:
+	@go test -tags=integration -covermode=atomic -short ./... | grep -v '^?'
+
 build-api: mod
 	@echo "Building ${APPNAME}"
 	if [ ! -e ./bin ]; then mkdir ./bin; fi
@@ -21,6 +24,29 @@ up: build
 
 down:
 	docker-compose down
+
+<<<<<<< HEAD
+stop:
+	docker-compose stop
+
+start:
+	docker-compose start
+
+###############TESTINGS##################
+up-test:
+	docker-compose -f docker-compose-integ.yaml up -d
+
+down-test:
+	docker-compose -f docker-compose-integ.yaml down
+
+start-test:
+	docker-compose -f docker-compose-integ.yaml start
+
+stop-test:
+	docker-compose -f docker-compose-integ.yaml stop
+
+up-services:
+	docker-compose -f docker-compose-services.yaml up -d
 
 ################UTILITY##################
 mod: ## To download the dependency of the app

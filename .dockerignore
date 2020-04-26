@@ -1,1 +1,10 @@
 *.engine
+
+*.swp
+*.xml
+*.exe
+*.json
+*.jpg
+*.png
+*.jpeg
+*.gif

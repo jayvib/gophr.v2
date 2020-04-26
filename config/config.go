@@ -1,7 +1,10 @@
 package config
 
 import (
+	"github.com/gin-gonic/gin"
+	"github.com/jayvib/golog"
 	"github.com/spf13/viper"
+	"log"
 	"sync"
 )
 
@@ -17,6 +20,12 @@ var (
 	conf *Config
 	once sync.Once
 )
+
+func Load() *Config {
+	initializeViper()
+	initializeConfig()
+	return conf
+}
 
 func New(env Env) (*Config, error) {
 	var configName string
@@ -36,6 +45,7 @@ func New(env Env) (*Config, error) {
 			SetConfig(configName),
 			AddConfigPath("$HOME"),
 		)
+		initializeViper()
 	})
 	if err != nil {
 		return nil, err
@@ -43,15 +53,22 @@ func New(env Env) (*Config, error) {
 	return conf, nil
 }
 
+func initializeViper() {
+	viper.AutomaticEnv()
+	_ = viper.BindEnv()
+	viper.SetEnvPrefix("gophr")
+	viper.SetDefault("port", "8080")
+}
+
 type Config struct {
-  Gophr Gophr `json:"gophr"`
+	Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
 }
 
 type Gophr struct {
-  Port string `json:"port"`
-  Environment string `json:"env"`
-  Debug bool `json:"debug"`
+	Port        string `json:"port"`
+	Environment string `json:"env"`
+	Debug       bool   `json:"debug"`
 }
 
 type MySQL struct {
@@ -80,10 +97,6 @@ func SetConfigType(t string) func() {
 	}
 }
 
-func LoadConfig(opts ...func()) (*Config, error) {
-	return loadConfig(opts...)
-}
-
 func loadConfig(opts ...func()) (*Config, error) {
 	for _, opt := range opts {
 		opt()
@@ -97,3 +110,23 @@ func loadConfig(opts ...func()) (*Config, error) {
 	}
 	return c, nil
 }
+
+func initializeConfig() {
+	var err error
+	var env Env
+	switch viper.Get("env") {
+	case "DEV":
+		env = DevelopmentEnv
+	case "STAGE":
+		env = StageEnv
+	case "PROD":
+		gin.SetMode(gin.ReleaseMode)
+		env = ProdEnv
+	}
+	golog.Info(env)
+	_, err = New(env)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+

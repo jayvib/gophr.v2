@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gophr</title>
+  <link rel="stylesheet" href="/assets/css/bootstrap.css">
+  <link rel="stylesheet" href="../../assets/css/bootstrap.css">
+</head>
+<body>
+  {{ define "images/index" }}
+  <div class="container">
+    <div class="row">
+      {{ if .Images }}
+        {{ range .Images }}
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <a href="{{.ShowRoute}}" class="thumbnail"><img src="{{.StaticRoute}}" alt="{{.Description}}"> </a>
+          </div>
+            {{ end }}
+      {{ else }}
+        <h2>No Images Yet</h2>
+        <a href="/images/new">Why not upload one?</a>
+      {{ end }}
+      </div>
+  </div>
+  {{ end }}
+</body>
+</html>

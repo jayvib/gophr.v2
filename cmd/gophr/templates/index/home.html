@@ -6,25 +6,9 @@
   <link rel="stylesheet" href="../../assets/css/bootstrap.css">
 </head>
 <body>
-  {{ define "index/navbar" }}
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">Gophr</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <div class="navbar-text navbar-right">
-            {{ if .CurrentUser }}
-              <a href="/account" class="navbar-link">Account</a>
-              <a href="/signout" class="navbar-link">Sign Out</a>
-            {{ else }}
-              <a href="/login" class="navbar-link">Login</a>
-            {{ end }}
-          </div>
-        </div>
-      </div>
-    </nav>
-    {{ template "other/flash" . }}
+  {{ define "index/home" }}
+    {{ template "index/navbar" . }}
+    {{ template "images/index" . }}
   {{ end }}
 </body>
 </html>

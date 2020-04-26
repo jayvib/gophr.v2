@@ -8,6 +8,7 @@ import (
 
 type Repository interface {
 	GetByID(ctx context.Context, id interface{}) (*User, error)
+	GetByUserID(ctx context.Context, userId string) (*User, error)
 	GetByEmail(ctx context.Context, email string) (*User, error)
 	GetByUsername(ctx context.Context, uname string) (*User, error)
 	Save(ctx context.Context, user *User) error

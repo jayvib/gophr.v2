@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gophr</title>
+  <link rel="stylesheet" href="../../assets/css/bootstrap.css">
+</head>
+<body>
+  {{ define "index/navbar" }}
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Gophr</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <div class="navbar-text navbar-right">
+            {{ if .CurrentUser }}
+              <a href="/images/new" class="btn btn-primary">Add Image</a>
+              <a href="/account" class="navbar-link">Account</a>
+              <a href="/signout" class="navbar-link">Sign Out</a>
+            {{ else }}
+              <a href="/login" class="navbar-link">Login</a>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </nav>
+    {{ template "other/flash" . }}
+  {{ end }}
+</body>
+</html>

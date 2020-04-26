@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  database_test:
+    image: mysql:5.7
+    container_name: database_test
+    command: mysqld --user=root
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./gophr_test.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - MYSQL_DATABASE=gophr_test
+      - MYSQL_USER=testuser
+      - MYSQL_PASSWORD=testpassword
+      - MYSQL_ROOT_PASSWORD=root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
+

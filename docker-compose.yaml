@@ -16,6 +16,7 @@ services:
       - ./config.yaml:/home/config.yaml
       - ./cmd/gophr/assets:/home/gophr/assets
       - ./cmd/gophr/templates:/home/gophr/templates
+      - ./data:/home/gophr/data
     restart: always
   database:
     image: mysql:5.7

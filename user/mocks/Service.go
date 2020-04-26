@@ -101,6 +101,29 @@ func (_m *Service) GetByID(ctx context.Context, id interface{}) (*user.User, err
 	return r0, r1
 }
 
+// GetByUserID provides a mock function with given fields: ctx, userID
+func (_m *Service) GetByUserID(ctx context.Context, userID string) (*user.User, error) {
+	ret := _m.Called(ctx, userID)
+
+	var r0 *user.User
+	if rf, ok := ret.Get(0).(func(context.Context, string) *user.User); ok {
+		r0 = rf(ctx, userID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*user.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, userID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetByUsername provides a mock function with given fields: ctx, uname
 func (_m *Service) GetByUsername(ctx context.Context, uname string) (*user.User, error) {
 	ret := _m.Called(ctx, uname)
