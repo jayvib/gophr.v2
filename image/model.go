@@ -27,5 +27,5 @@ func (i *Image) StaticRoute() string {
 }
 
 func (i *Image) ShowRoute() string {
-	return "/image/"+i.ImageID
+	return "/images/id/"+i.ImageID
 }

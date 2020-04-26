@@ -1,6 +1,8 @@
 package user
 
 import (
+	"crypto/md5"
+	"fmt"
 	"github.com/go-playground/validator/v10"
 	"github.com/rs/xid"
 	"golang.org/x/crypto/bcrypt"
@@ -25,6 +27,14 @@ type User struct {
 func (u *User) Clone() *User {
 	cpy := *u
 	return &cpy
+}
+
+func (u *User) AvatarURL() string {
+	return fmt.Sprintf("//www.gravatar.com/avatar/%x", md5.Sum([]byte(u.Email)))
+}
+
+func (u *User) ImagesRoute() string {
+	return "/user/" + u.UserID
 }
 
 func GenerateID() string {

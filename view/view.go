@@ -36,6 +36,7 @@ func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService sess
 	r.GET("/account", h.EditUserPage)
 	r.GET("/signout", h.SignOutPage)
 	r.GET("/images/new", h.UploadImagePage)
+	r.GET("/images/id/:imageID", h.ShowImage)
 
 	// Controller handler
 	r.POST("/signup", h.HandleSignUp)
@@ -326,6 +327,30 @@ func (v *ViewHandler) UploadImagePage(c *gin.Context) {
 func (v *ViewHandler) UserEditPage(c *gin.Context) {}
 
 func (v *ViewHandler) DisplayUserDetails(c *gin.Context) {}
+
+func (v *ViewHandler) ShowImage(c *gin.Context) {
+	// Get image by image ID
+	imageId := c.Param("imageID")
+	img, err := v.imageService.Find(c.Request.Context(), imageId)
+	if err != nil {
+		v.renderErrorTemplate(c, err)
+		return
+	}
+
+	// Find user by user ID
+	usr, err := v.usrService.GetByUserID(c.Request.Context(), img.UserID)
+	if err != nil {
+		v.renderErrorTemplate(c, err)
+		return
+	}
+
+	// Render template
+	v.renderTemplate(c, "images/show", map[string]interface{}{
+		"Image": img,
+		"User": usr,
+	})
+
+}
 
 func (v *ViewHandler) renderTemplate(c *gin.Context, name string, data map[string]interface{}) {
 	// Always attach the user's information

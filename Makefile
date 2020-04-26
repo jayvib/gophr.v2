@@ -38,6 +38,12 @@ up-test:
 down-test:
 	docker-compose -f docker-compose-integ.yaml down
 
+start-test:
+	docker-compose -f docker-compose-integ.yaml start
+
+stop-test:
+	docker-compose -f docker-compose-integ.yaml stop
+
 up-services:
 	docker-compose -f docker-compose-services.yaml up -d
 
