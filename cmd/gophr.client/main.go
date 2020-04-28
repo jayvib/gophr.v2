@@ -26,6 +26,7 @@ func RegisterRoutes(r gin.IRouter, templatesGlob, layoutPath string) {
 	r.StaticFS("/assets", http.Dir("v2/assets/"))
 
 	r.GET("/", gophr.HomePage)
+	r.GET("/login", gophr.LoginPage)
 }
 
 func NewGophr(templateGlob, layoutPath string) *Gophr {
@@ -42,6 +43,10 @@ type Gophr struct {
 
 func (g *Gophr) HomePage(c *gin.Context) {
 	g.renderTeamplate(c, "index/home", "Gophr", nil)
+}
+
+func (g *Gophr) LoginPage(c *gin.Context) {
+	g.renderTeamplate(c, "session/login", "Login", nil)
 }
 
 func (g *Gophr) renderTeamplate(c *gin.Context, name string, pageName string, data map[string]interface{}) {
