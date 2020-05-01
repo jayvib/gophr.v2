@@ -3,28 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <title>Gophr</title>
-  <link rel="stylesheet" href="../../assets/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/animate/animate.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/css-hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/animsition/css/animsition.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/select2/select2.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/util.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/navbar.css">
 </head>
 <body>
   {{ define "index/navbar" }}
-    <nav class="navbar navbar-default" role="navigation">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="/">Gophr</a>
-        </div>
-        <div class="collapse navbar-collapse">
-          <div class="navbar-text navbar-right">
-            {{ if .CurrentUser }}
-              <a href="/images/new" class="btn btn-primary">Add Image</a>
-              <a href="/account" class="navbar-link">Account</a>
-              <a href="/signout" class="navbar-link">Sign Out</a>
-            {{ else }}
-              <a href="/login" class="navbar-link">Login</a>
-            {{ end }}
-          </div>
-        </div>
-      </div>
-    </nav>
+    <ul class="nav">
+      <li><a href="#">Gophr</a></li>
+			<li><a class="active" href="#">Home</a></li>
+      <li><a href="#">User</a></li>
+      <li><a href="#">Image</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
     {{ template "other/flash" . }}
   {{ end }}
 </body>

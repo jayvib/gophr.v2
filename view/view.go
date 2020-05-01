@@ -166,6 +166,7 @@ func (v *ViewHandler) HandleLogin(c *gin.Context) {
 		Username: username,
 		Password: password,
 	}
+	golog.Debug("password:", password)
 	// Get the user detail through username
 	err := v.usrService.Login(c.Request.Context(), usr)
 	if err != nil {

@@ -46,7 +46,7 @@ func main() {
 
 	sessionRepo := sessionfilerepo.New("./sessions.json")
 	sessionService := sessionservice.New(sessionRepo)
-	r := gin.New()
+	r := gin.Default()
 
 	imageRepo := imagemysql.New(driver)
 	fs := afero.NewOsFs()
