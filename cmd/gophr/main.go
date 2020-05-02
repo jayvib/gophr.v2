@@ -56,7 +56,7 @@ func main() {
 		"v2/templates/**/*.html",
 		"v2/templates/layout.html",
 		"v2/assets/",
-		"v2/data/images/")
+		"data/images/")
 
 	if err := r.Run(":8080"); err != nil {
 		log.Fatal(err)
