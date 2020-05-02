@@ -6,6 +6,7 @@ var MimeExtensions = map[string]string{
 	"image/png":  ".png",
 	"image/jpeg": ".jpg",
 	"image/gif":  ".gif",
+	"image/webp": ".webp",
 }
 
 type Image struct {
