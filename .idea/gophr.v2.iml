@@ -14,6 +14,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../go-functional-programming" />
     <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$/../learn-fp-go" />
     <content url="file://$MODULE_DIR$/../../temp/w3schools" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
