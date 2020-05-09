@@ -39,15 +39,14 @@ func (r *Repository) Find(ctx context.Context, id string) (*session.Session, err
 		select {
 		case <-ctx.Done():
 			dataRes.err = ctx.Err()
-			res <- dataRes
 		default:
 			v, ok := r.c.Get(id)
 			if !ok {
 				dataRes.err = session.ErrNotFound
 			}
 			dataRes.sess = v
-			res <- dataRes
 		}
+		res <- dataRes
 	}()
 
 	select {
