@@ -14,6 +14,15 @@ import (
 
 var defaultCtx = context.Background()
 
+type stubCache struct {
+	CacheIFace
+}
+
+func (s *stubCache) Get(id string) (interface{}, bool) {
+	time.Sleep(500*time.Millisecond)
+	return nil, false
+}
+
 func TestRepository_Find(t *testing.T) {
 	c := cache.New(defaultExpirationTime, 10*time.Minute)
 	t.Run("Found", func(t *testing.T){
@@ -35,6 +44,16 @@ func TestRepository_Find(t *testing.T) {
 		got, err := r.Find(defaultCtx, "notexists")
 		assert.Nil(t, got)
 		assert.Error(t, err)
+	})
+
+	t.Run("With Context Cancellation", func(t *testing.T){
+		stub := new(stubCache)
+		r := New(stub)
+		ctx, cancel := context.WithCancel(defaultCtx)
+		time.AfterFunc(10*time.Millisecond, cancel)
+		_, err := r.Find(ctx, "notexists")
+		assert.Error(t, err)
+		assert.Equal(t, context.Canceled, err)
 	})
 }
 
