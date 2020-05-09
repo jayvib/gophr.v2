@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gophr</title>
+  <link rel="stylesheet" type="text/css" href="../../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/animate/animate.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/css-hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/animsition/css/animsition.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/select2/select2.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/util.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/main.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/navbar.css">
+</head>
+<body>
+  {{ define "index/navbar" }}
+    <ul class="nav">
+      <li><a href="/">Gophr</a></li>
+			<li><a class="active" href="/">Home</a></li>
+      <li><a href="/account" target="_blank">User</a></li>
+      <li><a href="/images/new" target="_blank">Image</a></li>
+      <li><a href="#">About</a></li>
+      <li class="nav-right" style="float: right;"><a href="/signout">Logout</a></li>
+    </ul>
+    {{ template "other/flash" . }}
+  {{ end }}
+</body>
+</html>

@@ -46,15 +46,17 @@ func main() {
 
 	sessionRepo := sessionfilerepo.New("./sessions.json")
 	sessionService := sessionservice.New(sessionRepo)
-	r := gin.New()
+	r := gin.Default()
 
 	imageRepo := imagemysql.New(driver)
 	fs := afero.NewOsFs()
 	imageService := imageservice.New(imageRepo, fs, nil)
 
 	view.RegisterRoutes(r, userService, sessionService, imageService,
-		"templates/**/*.html",
-		"templates/layout.html")
+		"v2/templates/**/*.html",
+		"v2/templates/layout.html",
+		"v2/assets/",
+		"data/images/")
 
 	if err := r.Run(":8080"); err != nil {
 		log.Fatal(err)

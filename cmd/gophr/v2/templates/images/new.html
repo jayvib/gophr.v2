@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gophr</title>
+  <link rel="stylesheet" href="/assets/css/bootstrap.css">
+  <link rel="stylesheet" href="../../assets/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/animate/animate.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/css-hamburgers/hamburgers.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/animsition/css/animsition.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/select2/select2.min.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/vendor/daterangepicker/daterangepicker.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/util.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/css/main.css">
+</head>
+<body>
+  {{ define "images/new" }}
+    {{ template "index/navbar" . }}
+    <div class="container container-add-image" style="margin:auto;">
+      <div class="col-md-6 col-sm-offset-3">
+        <h1>Add An Image</h1>
+        {{ if .Error }}
+          <p class="text-danger">
+            {{ .Error }}
+          </p>
+        {{ end }}
+        <form action="/images/new" method="post" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="imageUrl">Upload from URL</label>
+            <input type="text" name="url" id="imageUrl" class="form-control" value="{{ .ImageURL }}">
+          </div>
+            <div class="form-group">
+              <label for="imageUpload">Upload from file</label>
+              <input type="file" name="file" id="imageUpload" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea name="description" id="description" class="form-control">{{ .Image.Description }}</textarea>
+            </div>
+            <input type="submit" value="Add" class="btn btn-primary">
+        </form>
+      </div>
+    </div>
+  {{ end }}
+</body>
+</html>

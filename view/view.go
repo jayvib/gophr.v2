@@ -22,12 +22,12 @@ var funcs = template.FuncMap{
 	},
 }
 
-func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath string) {
+func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath, assetsPath, imagesPath string) {
 	h := NewHandler(userService, sessionService, imageService, templatesGlob, layoutPath)
 
 	// Asset handler
-	r.StaticFS("/assets", http.Dir("assets/"))
-	r.StaticFS("/im/", http.Dir("data/images/"))
+	r.StaticFS("/assets", http.Dir(assetsPath))
+	r.StaticFS("/im/", http.Dir(imagesPath))
 
 	// View handlers
 	r.GET("/", h.HomePage)
@@ -166,6 +166,7 @@ func (v *ViewHandler) HandleLogin(c *gin.Context) {
 		Username: username,
 		Password: password,
 	}
+	golog.Debug("password:", password)
 	// Get the user detail through username
 	err := v.usrService.Login(c.Request.Context(), usr)
 	if err != nil {
