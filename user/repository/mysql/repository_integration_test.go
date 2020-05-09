@@ -32,7 +32,7 @@ func setup() error {
 		return err
 	}
 
-	db, err = mysqldriver.InitializeDriver(conf)
+	db, err = mysqldriver.Initialize(conf)
 	if err != nil {
 		return err
 	}

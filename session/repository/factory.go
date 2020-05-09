@@ -20,9 +20,9 @@ const (
 	GoCacheRepo
 )
 
-// GetRepository is a factory function that accepts rt repository type
+// Get is a factory function that accepts rt repository type
 // and return the implementation of the session Repository interface.
-func GetRepository(rt RepoType) session.Repository {
+func Get(rt RepoType) session.Repository {
 	switch rt {
 	case FileRepo:
 		return file.New(file.DefaultFilename)

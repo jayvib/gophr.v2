@@ -26,7 +26,7 @@ func setup() {
 	if err != nil {
 		panic(err)
 	}
-	db, err = mysql.InitializeDriver(conf)
+	db, err = mysql.Initialize(conf)
 	if err != nil {
 		panic(err)
 	}

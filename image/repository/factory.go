@@ -3,22 +3,18 @@ package repository
 import (
 	"gophr.v2/config"
 	mysqldriver "gophr.v2/driver/mysql"
-	"gophr.v2/user"
-	"gophr.v2/user/repository/file"
-	"gophr.v2/user/repository/mysql"
+	"gophr.v2/image"
+	"gophr.v2/image/repository/mysql"
 )
 
 type RepoType int
 
 const (
-	FileRepo RepoType = iota
-	MySQLRepo
+	MySQLRepo RepoType = iota
 )
 
-func Get(conf *config.Config, rt RepoType) (user.Repository, func() error ) {
+func Get(conf *config.Config, rt RepoType) (image.Repository, func() error ) {
 	switch rt {
-	case FileRepo:
-		return file.New(file.DefaultFileName), noOpClose
 	case MySQLRepo:
 		db, err := mysqldriver.Initialize(conf)
 		if err != nil {
@@ -30,6 +26,3 @@ func Get(conf *config.Config, rt RepoType) (user.Repository, func() error ) {
 	}
 }
 
-func noOpClose() error {
-	return nil
-}

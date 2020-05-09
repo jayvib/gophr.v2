@@ -7,16 +7,15 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/viper"
 	"gophr.v2/config"
+	imagerepo "gophr.v2/image/repository"
+	sessionrepo "gophr.v2/session/repository"
+	userrepo "gophr.v2/user/repository"
 	"gophr.v2/user/service"
 	"gophr.v2/view"
 	"log"
 
-	mysqldriver "gophr.v2/driver/mysql"
-	imagemysql "gophr.v2/image/repository/mysql"
 	imageservice "gophr.v2/image/service"
-	sessionfilerepo "gophr.v2/session/repository/file"
 	sessionservice "gophr.v2/session/service"
-	usermysql "gophr.v2/user/repository/mysql"
 )
 
 var (
@@ -30,28 +29,21 @@ func init() {
 }
 
 func main() {
-	driver, err := mysqldriver.InitializeDriver(conf)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer func() {
-		err = driver.Close()
-		if err != nil {
-			golog.Error(err)
-		}
-	}()
 
-	userRepo := usermysql.New(driver)
+	userRepo, closer := userrepo.Get(conf, userrepo.MySQLRepo)
+	defer noOpClose(closer)
 	userService := service.New(userRepo)
 
-	sessionRepo := sessionfilerepo.New("./sessions.json")
+	sessionRepo := sessionrepo.Get(sessionrepo.GoCacheRepo)
 	sessionService := sessionservice.New(sessionRepo)
-	r := gin.Default()
 
-	imageRepo := imagemysql.New(driver)
+	imageRepo, closer := imagerepo.Get(conf, imagerepo.MySQLRepo)
+	defer noOpClose(closer)
+
 	fs := afero.NewOsFs()
 	imageService := imageservice.New(imageRepo, fs, nil)
 
+	r := gin.Default()
 	view.RegisterRoutes(r, userService, sessionService, imageService,
 		"v2/templates/**/*.html",
 		"v2/templates/layout.html",
@@ -68,4 +60,8 @@ func initializeDebugging() {
 		golog.Info("DEBUGGING MODE")
 		golog.SetLevel(golog.DebugLevel)
 	}
+}
+
+func noOpClose(fn func() error) {
+	_ = fn()
 }

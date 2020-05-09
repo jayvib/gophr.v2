@@ -15,7 +15,7 @@ var (
 	once sync.Once
 )
 
-func InitializeDriver(conf *config.Config) (*sql.DB, error) {
+func Initialize(conf *config.Config) (*sql.DB, error) {
 	var err error
 	once.Do(func() {
 		var e error
