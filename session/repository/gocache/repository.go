@@ -2,6 +2,7 @@ package gocache
 
 import (
 	"context"
+	"fmt"
 	"gophr.v2/session"
 	"time"
 )
@@ -61,7 +62,29 @@ func (r *Repository) Find(ctx context.Context, id string) (*session.Session, err
 }
 
 func (r *Repository) Save(ctx context.Context, s *session.Session) error {
-	return nil
+	res := make(chan error, 1)
+	go func() {
+		defer close(res)
+		var err error
+
+		select {
+		case <-ctx.Done():
+			err = ctx.Err()
+		default:
+			e := r.c.Add(s.ID, s, defaultExpirationTime)
+			if e != nil {
+				err = fmt.Errorf("%w:%s", session.ErrItemExists, e.Error())
+			}
+		}
+		res <- err
+	}()
+
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case err := <-res:
+		return err
+	}
 }
 
 func (r *Repository) Delete(ctx context.Context, id string) error {
