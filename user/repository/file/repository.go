@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+const DefaultFileName = "users.db"
+
 func init() {
 	rand.Seed(time.Now().UnixNano())
 }
