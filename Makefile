@@ -25,7 +25,6 @@ up: build
 down:
 	docker-compose down
 
-<<<<<<< HEAD
 stop:
 	docker-compose stop
 
