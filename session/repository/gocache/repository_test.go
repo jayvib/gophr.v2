@@ -29,7 +29,7 @@ func (s *stubCache) Add(id string, data interface{}, d time.Duration) error {
 }
 
 func TestRepository_Find(t *testing.T) {
-	c := cache.New(defaultExpirationTime, 10*time.Minute)
+	c := cache.New(DefaultExpirationTime, 10*time.Minute)
 	t.Run("Found", func(t *testing.T){
 		want := &session.Session{
 			ID: sessionutil.GenerateID(),
@@ -71,7 +71,7 @@ func saveData(t *testing.T, want *session.Session, r *Repository) {
 
 func TestRepository_Save(t *testing.T) {
 	t.Run("Item Not Exists", func(t *testing.T){
-		c := cache.New(defaultExpirationTime, 10*time.Minute)
+		c := cache.New(DefaultExpirationTime, 10*time.Minute)
 		want := &session.Session{
 			ID: sessionutil.GenerateID(),
 			UserID: randutil.GenerateID("user"),
@@ -86,7 +86,7 @@ func TestRepository_Save(t *testing.T) {
 	})
 
 	t.Run("Item Already Exists", func(t *testing.T){
-		c := cache.New(defaultExpirationTime, 10*time.Minute)
+		c := cache.New(DefaultExpirationTime, 10*time.Minute)
 		want := &session.Session{
 			ID: sessionutil.GenerateID(),
 			UserID: randutil.GenerateID("user"),
@@ -134,7 +134,7 @@ func TestRepository_Delete(t *testing.T) {
 		Expiry: time.Now(),
 	}
 
-	c := cache.New(defaultExpirationTime, 10*time.Minute)
+	c := cache.New(DefaultExpirationTime, 10*time.Minute)
 	r := New(c)
 	saveData(t, want, r)
 	err := r.Delete(defaultCtx, want.ID)

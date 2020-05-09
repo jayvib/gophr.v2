@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const defaultExpirationTime = 24*time.Hour
+const DefaultExpirationTime = 24*time.Hour
 
 type CacheIFace interface {
 	Get(id string) (data interface{}, ok bool)
@@ -71,7 +71,7 @@ func (r *Repository) Save(ctx context.Context, s *session.Session) error {
 		case <-ctx.Done():
 			err = ctx.Err()
 		default:
-			e := r.c.Add(s.ID, s, defaultExpirationTime)
+			e := r.c.Add(s.ID, s, DefaultExpirationTime)
 			if e != nil {
 				err = fmt.Errorf("%w:%s", session.ErrItemExists, e.Error())
 			}

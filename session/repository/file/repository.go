@@ -8,6 +8,8 @@ import (
 	"os"
 )
 
+const DefaultFilename = "sessions.db"
+
 func New(filename string) session.Repository {
 	r := &repository{
 		filename: filename,
