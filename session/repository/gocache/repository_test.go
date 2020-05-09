@@ -128,4 +128,15 @@ func assertSavedSession(t *testing.T, r *Repository, want *session.Session) {
 
 
 func TestRepository_Delete(t *testing.T) {
+	want := &session.Session{
+		ID: sessionutil.GenerateID(),
+		UserID: randutil.GenerateID("user"),
+		Expiry: time.Now(),
+	}
+
+	c := cache.New(defaultExpirationTime, 10*time.Minute)
+	r := New(c)
+	saveData(t, want, r)
+	err := r.Delete(defaultCtx, want.ID)
+	assert.NoError(t, err)
 }
