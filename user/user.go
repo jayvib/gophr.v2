@@ -34,7 +34,7 @@ func (u *User) AvatarURL() string {
 }
 
 func (u *User) ImagesRoute() string {
-	return "/user/" + u.UserID
+	return "/v1/user/" + u.UserID
 }
 
 func GenerateID() string {

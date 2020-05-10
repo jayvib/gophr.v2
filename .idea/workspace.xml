@@ -6,11 +6,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a60e3baa-5a95-433b-a3fb-c42f23a33e9f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/image/repository/factory.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gophr.v2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gophr.v2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmd/gophr/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/session/repository/factory.go" beforeDir="false" afterPath="$PROJECT_DIR$/session/repository/factory.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/repository/factory.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/repository/factory.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gophr/v2/templates/images/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/v2/templates/images/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gophr/v2/templates/images/new.html" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/v2/templates/images/new.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gophr/v2/templates/index/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/v2/templates/index/navbar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/gophr/v2/templates/user/edit.html" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/gophr/v2/templates/user/edit.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image/model.go" beforeDir="false" afterPath="$PROJECT_DIR$/image/model.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/user/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/middleware/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/view/middleware/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view/view.go" beforeDir="false" afterPath="$PROJECT_DIR$/view/view.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -48,7 +54,7 @@
     <window id="1">
       <content type="file-editors">
         <state>
-          <leaf>
+          <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
             <file pinned="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_test.go">
                 <provider selected="true" editor-type-id="text-editor">
@@ -64,112 +70,14 @@
     </window>
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.58355266">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="252">
-                  <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
-                  <folding>
-                    <element signature="e#42#383#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/cmd/gophr/main.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="80">
-                  <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/image/repository/factory.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="252">
-                  <caret line="18" column="34" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
-                  <folding>
-                    <element signature="e#20#80#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/driver/mysql/driver.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="224">
-                  <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/session/repository/factory.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="266">
-                  <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/user/repository/file/repository.go">
-              <provider selected="true" editor-type-id="text-editor" />
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/session/repository/file/repository.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="56">
-                  <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="305">
-                  <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-                  <folding>
-                    <element signature="e#42#383#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/user/repository/factory.go">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="140">
-                  <caret line="10" selection-start-line="10" selection-end-line="10" />
-                  <folding>
-                    <element signature="e#20#170#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="HTML File" />
         <option value="Go File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -189,19 +97,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/cmd/gophr/templates/images/home.html" />
-        <option value="$PROJECT_DIR$/cmd/gophr/templates/images/new.html" />
-        <option value="$PROJECT_DIR$/cmd/gophr/templates/index/home.html" />
-        <option value="$PROJECT_DIR$/cmd/gophr/templates/misc/flash.html" />
-        <option value="$PROJECT_DIR$/cmd/gophr/templates/user/signup.html" />
         <option value="$PROJECT_DIR$/cmd/gophr/templates/index/navbar.html" />
         <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/overflow/visible.html" />
         <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/clear/clear.html" />
         <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/float/float.html" />
-        <option value="$PROJECT_DIR$/user/user.go" />
         <option value="$PROJECT_DIR$/Makefile" />
         <option value="$PROJECT_DIR$/cmd/gophr/templates/images/show.html" />
-        <option value="$PROJECT_DIR$/view/view.go" />
         <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/session/login.html" />
         <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/index/home.html" />
         <option value="$PROJECT_DIR$/cmd/gophr/v2/assets/css/flash.css" />
@@ -220,11 +121,6 @@
         <option value="$PROJECT_DIR$/../go-functional-programming/high-order-function/review/currying/main.go" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/ea247e24-e6c1-44f8-819a-572a413c23de/console.sql" />
         <option value="$PROJECT_DIR$/cmd/gophr/v2/assets/css/main.css" />
-        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/images/home.html" />
-        <option value="$PROJECT_DIR$/image/model.go" />
-        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/index/navbar.html" />
-        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/user/edit.html" />
-        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/images/new.html" />
         <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/opacity/image-transparency.html" />
         <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/opacity/image-hover-transparency.html" />
         <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/opacity/transparent-box.html" />
@@ -239,7 +135,19 @@
         <option value="$PROJECT_DIR$/image/repository/repository.go" />
         <option value="$PROJECT_DIR$/image/repository/factory.go" />
         <option value="$PROJECT_DIR$/driver/mysql/driver.go" />
+        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/images/home.html" />
+        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/images/new.html" />
+        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/index/navbar.html" />
+        <option value="$PROJECT_DIR$/cmd/gophr/v2/templates/user/edit.html" />
         <option value="$PROJECT_DIR$/cmd/gophr/main.go" />
+        <option value="$PROJECT_DIR$/view/view.go" />
+        <option value="$PROJECT_DIR$/view/middleware/middleware.go" />
+        <option value="$PROJECT_DIR$/image/model.go" />
+        <option value="$PROJECT_DIR$/user/user.go" />
+        <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/forms/form.html" />
+        <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/forms/focused-input.html" />
+        <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/forms/search-input.html" />
+        <option value="$PROJECT_DIR$/../../temp/w3schools/css/review/forms/text-area.html" />
       </list>
     </option>
   </component>
@@ -267,32 +175,6 @@
               <item name="gophr.v2" type="47feb1d3:ProjectViewModuleNode" />
               <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gophr.v2" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
-              <item name="driver" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gophr.v2" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
-              <item name="driver" type="462c0819:PsiDirectoryNode" />
-              <item name="mysql" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gophr.v2" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
-              <item name="image" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="gophr.v2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="gophr.v2" type="47feb1d3:ProjectViewModuleNode" />
-              <item name="gophr.v2" type="462c0819:PsiDirectoryNode" />
-              <item name="image" type="462c0819:PsiDirectoryNode" />
-              <item name="repository" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -310,31 +192,31 @@
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.vendoring.notification.had.been.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../learn-fp-go" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../temp/go_design_pattern" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Other File Types" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\cygwin64\home\temp\w3schools\css\review\pseudo-elements" />
-      <recent name="C:\cygwin64\home\others\gophr.v2\image\service\testdata" />
-      <recent name="C:\cygwin64\home\others\gophr.v2\image" />
-      <recent name="C:\cygwin64\home\others\gophr.v2\view" />
-      <recent name="C:\cygwin64\home\others\gophr.v2" />
-    </key>
     <key name="GoMoveDeclarationDialog.RECENT_KEY">
       <recent name="$PROJECT_DIR$/cmd/gophr" />
       <recent name="$PROJECT_DIR$/user/web" />
       <recent name="$PROJECT_DIR$/user/repository/mysql" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\cygwin64\home\temp\w3schools\css\review\forms" />
       <recent name="C:\cygwin64\home\temp\w3schools\css\review\pseudo-elements" />
       <recent name="C:\cygwin64\home\others\gophr.v2\cmd\gophr\templates\images" />
       <recent name="C:\cygwin64\home\others\gophr.v2\cmd\gophr\templates\index" />
       <recent name="C:\cygwin64\home\others\gophr.v2" />
-      <recent name="C:\cygwin64\home\temp\gophr.v2\cmd\gophr\templates\user" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\cygwin64\home\temp\w3schools\css\review\pseudo-elements" />
+      <recent name="C:\cygwin64\home\others\gophr.v2\image\service\testdata" />
+      <recent name="C:\cygwin64\home\others\gophr.v2\image" />
+      <recent name="C:\cygwin64\home\others\gophr.v2\view" />
+      <recent name="C:\cygwin64\home\others\gophr.v2" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -471,14 +353,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1874" height="1096" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16207276" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16372657" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3287234" />
-      <window_info anchor="bottom" x="329" y="257" width="1454" height="489" id="Run" order="2" weight="0.4680851" />
+      <window_info anchor="bottom" x="329" y="257" width="1454" height="489" id="Run" order="2" weight="0.34042552" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -498,32 +379,6 @@
       <window_info anchor="right" id="Json Parser" order="6" />
       <window_info anchor="right" x="0" y="0" width="418" height="896" id="Documentation" order="7" sideWeight="0.5010638" side_tool="true" weight="0.16868798" />
     </layout>
-    <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21940464" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3287234" />
-      <window_info anchor="bottom" x="329" y="257" width="1454" height="489" id="Run" order="2" weight="0.51276594" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32978722" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" x="2070" y="564" width="1451" height="465" id="Terminal" order="10" sideWeight="0.49889746" weight="0.34787235" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5011025" side_tool="true" weight="0.3617021" />
-      <window_info anchor="bottom" x="260" y="444" width="1335" height="354" id="Database Console" order="12" weight="0.3287234" />
-      <window_info anchor="right" id="Coverage" order="0" side_tool="true" weight="0.087651595" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="right" id="make" order="4" />
-      <window_info anchor="right" id="Database" order="5" sideWeight="0.49893618" weight="0.16868798" />
-      <window_info anchor="right" id="Json Parser" order="6" />
-      <window_info anchor="right" x="0" y="0" width="418" height="896" id="Documentation" order="7" sideWeight="0.5010638" side_tool="true" weight="0.16868798" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -533,233 +388,6 @@
     <proxy>direct</proxy>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/pseudo-elements/first-line.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="1" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/pseudo-elements/first-letter.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/pseudo-elements/first-letter-first-line.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="21" column="6" selection-start-line="21" selection-start-column="6" selection-end-line="21" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/pseudo-elements/simple.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/pseudo-elements/before.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="11" column="29" selection-start-line="11" selection-start-column="29" selection-end-line="11" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/pseudo-elements/selection.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="12" column="5" selection-start-line="12" selection-start-column="5" selection-end-line="12" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../go-functional-programming/high-order-function/review/generator/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="114">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-          <folding>
-            <element signature="e#14#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../go-functional-programming/high-order-function/review/reduce/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="45" column="22" lean-forward="true" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
-          <folding>
-            <element signature="e#14#42#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../go-functional-programming/high-order-function/review/currying/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-          <folding>
-            <element signature="e#14#44#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/view/view.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="147" column="40" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ea247e24-e6c1-44f8-819a-572a413c23de/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/assets/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="14" column="27" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/assets/css/util.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="481" column="1" selection-start-line="481" selection-start-column="1" selection-end-line="481" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/assets/css/session.css">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/assets/css/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="262">
-          <caret line="383" column="14" selection-start-line="383" selection-start-column="14" selection-end-line="383" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/layout.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="6" column="37" selection-start-line="6" selection-start-column="37" selection-end-line="6" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image/service.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="2" selection-start-line="15" selection-start-column="2" selection-end-line="15" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image/service/service.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="18" column="24" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image/model.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/index/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/index/navbar.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="22" column="35" selection-start-line="22" selection-start-column="35" selection-end-line="22" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/images/show.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/images/home.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="350">
-          <caret line="25" column="20" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/images/new.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="12" column="21" selection-start-line="12" selection-start-column="21" selection-end-line="12" selection-end-column="21" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/user/edit.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="30" column="49" selection-start-line="30" selection-start-column="49" selection-end-line="30" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/misc/error.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/opacity/image-transparency.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="98">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/opacity/image-hover-transparency.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/opacity/transparent-box.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="21" column="18" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/opacity/text-in-transparent-box.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../go-functional-programming/functional-composition/interface/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="50" column="8" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="8" />
-          <folding>
-            <element signature="e#14#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../go-functional-programming/functional-composition/decorator-pattern/main.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="6" column="1" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../learn-fp-go/2-design-patterns/ch05-decoration/02_decorator/main.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="290">
@@ -861,23 +489,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go">
+    <entry file="file://C:/Go/src/database/sql/sql.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="36" column="12" selection-start-line="36" selection-start-column="12" selection-end-line="36" selection-end-column="12" />
-          <folding>
-            <element signature="e#42#383#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user/repository/factory.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="e#20#170#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="305">
+          <caret line="808" column="14" selection-start-line="808" selection-start-column="14" selection-end-line="808" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -891,17 +506,299 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_integration_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
+          <folding>
+            <element signature="e#42#383#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository/factory.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="22" column="37" lean-forward="true" selection-start-line="22" selection-start-column="37" selection-end-line="22" selection-end-column="37" />
+          <folding>
+            <element signature="e#20#170#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/driver/mysql/driver.go">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository/file/repository.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/session/repository/file/repository.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="12" column="32" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository/mysql/repository_test.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="40" column="47" selection-start-line="40" selection-start-column="47" selection-end-line="40" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/index/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="9" column="26" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/index/navbar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="23" column="61" selection-start-line="23" selection-start-column="61" selection-end-line="23" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/misc/error.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/misc/flash.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/session/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="21" column="79" selection-start-line="21" selection-start-column="79" selection-end-line="21" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/session/signout.html">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="224">
-          <caret line="24" column="20" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+          <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/user/edit.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="27" column="24" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/user/signup.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/layout.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="30" column="6" selection-start-line="30" selection-start-column="6" selection-end-line="30" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Documents/Work Files/Apollo Team/project/iSell/apollo-cloud/api/pkg/mod/github.com/gin-gonic/gin@v1.6.1/routergroup.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/middleware/middleware.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="45" column="46" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/images/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="23" column="78" selection-start-line="23" selection-start-column="78" selection-end-line="23" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/images/new.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="40" column="40" selection-start-line="40" selection-start-column="40" selection-end-line="40" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/service.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/repository.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/errors.go">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cmd/gophr/v2/templates/images/show.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image/model.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cmd/gophr/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
+        <state relative-caret-position="294">
+          <caret line="50" column="19" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user/user.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view/view.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="404">
+          <caret line="354" column="77" selection-start-line="354" selection-start-column="77" selection-end-line="354" selection-end-column="77" />
+          <folding>
+            <element signature="e#264#380#0" />
+            <element signature="e#299#320#0" />
+            <element signature="e#356#377#0" />
+            <element signature="n#!!block;n#RegisterRoutes#0" />
+            <element signature="n#!!block;n#NewHandler#0" />
+            <element signature="e#1521#1784#0" />
+            <element signature="n#!!block;n#HandleSignUp#0" />
+            <element signature="e#2199#2266#0" />
+            <element signature="e#2339#2465#0" />
+            <element signature="e#2401#2452#0" />
+            <element signature="e#2611#2656#0" />
+            <element signature="n#!!block;n#HandleImageUpload#0" />
+            <element signature="e#2774#2879#0" />
+            <element signature="e#2784#2839#0" />
+            <element signature="e#2841#2876#0" />
+            <element signature="n#!!block;n#createImageFromURL#0" />
+            <element signature="e#3202#3340#0" />
+            <element signature="e#3262#3327#0" />
+            <element signature="n#!!block;n#createImageFromFile#0" />
+            <element signature="e#3591#3686#0" />
+            <element signature="e#3729#3824#0" />
+            <element signature="e#3839#3859#0" />
+            <element signature="e#3987#4118#0" />
+            <element signature="e#4066#4105#0" />
+            <element signature="n#!!block;n#HandleLogin#0" />
+            <element signature="e#4385#4433#0" />
+            <element signature="e#4579#4725#0" />
+            <element signature="e#4643#4712#0" />
+            <element signature="e#4914#4959#0" />
+            <element signature="e#5036#5053#0" />
+            <element signature="n#!!block;n#HandleEditUser#0" />
+            <element signature="e#5454#5532#0" />
+            <element signature="e#5556#6178#0" />
+            <element signature="e#5632#5766#0" />
+            <element signature="e#5693#5751#0" />
+            <element signature="e#5930#6083#0" />
+            <element signature="e#6020#6078#0" />
+            <element signature="e#6330#6449#0" />
+            <element signature="e#6390#6445#0" />
+            <element signature="n#!!block;n#renderErrorTemplate#0" />
+            <element signature="n#!!block;n#getMessage#0" />
+            <element signature="e#6760#6793#0" />
+            <element signature="e#6851#6883#0" />
+            <element signature="e#6889#6917#0" />
+            <element signature="n#!!block;n#HomePage#0" />
+            <element signature="e#7064#7167#0" />
+            <element signature="n#!!block;n#SignupPage#0" />
+            <element signature="n#!!block;n#LoginPage#0" />
+            <element signature="n#!!block;n#EditUserPage#0" />
+            <element signature="e#7702#7750#0" />
+            <element signature="n#!!block;n#SignOutPage#0" />
+            <element signature="e#7908#7972#0" />
+            <element signature="n#!!block;n#UploadImagePage#0" />
+            <element signature="n#!!block;n#UserEditPage#0" />
+            <element signature="n#!!block;n#DisplayUserDetails#0" />
+            <element signature="n#!!block;n#ShowImage#0" />
+            <element signature="e#8455#8500#0" />
+            <element signature="e#8613#8658#0" />
+            <element signature="e#8738#8773#0" />
+            <element signature="n#!!block;n#renderTemplate#0" />
+            <element signature="e#8933#8975#0" />
+            <element signature="e#9124#9262#0" />
+            <element signature="e#9283#9461#0" />
+            <element signature="e#9330#9458#0" />
+            <element signature="e#9605#9760#0" />
+            <element signature="e#9732#9757#0" />
+            <element signature="n#!!block;n#getUserFromCookie#0" />
+            <element signature="e#9885#9902#0" />
+            <element signature="e#9991#10056#0" />
+            <element signature="n#!!block;n#getSessionFromRequest#0" />
+            <element signature="e#10280#10297#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/forms/form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="14">
+          <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/forms/colored-input.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/forms/text-area.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/forms/search-input.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/w3schools/css/review/forms/focused-input.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/go_design_pattern/structural/composite/direct/athlete/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-210" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/go_design_pattern/structural/composition/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-74" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../temp/go_design_pattern/structural/composition/review/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="14" column="23" selection-start-line="14" selection-start-column="23" selection-end-line="14" selection-end-column="23" />
         </state>
       </provider>
     </entry>

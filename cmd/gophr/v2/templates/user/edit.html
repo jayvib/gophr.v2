@@ -25,7 +25,7 @@
             {{ . }}
           </div>
         {{ end }}
-        <form action="/account" method="POST">
+        <form action="/v1/account" method="POST">
           <div class="form-group">
             <label for="newEmail">Email</label>
             <input type="text" id="newEmail" name="email" value="{{ .User.Email }}" class="form-control">

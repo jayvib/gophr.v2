@@ -12,6 +12,7 @@ import (
 	userrepo "gophr.v2/user/repository"
 	"gophr.v2/user/service"
 	"gophr.v2/view"
+	"gophr.v2/view/middleware"
 	"log"
 
 	imageservice "gophr.v2/image/service"
@@ -44,7 +45,10 @@ func main() {
 	imageService := imageservice.New(imageRepo, fs, nil)
 
 	r := gin.Default()
-	view.RegisterRoutes(r, userService, sessionService, imageService,
+	v1Routers := r.Group("/v1")
+	securedRouter := v1Routers.Use(middleware.RequireLogin(sessionService))
+
+	view.RegisterRoutes(r, securedRouter, userService, sessionService, imageService,
 		"v2/templates/**/*.html",
 		"v2/templates/layout.html",
 		"v2/assets/",

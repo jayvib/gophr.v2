@@ -22,27 +22,26 @@ var funcs = template.FuncMap{
 	},
 }
 
-func RegisterRoutes(r gin.IRouter, userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath, assetsPath, imagesPath string) {
+func RegisterRoutes(unsecuredRouter ,securedRouter gin.IRoutes, userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath, assetsPath, imagesPath string) {
 	h := NewHandler(userService, sessionService, imageService, templatesGlob, layoutPath)
 
 	// Asset handler
-	r.StaticFS("/assets", http.Dir(assetsPath))
-	r.StaticFS("/im/", http.Dir(imagesPath))
+	unsecuredRouter.StaticFS("/assets", http.Dir(assetsPath))
+	unsecuredRouter.StaticFS("/im/", http.Dir(imagesPath))
 
-	// View handlers
-	r.GET("/", h.HomePage)
-	r.GET("/signup", h.SignupPage)
-	r.GET("/login", h.LoginPage)
-	r.GET("/account", h.EditUserPage)
-	r.GET("/signout", h.SignOutPage)
-	r.GET("/images/new", h.UploadImagePage)
-	r.GET("/images/id/:imageID", h.ShowImage)
+	unsecuredRouter.GET("/", h.HomePage)
+	unsecuredRouter.GET("/signup", h.SignupPage)
+	unsecuredRouter.GET("/login", h.LoginPage)
+	unsecuredRouter.POST("/signup", h.HandleSignUp)
+	unsecuredRouter.POST("/login", h.HandleLogin)
 
-	// Controller handler
-	r.POST("/signup", h.HandleSignUp)
-	r.POST("/login", h.HandleLogin)
-	r.POST("/account", h.HandleEditUser)
-	r.POST("/images/new", h.HandleImageUpload)
+	securedRouter.GET("/account", h.EditUserPage)
+	securedRouter.GET("/signout", h.SignOutPage)
+	securedRouter.GET("/images/new", h.UploadImagePage)
+	securedRouter.GET("/images/id/:imageID", h.ShowImage)
+
+	securedRouter.POST("/account", h.HandleEditUser)
+	securedRouter.POST("/images/new", h.HandleImageUpload)
 }
 
 func NewHandler(userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath string) *ViewHandler {

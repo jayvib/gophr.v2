@@ -6,6 +6,7 @@ import (
 	"gophr.v2/session"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 func RequireLogin(sessionService session.Service) gin.HandlerFunc {
@@ -36,7 +37,13 @@ func RequireLogin(sessionService session.Service) gin.HandlerFunc {
 
 func redirectToLogin(c *gin.Context) {
 	next := url.Values{}
-	next.Add("next", url.QueryEscape(c.Request.URL.String()))
+	trimmedUrl := strings.TrimLeftFunc(c.Request.URL.String(), func(r rune)bool{
+		if r == '/' {
+			return true
+		}
+		return false
+	})
+	next.Add("next", url.QueryEscape(trimmedUrl))
 	c.Redirect(http.StatusTemporaryRedirect, "/login?"+next.Encode())
 	c.Abort()
 }
