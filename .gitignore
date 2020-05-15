@@ -1,5 +1,7 @@
 bin/
 .idea/
+cmd/gophr/data/
+data/
 
 *.swp
 *.exe

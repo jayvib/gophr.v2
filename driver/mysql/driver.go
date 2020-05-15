@@ -17,6 +17,8 @@ var (
 
 func Initialize(conf *config.Config) (*sql.DB, error) {
 	var err error
+
+	// Using Singleton Pattern
 	once.Do(func() {
 		var e error
 		format := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",

@@ -16,6 +16,11 @@ const (
 	ProdEnv
 )
 
+const (
+	defaultConfigType = "yaml"
+	defaultConfigPath = "$HOME"
+)
+
 var (
 	conf *Config
 	once sync.Once
@@ -28,6 +33,21 @@ func Load() *Config {
 }
 
 func New(env Env) (*Config, error) {
+
+	defBuilder := newDefaultBuilder(env)
+
+	var err error
+	once.Do(func() {
+		conf, err = build(defBuilder)
+		initializeViper()
+	})
+	if err != nil {
+		return nil, err
+	}
+	return conf, nil
+}
+
+func getConfigName(env Env) string {
 	var configName string
 	switch env {
 	case DevelopmentEnv:
@@ -37,20 +57,7 @@ func New(env Env) (*Config, error) {
 	case ProdEnv:
 		configName = "config.yaml"
 	}
-
-	var err error
-	once.Do(func() {
-		conf, err = loadConfig(
-			SetConfigType("yaml"),
-			SetConfig(configName),
-			AddConfigPath("$HOME"),
-		)
-		initializeViper()
-	})
-	if err != nil {
-		return nil, err
-	}
-	return conf, nil
+	return configName
 }
 
 func initializeViper() {
@@ -95,6 +102,59 @@ func SetConfigType(t string) func() {
 	return func() {
 		viper.SetConfigType(t)
 	}
+}
+
+type Builder interface {
+	SetConfigType() Builder
+	SetConfigName() Builder
+	AddConfigPath() Builder
+	Get() (*Config, error)
+}
+
+func build(builder Builder) (*Config, error) {
+	return builder.AddConfigPath().SetConfigName().SetConfigType().Get()
+}
+
+func newDefaultBuilder(env Env) Builder {
+	return &defaultBuilder{
+		configName: getConfigName(env),
+		configPath: defaultConfigPath,
+		configType: defaultConfigType,
+	}
+}
+
+type defaultBuilder struct {
+	configName string
+	configPath string
+	configType string
+}
+
+func (d *defaultBuilder) SetConfigType() Builder {
+	SetConfigType(d.configType)
+	return d
+}
+
+func (d *defaultBuilder) SetConfigName() Builder {
+	SetConfig(d.configName)
+	return d
+}
+
+func (d *defaultBuilder) AddConfigPath() Builder {
+	AddConfigPath(d.configPath)
+	return d
+}
+
+func (d *defaultBuilder) Get() (*Config, error) {
+
+	if err := viper.ReadInConfig(); err != nil {
+		return nil, err
+	}
+	c := new(Config)
+	if err := viper.Unmarshal(c); err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }
 
 func loadConfig(opts ...func()) (*Config, error) {
