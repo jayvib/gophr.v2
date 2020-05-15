@@ -1,6 +1,5 @@
 bin/
 .idea/
-cmd/gophr/data/
 data/
 
 *.swp
@@ -10,3 +9,4 @@ data/
 *.jpg
 *.jpeg
 *.gif
+*.db
