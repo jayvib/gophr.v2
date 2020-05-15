@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jayvib/golog"
+	"github.com/jinzhu/copier"
 	"github.com/spf13/viper"
 	"sync"
 )
@@ -57,8 +58,29 @@ func getConfigName(env Env) string {
 }
 
 type Config struct {
+	rwmu sync.RWMutex
 	Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
+}
+
+// Clone creates a new address for existing config.
+//
+// The cloned config is safe to modify upon cloning.
+// This is attempt to implement the Prototype Design Pattern
+//
+// The aim of the Prototype pattern is to have an object or
+// a set of objects that is already created at compilation time,
+// but which you can clone as many times as you want at runtime.
+func (c *Config) Clone() (*Config, error) {
+	c.rwmu.RLock()
+	defer c.rwmu.RUnlock()
+	clonedConfig := new(Config)
+	err := copier.Copy(clonedConfig, c)
+	if err != nil {
+		return nil, err
+	}
+
+	return clonedConfig, nil
 }
 
 type Gophr struct {
