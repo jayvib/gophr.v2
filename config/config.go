@@ -4,7 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jayvib/golog"
 	"github.com/spf13/viper"
-	"log"
 	"sync"
 )
 
@@ -26,20 +25,17 @@ var (
 	once sync.Once
 )
 
-func Load() *Config {
+func Initialize() *Config {
 	initializeViper()
 	initializeConfig()
 	return conf
 }
 
 func New(env Env) (*Config, error) {
-
-	defBuilder := newDefaultBuilder(env)
-
+	defBuilder := newViperBuilder(env)
 	var err error
 	once.Do(func() {
 		conf, err = build(defBuilder)
-		initializeViper()
 	})
 	if err != nil {
 		return nil, err
@@ -58,13 +54,6 @@ func getConfigName(env Env) string {
 		configName = "config.yaml"
 	}
 	return configName
-}
-
-func initializeViper() {
-	viper.AutomaticEnv()
-	_ = viper.BindEnv()
-	viper.SetEnvPrefix("gophr")
-	viper.SetDefault("port", "8080")
 }
 
 type Config struct {
@@ -86,91 +75,6 @@ type MySQL struct {
 	Database string
 }
 
-func AddConfigPath(path string) func() {
-	return func() {
-		viper.AddConfigPath(path)
-	}
-}
-
-func SetConfig(name string) func() {
-	return func() {
-		viper.SetConfigName(name)
-	}
-}
-
-func SetConfigType(t string) func() {
-	return func() {
-		viper.SetConfigType(t)
-	}
-}
-
-type Builder interface {
-	SetConfigType() Builder
-	SetConfigName() Builder
-	AddConfigPath() Builder
-	Get() (*Config, error)
-}
-
-func build(builder Builder) (*Config, error) {
-	return builder.AddConfigPath().SetConfigName().SetConfigType().Get()
-}
-
-func newDefaultBuilder(env Env) Builder {
-	return &defaultBuilder{
-		configName: getConfigName(env),
-		configPath: defaultConfigPath,
-		configType: defaultConfigType,
-	}
-}
-
-type defaultBuilder struct {
-	configName string
-	configPath string
-	configType string
-}
-
-func (d *defaultBuilder) SetConfigType() Builder {
-	SetConfigType(d.configType)
-	return d
-}
-
-func (d *defaultBuilder) SetConfigName() Builder {
-	SetConfig(d.configName)
-	return d
-}
-
-func (d *defaultBuilder) AddConfigPath() Builder {
-	AddConfigPath(d.configPath)
-	return d
-}
-
-func (d *defaultBuilder) Get() (*Config, error) {
-
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
-	}
-	c := new(Config)
-	if err := viper.Unmarshal(c); err != nil {
-		return nil, err
-	}
-
-	return c, nil
-}
-
-func loadConfig(opts ...func()) (*Config, error) {
-	for _, opt := range opts {
-		opt()
-	}
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
-	}
-	c := new(Config)
-	if err := viper.Unmarshal(c); err != nil {
-		return nil, err
-	}
-	return c, nil
-}
-
 func initializeConfig() {
 	var err error
 	var env Env
@@ -183,10 +87,10 @@ func initializeConfig() {
 		gin.SetMode(gin.ReleaseMode)
 		env = ProdEnv
 	}
-	golog.Info(env)
+
+	golog.Debug("Environment:", viper.Get("env"))
 	_, err = New(env)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
-
