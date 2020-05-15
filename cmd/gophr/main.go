@@ -35,7 +35,7 @@ func main() {
 	defer noOpClose(closer)
 	userService := service.New(userRepo)
 
-	sessionRepo := sessionrepo.Get(sessionrepo.GoCacheRepo)
+	sessionRepo := sessionrepo.Get(sessionrepo.FileRepo)
 	sessionService := sessionservice.New(sessionRepo)
 
 	imageRepo, closer := imagerepo.Get(conf, imagerepo.MySQLRepo)
