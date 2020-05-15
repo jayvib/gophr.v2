@@ -25,7 +25,7 @@ var (
 
 func init() {
 	flag.Parse()
-	conf = config.Load()
+	conf = config.Initialize()
 	initializeDebugging()
 }
 
