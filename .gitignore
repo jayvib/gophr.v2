@@ -6,6 +6,5 @@ bin/
 *.engine
 *.json
 *.jpg
-*.png
 *.jpeg
 *.gif
