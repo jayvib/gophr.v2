@@ -1,6 +1,10 @@
 package config
 
-import "github.com/spf13/viper"
+import (
+	"github.com/jayvib/golog"
+	"github.com/spf13/viper"
+	"strconv"
+)
 
 type Builder interface {
 	SetConfigType() Builder
@@ -26,6 +30,7 @@ type viperConfigBuilder struct {
 	configName string
 	configPath string
 	configType string
+	// TODO: Put the viper object here
 }
 
 func (d *viperConfigBuilder) SetConfigType() Builder {
@@ -60,4 +65,14 @@ func initializeViper() {
 	_ = viper.BindEnv()
 	viper.SetEnvPrefix("gophr")
 	viper.SetDefault("port", "8080")
+}
+
+func initializeDebugging() {
+	v := viper.Get("debug")
+	isDebug, _ := strconv.ParseBool(v.(string))
+	if isDebug {
+		golog.SetLevel(golog.DebugLevel)
+		golog.Warning("GOPHER IS IN DEBUGGING MODE!")
+	}
+	viper.GetViper()
 }

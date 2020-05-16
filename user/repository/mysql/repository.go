@@ -123,6 +123,7 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 		nextCursor = userutil.EncodeCursor(*res[len(res)-1].CreatedAt)
 	}
 
+	log.Debug("Result:", res)
 	return res, nextCursor, nil
 }
 

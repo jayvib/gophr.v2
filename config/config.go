@@ -37,6 +37,7 @@ func New(env Env) (*Config, error) {
 	var err error
 	once.Do(func() {
 		conf, err = build(defBuilder)
+		conf.init()
 	})
 	if err != nil {
 		return nil, err
@@ -61,6 +62,14 @@ type Config struct {
 	rwmu sync.RWMutex
 	Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
+	Debug bool `json:"debug"`
+}
+
+func (c *Config) init() {
+	if c.Debug {
+		golog.Warning("Gopher is in debug mode!")
+		golog.SetLevel(golog.DebugLevel)
+	}
 }
 
 // Clone creates a new address for existing config.

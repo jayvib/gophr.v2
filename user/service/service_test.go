@@ -26,7 +26,7 @@ func TestService_GetByID(t *testing.T) {
 			Username: "luffy.monkey",
 			Email:    "luffy.monkey@gmail.com",
 		}
-		repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(want, nil)
+		repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("uint")).Return(want, nil)
 		svc := New(repo)
 		got, _ := svc.GetByID(context.Background(), want.ID)
 		assert.Equal(t, want, got)
@@ -35,7 +35,7 @@ func TestService_GetByID(t *testing.T) {
 	t.Run("Not existing user should return a ErrNotFound error", func(t *testing.T) {
 		repo := new(mocks.Repository)
 		want := user.ErrNotFound
-		repo.On("GetByID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrNotFound)
+		repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("uint")).Return(nil, user.ErrNotFound)
 		svc := New(repo)
 		_, got := svc.GetByID(context.Background(), uint(9999))
 		require.IsType(t, new(user.Error), got)
