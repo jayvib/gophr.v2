@@ -54,13 +54,9 @@ func (s *Service) Register(ctx context.Context, user *user.User) error {
 	}
 	defer response.Body.Close()
 
-	if response.StatusCode != http.StatusOK {
-		var errRes Response
-		err := json.NewDecoder(response.Body).Decode(&errRes)
-		if err != nil {
-			return err
-		}
-		return errors.New(errRes.Error)
+	err = s.checkErr(response)
+	if err != nil {
+		return err
 	}
 
 	var resp Response
@@ -74,6 +70,22 @@ func (s *Service) Register(ctx context.Context, user *user.User) error {
 	}
 
 	return copier.Copy(user, &resp.Data)
+}
+
+func (s *Service) checkErr(resp *http.Response) error {
+	switch resp.StatusCode {
+	case http.StatusBadRequest, http.StatusNotFound, http.StatusInternalServerError:
+		var errRes Response
+		err := json.NewDecoder(resp.Body).Decode(&errRes)
+		if err != nil {
+			return err
+		}
+		return errors.New(errRes.Message)
+	case http.StatusOK:
+		return nil
+	default:
+		return errors.New(fmt.Sprintf("unhandled response status code: %d", resp.StatusCode))
+	}
 }
 
 func (s *Service) doGet(ctx context.Context, path string, body io.Reader) (*user.User, error) {

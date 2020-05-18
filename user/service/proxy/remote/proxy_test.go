@@ -143,7 +143,7 @@ func TestRegister(t *testing.T) {
 		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 			response := &Response{
 				Success: true,
-				Error: wantMsg,
+				Message: wantMsg,
 			}
 			payload, err := json.Marshal(response)
 			assert.NoError(t, err)
