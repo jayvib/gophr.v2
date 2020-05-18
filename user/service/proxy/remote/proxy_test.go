@@ -87,47 +87,80 @@ func setupClient(t *testing.T, h http.HandlerFunc) (*Client, func()) {
 }
 
 func TestRegister(t *testing.T) {
-	want := &user.User{
-		Username: "unit.testing",
-		Email: "unit.test@testing.com",
-		Password: "mysupersecretpassword",
-	}
 
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-		var user user.User
-
-		err := json.NewDecoder(r.Body).Decode(&user)
-		require.NoError(t, err)
-
-		user.UserID = userutil.GenerateID()
-
-		password, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
-		require.NoError(t, err)
-
-		user.Password = string(password)
-
-
-		response := &Response{
-			Data: &user,
-			Success: true,
+	t.Run("Success", func(t *testing.T){
+		want := &user.User{
+			Username: "unit.testing",
+			Email: "unit.test@testing.com",
+			Password: "mysupersecretpassword",
 		}
-		payload, err := json.Marshal(response)
-		assert.NoError(t, err)
 
-		w.WriteHeader(http.StatusOK)
-		w.Write(payload)
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+			var user user.User
+
+			err := json.NewDecoder(r.Body).Decode(&user)
+			require.NoError(t, err)
+
+			user.UserID = userutil.GenerateID()
+
+			password, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+			require.NoError(t, err)
+
+			user.Password = string(password)
+
+
+			response := &Response{
+				Data: &user,
+				Success: true,
+			}
+			payload, err := json.Marshal(response)
+			assert.NoError(t, err)
+
+			w.WriteHeader(http.StatusOK)
+			w.Write(payload)
+		})
+
+		client, teardown := setupClient(t, h)
+		defer teardown()
+
+		svc := New(client)
+
+		err := svc.Register(context.Background(), want)
+		require.NoError(t, err)
+
+		assert.NotEmpty(t, want.UserID)
+		assert.NotEmpty(t, want.Password)
 	})
 
-	client, teardown := setupClient(t, h)
-	defer teardown()
+	t.Run("Status Not OK", func(t *testing.T){
+		want := &user.User{
+			Username: "unit.testing",
+			Email: "unit.test@testing.com",
+			Password: "mysupersecretpassword",
+		}
 
-	svc := New(client)
+		wantMsg := "this is a unit test error"
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+			response := &Response{
+				Success: true,
+				Error: wantMsg,
+			}
+			payload, err := json.Marshal(response)
+			assert.NoError(t, err)
 
-	err := svc.Register(context.Background(), want)
-	require.NoError(t, err)
+			w.WriteHeader(http.StatusBadRequest)
+			_, _ = w.Write(payload)
+		})
 
-	assert.NotEmpty(t, want.UserID)
-	assert.NotEmpty(t, want.Password)
+		client, teardown := setupClient(t, h)
+		defer teardown()
+
+		svc := New(client)
+		err := svc.Register(context.Background(), want)
+		assert.Error(t, err)
+		assert.Equal(t, wantMsg, err.Error())
+	})
+
 }
 
 func testingHTTPClient(handler http.Handler) (*http.Client, func()) {

@@ -52,12 +52,16 @@ func (s *Service) Register(ctx context.Context, user *user.User) error {
 	if err != nil {
 		return err
 	}
+	defer response.Body.Close()
 
 	if response.StatusCode != http.StatusOK {
-		// TODO: Need to properly put the message
-		return errors.New("unexpected bad happen")
+		var errRes Response
+		err := json.NewDecoder(response.Body).Decode(&errRes)
+		if err != nil {
+			return err
+		}
+		return errors.New(errRes.Error)
 	}
-	defer response.Body.Close()
 
 	var resp Response
 	err = json.NewDecoder(response.Body).Decode(&resp)
