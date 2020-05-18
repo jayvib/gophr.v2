@@ -142,7 +142,7 @@ func TestRegister(t *testing.T) {
 		wantMsg := "this is a unit test error"
 		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 			response := &Response{
-				Success: true,
+				Success: false,
 				Message: wantMsg,
 			}
 			payload, err := json.Marshal(response)
