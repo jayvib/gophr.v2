@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"golang.org/x/crypto/bcrypt"
 	"gophr.v2/user"
 	"gophr.v2/user/userutil"
 	"net"
@@ -35,12 +36,8 @@ func TestGetByUserID(t *testing.T) {
 			assert.NoError(t, err)
 		})
 
-		// Create an http client
-		client, teardown := testingHTTPClient(h)
+		c, teardown := setupClient(t, h)
 		defer teardown()
-
-		c, err := newClient(client, SetBaseUrl(defaultUrl))
-		assert.NoError(t, err)
 
 		// Initialise the service
 		svc := New(c)
@@ -52,14 +49,14 @@ func TestGetByUserID(t *testing.T) {
 		assert.Equal(t, want, res)
 	})
 
-	t.Run("Not Found", func(t *testing.T){
+	t.Run("Not Found", func(t *testing.T) {
 		response := &Response{
 			Success: false,
 			Message: "Filed to get the user because it is not found",
 		}
 
 		// Create a mock handler
-		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 			payload, err := json.Marshal(response)
 			require.NoError(t, err)
@@ -67,23 +64,71 @@ func TestGetByUserID(t *testing.T) {
 			require.NoError(t, err)
 		})
 
-		// Create an http client
-		client, teardown := testingHTTPClient(h)
+		c, teardown := setupClient(t, h)
 		defer teardown()
-
-		c, err := newClient(client, SetBaseUrl(defaultUrl))
-		assert.NoError(t, err)
 
 		// Initialise the service
 		svc := New(c)
 
 		// Assert the result
-		_, err = svc.GetByID(context.Background(), 1)
+		_, err := svc.GetByID(context.Background(), 1)
 		assert.Error(t, err)
 		assert.Equal(t, user.ErrNotFound, err)
 	})
 }
 
+func setupClient(t *testing.T, h http.HandlerFunc) (*Client, func()) {
+	t.Helper()
+	// Create an http client
+	client, teardown := testingHTTPClient(h)
+	c, err := newClient(client, SetBaseUrl(defaultUrl))
+	require.NoError(t, err)
+	return c, teardown
+}
+
+func TestRegister(t *testing.T) {
+	want := &user.User{
+		Username: "unit.testing",
+		Email: "unit.test@testing.com",
+		Password: "mysupersecretpassword",
+	}
+
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		var user user.User
+
+		err := json.NewDecoder(r.Body).Decode(&user)
+		require.NoError(t, err)
+
+		user.UserID = userutil.GenerateID()
+
+		password, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+		require.NoError(t, err)
+
+		user.Password = string(password)
+
+
+		response := &Response{
+			Data: &user,
+			Success: true,
+		}
+		payload, err := json.Marshal(response)
+		assert.NoError(t, err)
+
+		w.WriteHeader(http.StatusOK)
+		w.Write(payload)
+	})
+
+	client, teardown := setupClient(t, h)
+	defer teardown()
+
+	svc := New(client)
+
+	err := svc.Register(context.Background(), want)
+	require.NoError(t, err)
+
+	assert.NotEmpty(t, want.UserID)
+	assert.NotEmpty(t, want.Password)
+}
 
 func testingHTTPClient(handler http.Handler) (*http.Client, func()) {
 	s := httptest.NewServer(handler)
