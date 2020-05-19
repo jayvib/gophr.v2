@@ -8,10 +8,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gophr.v2/user"
 	"gophr.v2/user/userutil"
+	"gophr.v2/util/valueutil"
 	"net"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 )
 
 func TestGetByUserID(t *testing.T) {
@@ -161,6 +163,39 @@ func TestRegister(t *testing.T) {
 		assert.Equal(t, wantMsg, err.Error())
 	})
 
+}
+
+func TestUpdate(t *testing.T) {
+	want := &user.User{
+		Username: "unit.testing",
+		Email: "updated.unit.test@testing.com",
+		Password: "mysupersecretpassword",
+	}
+
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+	 var usr user.User
+	 err := json.NewDecoder(r.Body).Decode(&usr)
+	 require.NoError(t, err)
+	 defer r.Body.Close()
+	 usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
+
+		payload, err := json.Marshal(&usr)
+		require.NoError(t, err)
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write(payload)
+	})
+
+	client, teardown := setupClient(t, h)
+	defer teardown()
+
+	svc := New(client)
+
+	err := svc.Update(context.Background(), want)
+	assert.NoError(t, err)
+	assert.NotEmpty(t, want.UpdatedAt)
+}
+
+func TestDelete(t *testing.T) {
 }
 
 func testingHTTPClient(handler http.Handler) (*http.Client, func()) {

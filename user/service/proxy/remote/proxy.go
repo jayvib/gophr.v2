@@ -33,6 +33,42 @@ func (s *Service) GetByID(ctx context.Context, id interface{}) (*user.User, erro
 	return s.doGet(ctx, fmt.Sprintf("/user/%v", id), nil)
 }
 
+func (s *Service) Update(ctx context.Context, usr *user.User) error {
+
+	// Marshal to json
+	payload, err := json.Marshal(usr)
+	if err != nil {
+		return err
+	}
+
+	body := bytes.NewReader(payload)
+
+	// Do Request
+	req, err := s.client.NewRequest(http.MethodPost, "/user", body)
+	if err != nil {
+		return err
+	}
+
+	resp, err := s.client.Do(ctx, req)
+	if err != nil {
+		return err
+	}
+
+	err = s.checkErr(resp)
+	if err != nil {
+		return err
+	}
+
+	// Unmarshal the response
+	var usrRes user.User
+	err = json.NewDecoder(resp.Body).Decode(&usrRes)
+	if err != nil {
+		return err
+	}
+
+	return copier.Copy(usr, usrRes)
+}
+
 func (s *Service) Register(ctx context.Context, user *user.User) error {
 	// Marshal the user and create a byte reader
 	payload, err := json.Marshal(user)
