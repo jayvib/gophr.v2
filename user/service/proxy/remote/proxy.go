@@ -53,6 +53,7 @@ func (s *Service) Update(ctx context.Context, usr *user.User) error {
 	if err != nil {
 		return err
 	}
+	defer noOpClose(resp.Body)
 
 	err = s.checkErr(resp)
 	if err != nil {
@@ -67,6 +68,36 @@ func (s *Service) Update(ctx context.Context, usr *user.User) error {
 	}
 
 	return copier.Copy(usr, usrRes)
+}
+
+func (s *Service) Delete(ctx context.Context, id interface{}) error {
+
+	req, err := s.client.NewRequest(http.MethodDelete, fmt.Sprintf("/user/%s", id), nil)
+	if err != nil {
+		return err
+	}
+
+	resp, err := s.client.Do(ctx, req)
+	if err != nil {
+		return err
+	}
+	defer noOpClose(resp.Body)
+
+	err = s.checkErr(resp)
+	if err != nil {
+		return err
+	}
+
+	var r Response
+	err = json.NewDecoder(resp.Body).Decode(&r)
+	if err != nil {
+		return err
+	}
+
+	if !r.Success {
+		return errors.New("failed deleting an item")
+	}
+	return nil
 }
 
 func (s *Service) Register(ctx context.Context, user *user.User) error {
@@ -88,7 +119,7 @@ func (s *Service) Register(ctx context.Context, user *user.User) error {
 	if err != nil {
 		return err
 	}
-	defer response.Body.Close()
+	defer noOpClose(response.Body)
 
 	err = s.checkErr(response)
 	if err != nil {
@@ -142,7 +173,7 @@ func (s *Service) doGet(ctx context.Context, path string, body io.Reader) (*user
 		return nil, errors.New("unexpected error")
 	}
 
-	defer resp.Body.Close()
+	defer noOpClose(resp.Body)
 
 	var result Response
 	err = json.NewDecoder(resp.Body).Decode(&result)
@@ -154,4 +185,8 @@ func (s *Service) doGet(ctx context.Context, path string, body io.Reader) (*user
 
 func (s *Service) GetByUserID(ctx context.Context, id string) (*user.User, error) {
 	return s.doGet(ctx, fmt.Sprintf("/user/%v", id), nil)
+}
+
+func noOpClose(c io.Closer) {
+	_ = c.Close()
 }

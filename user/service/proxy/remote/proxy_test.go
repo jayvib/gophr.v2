@@ -196,6 +196,25 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+	 	resp := &Response{
+			Success: true,
+		}
+
+	 	payload, err := json.Marshal(resp)
+	 	require.NoError(t, err)
+
+	 	w.WriteHeader(http.StatusOK)
+
+	 	_, _ = w.Write(payload)
+	})
+
+	client, teardown := setupClient(t, h)
+	defer teardown()
+
+	svc := New(client)
+	err := svc.Delete(context.Background(), "test1234")
+	assert.NoError(t, err)
 }
 
 func testingHTTPClient(handler http.Handler) (*http.Client, func()) {
