@@ -33,7 +33,7 @@ type Service struct {
 }
 
 func (s *Service) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
-	return s.doGet(ctx, fmt.Sprintf("/user/%v", id), nil)
+	return s.doGet(ctx, fmt.Sprintf("/users/%v", id), nil)
 }
 
 func (s *Service) Update(ctx context.Context, usr *user.User) error {
@@ -47,7 +47,7 @@ func (s *Service) Update(ctx context.Context, usr *user.User) error {
 	body := bytes.NewReader(payload)
 
 	// Do Request
-	req, err := s.client.NewRequest(http.MethodPost, "/user", body)
+	req, err := s.client.NewRequest(http.MethodPost, "/users", body)
 	if err != nil {
 		return err
 	}
@@ -77,7 +77,7 @@ func (s *Service) Update(ctx context.Context, usr *user.User) error {
 
 func (s *Service) Delete(ctx context.Context, id interface{}) error {
 
-	req, err := s.client.NewRequest(http.MethodDelete, fmt.Sprintf("/user/%s", id), nil)
+	req, err := s.client.NewRequest(http.MethodDelete, fmt.Sprintf("/users/%s", id), nil)
 	if err != nil {
 		return err
 	}
@@ -115,7 +115,7 @@ func (s *Service) Register(ctx context.Context, user *user.User) error {
 	body := bytes.NewReader(payload)
 
 	// Create a request
-	req, err := s.client.NewRequest(http.MethodPut, "/user", body)
+	req, err := s.client.NewRequest(http.MethodPut, "/users", body)
 	if err != nil {
 		return err
 	}
@@ -165,7 +165,7 @@ func decodeUser(resp Response) (*user.User, error) {
 }
 
 func (s *Service) GetByUserID(ctx context.Context, id string) (*user.User, error) {
-	return s.doGet(ctx, fmt.Sprintf("/user/%v", id), nil)
+	return s.doGet(ctx, fmt.Sprintf("/users/%v", id), nil)
 }
 
 func (s *Service) GetAll(ctx context.Context, cursor string, num int) (users []*user.User, next string, err error) {
@@ -178,7 +178,7 @@ func (s *Service) GetAll(ctx context.Context, cursor string, num int) (users []*
 		 num,
 	}
 
-	path, err := addOptions("/user", opt)
+	path, err := addOptions("/users", opt)
 	if err != nil {
 		return nil, "", err
 	}

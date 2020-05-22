@@ -16,6 +16,10 @@ type Response struct {
 
 type ClientOpt func(client *Client) error
 
+func NewClient() (*Client, error) {
+	return newClientWithDefaults()
+}
+
 func newClientWithDefaults() (*Client, error) {
 	return newClient(nil, SetBaseUrl(defaultUrl))
 }

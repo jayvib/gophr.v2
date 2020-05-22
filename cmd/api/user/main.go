@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gophr.v2/config"
 	"gophr.v2/user/api/v1/http"
@@ -8,7 +10,10 @@ import (
 	"gophr.v2/user/service"
 )
 
+var port = flag.String("port", "4401", "Port")
+
 func main() {
+	flag.Parse()
 	conf := config.Initialize()
 
 	repo, closer := repository.Get(conf, repository.MySQLRepo)
@@ -19,7 +24,7 @@ func main() {
 	r := gin.Default()
 	http.RegisterHandlers(r, svc)
 
-	if err := r.Run(":4401"); err != nil {
+	if err := r.Run(fmt.Sprintf(":%s", *port)); err != nil {
 		panic(err)
 	}
 }
