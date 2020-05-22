@@ -79,15 +79,6 @@ func TestGetByUserID(t *testing.T) {
 	})
 }
 
-func setupClient(t *testing.T, h http.HandlerFunc) (*Client, func()) {
-	t.Helper()
-	// Create an http client
-	client, teardown := testingHTTPClient(h)
-	c, err := newClient(client, SetBaseUrl(defaultUrl))
-	require.NoError(t, err)
-	return c, teardown
-}
-
 func TestRegister(t *testing.T) {
 
 	t.Run("Success", func(t *testing.T){
@@ -179,7 +170,12 @@ func TestUpdate(t *testing.T) {
 	 defer r.Body.Close()
 	 usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
 
-		payload, err := json.Marshal(&usr)
+	 resp := Response{
+	 	Data: usr,
+	 	Success: true,
+	 }
+
+		payload, err := json.Marshal(&resp)
 		require.NoError(t, err)
 		w.WriteHeader(http.StatusOK)
 		_, _ = w.Write(payload)
@@ -217,6 +213,122 @@ func TestDelete(t *testing.T) {
 	assert.NoError(t, err)
 }
 
+func TestGetAll(t *testing.T) {
+	t.Run("Success", func(t *testing.T){
+		want := []*user.User{
+			{
+				ID: 1,
+				UserID: userutil.GenerateID(),
+				Password: "poijpoifalkefae13413",
+				Email: "luffy.monkey@onepiece.com",
+			},
+			{
+				ID: 2,
+				UserID: userutil.GenerateID(),
+				Password: "woijpoifalkefae13413",
+				Email: "sanji.vinsmoke@onepiece.com",
+			},
+			{
+				ID: 3,
+				UserID: userutil.GenerateID(),
+				Password: "xoijpoifalkefae13413",
+				Email: "zorro.roronoa@onepiece.com",
+			},
+		}
+
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+			// Parse the URL Query and get the cursor and num
+			cursor := r.URL.Query().Get("cursor")
+			num := r.URL.Query().Get("num")
+
+			assert.Empty(t, cursor)
+			assert.Equal(t, "3", num)
+
+			resp := Response{
+				Data: want,
+				Success: true,
+			}
+
+			payload, err := json.Marshal(resp)
+			require.NoError(t, err)
+			w.WriteHeader(http.StatusOK)
+			_, err = w.Write(payload)
+		})
+
+		client, teardown := setupClient(t, h)
+		defer teardown()
+
+		svc := New(client)
+
+		got, next, err := svc.GetAll(context.Background(), "", 3)
+		require.NoError(t, err)
+
+		assert.Empty(t, next)
+		assert.Equal(t, want, got)
+	})
+
+	t.Run("Cursor", func(t *testing.T){
+		users := []*user.User{
+			{
+				ID: 1,
+				UserID: userutil.GenerateID(),
+				Password: "poijpoifalkefae13413",
+				Email: "luffy.monkey@onepiece.com",
+			},
+			{
+				ID: 2,
+				UserID: userutil.GenerateID(),
+				Password: "woijpoifalkefae13413",
+				Email: "sanji.vinsmoke@onepiece.com",
+			},
+			{
+				ID: 3,
+				UserID: userutil.GenerateID(),
+				Password: "xoijpoifalkefae13413",
+				Email: "zorro.roronoa@onepiece.com",
+				CreatedAt: valueutil.TimePointer(time.Now()),
+			},
+		}
+
+		want := users[:1]
+
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+			// Parse the URL Query and get the cursor and num
+			cursor := r.URL.Query().Get("cursor")
+			num := r.URL.Query().Get("num")
+
+			assert.Empty(t, cursor)
+			assert.Equal(t, "2", num)
+
+			resp := Response{
+				Data: want,
+				Success: true,
+			}
+
+			payload, err := json.Marshal(resp)
+			require.NoError(t, err)
+
+			selectedUser := users[len(users)-1]
+			cursor = userutil.EncodeCursor(*selectedUser.CreatedAt)
+
+			w.Header().Add("X-Cursor", cursor)
+			w.WriteHeader(http.StatusOK)
+			_, err = w.Write(payload)
+		})
+
+		client, teardown := setupClient(t, h)
+		defer teardown()
+
+		svc := New(client)
+
+		got, next, err := svc.GetAll(context.Background(), "", 2)
+		require.NoError(t, err)
+
+		assert.Empty(t, next)
+		assert.Equal(t, want, got)
+	})
+}
+
 func testingHTTPClient(handler http.Handler) (*http.Client, func()) {
 	s := httptest.NewServer(handler)
 	cli := &http.Client{
@@ -227,4 +339,13 @@ func testingHTTPClient(handler http.Handler) (*http.Client, func()) {
 		},
 	}
 	return cli, s.Close
+}
+
+func setupClient(t *testing.T, h http.HandlerFunc) (*Client, func()) {
+	t.Helper()
+	// Create an http client
+	client, teardown := testingHTTPClient(h)
+	c, err := newClient(client, SetBaseUrl(defaultUrl))
+	require.NoError(t, err)
+	return c, teardown
 }

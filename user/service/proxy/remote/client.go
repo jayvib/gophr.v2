@@ -2,14 +2,13 @@ package remote
 
 import (
 	"context"
-	"gophr.v2/user"
 	"io"
 	"net/http"
 	"net/url"
 )
 
 type Response struct {
-	Data    *user.User `json:"data,omitempty"`
+	Data    interface{} `json:"data,omitempty"`
 	Error   string      `json:"error,omitempty"`
 	Success bool        `json:"success"`
 	Message string      `json:"message,omitempty"`

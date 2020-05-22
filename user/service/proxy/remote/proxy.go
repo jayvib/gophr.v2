@@ -6,10 +6,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/google/go-querystring/query"
 	"github.com/jinzhu/copier"
 	"gophr.v2/user"
 	"io"
 	"net/http"
+	"net/url"
+	"reflect"
 )
 
 const (
@@ -61,11 +64,13 @@ func (s *Service) Update(ctx context.Context, usr *user.User) error {
 	}
 
 	// Unmarshal the response
-	var usrRes user.User
-	err = json.NewDecoder(resp.Body).Decode(&usrRes)
+	var requestResponse Response
+	err = json.NewDecoder(resp.Body).Decode(&requestResponse)
 	if err != nil {
 		return err
 	}
+
+	usrRes, err := decodeUser(requestResponse)
 
 	return copier.Copy(usr, usrRes)
 }
@@ -136,7 +141,118 @@ func (s *Service) Register(ctx context.Context, user *user.User) error {
 		return errors.New("failed registering user")
 	}
 
-	return copier.Copy(user, &resp.Data)
+	usr, err := decodeUser(resp)
+	if err != nil {
+		return err
+	}
+
+	return copier.Copy(user, usr)
+}
+
+func decodeUser(resp Response) (*user.User, error) {
+	payload, err := json.Marshal(resp.Data)
+	if err != nil {
+		return nil, err
+	}
+
+	var usr user.User
+	r := bytes.NewReader(payload)
+	err = json.NewDecoder(r).Decode(&usr)
+	if err != nil {
+		return nil, err
+	}
+	return &usr, nil
+}
+
+func (s *Service) GetByUserID(ctx context.Context, id string) (*user.User, error) {
+	return s.doGet(ctx, fmt.Sprintf("/user/%v", id), nil)
+}
+
+func (s *Service) GetAll(ctx context.Context, cursor string, num int) (users []*user.User, next string, err error) {
+
+	opt := &struct{
+		Cursor string `url:"cursor,omitempty"`
+		Num int `url:"num,omitempty"`
+	} {
+		 cursor,
+		 num,
+	}
+
+	path, err := addOptions("/user", opt)
+	if err != nil {
+		return nil, "", err
+	}
+
+	req, err := s.client.NewRequest(http.MethodGet, path, nil)
+	if err != nil {
+		return nil, "", err
+	}
+
+	reqResp, err := s.client.Do(ctx, req)
+	if err != nil {
+		return nil, "", err
+	}
+
+	if err := s.checkErr(reqResp);err != nil {
+	  return nil, "", err
+	}
+
+	var response Response
+	err = json.NewDecoder(reqResp.Body).Decode(&response)
+	if err != nil {
+		return nil, "", err
+	}
+
+	users, err = decodeUsers(&response)
+	if err != nil {
+		return nil, "", err
+	}
+
+	// Get the cursor
+	cursor = reqResp.Header.Get("X-Cursor")
+	return
+}
+
+func decodeUsers(resp *Response) ([]*user.User, error) {
+	payload, err := json.Marshal(resp.Data)
+	if err != nil {
+		return nil, err
+	}
+
+	users := make([]*user.User, 0)
+	r := bytes.NewReader(payload)
+	err = json.NewDecoder(r).Decode(&users)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
+func addOptions(s string, option interface{}) (string, error) {
+	v := reflect.ValueOf(option)
+	if v.Kind() == reflect.Ptr && v.IsNil() {
+		return s, nil
+	}
+
+	origUrl, err := url.Parse(s)
+	if err != nil {
+		return s, err
+	}
+
+	origValues := origUrl.Query()
+
+	newValues, err := query.Values(option)
+	if err != nil {
+		return s, err
+	}
+
+	for k, v := range newValues {
+		origValues[k] = v
+	}
+
+	origUrl.RawQuery = origValues.Encode()
+	return origUrl.String(), nil
 }
 
 func (s *Service) checkErr(resp *http.Response) error {
@@ -180,11 +296,21 @@ func (s *Service) doGet(ctx context.Context, path string, body io.Reader) (*user
 	if err != nil {
 		return nil, err
 	}
-	return result.Data, nil
-}
 
-func (s *Service) GetByUserID(ctx context.Context, id string) (*user.User, error) {
-	return s.doGet(ctx, fmt.Sprintf("/user/%v", id), nil)
+	mapPayload, err := json.Marshal(result.Data)
+	if err != nil {
+		return nil, err
+	}
+
+	// unmarshal back for user.User
+	var usr user.User
+
+	err = json.Unmarshal(mapPayload, &usr)
+	if err != nil {
+		return nil, err
+	}
+
+	return &usr, nil
 }
 
 func noOpClose(c io.Closer) {
