@@ -56,7 +56,7 @@ EXAMPLE:
       results = append(results, usr)
     }
 
-    payload, err := json.MarshalIndent(results, "", "\t")
+    payload, err := json.MarshalIndent(results, "", "  ")
     if err != nil {
       log.Fatal(err)
     }
