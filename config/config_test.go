@@ -1,43 +1,38 @@
-// +build integration
+//+build unit
 
 package config
 
 import (
-	"github.com/magiconair/properties/assert"
+	"github.com/go-playground/assert/v2"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-	"os"
-	"path/filepath"
 	"testing"
 )
 
-func setup(t *testing.T) (teardown func() error) {
-	home := os.Getenv("HOME")
-	gophrPath := filepath.Join(home, ".gophr", "testenv")
-	err := os.MkdirAll(gophrPath, 0777)
-	require.NoError(t, err)
+func TestConfig_Clone(t *testing.T) {
+		conf := &Config{
+			Gophr: Gophr{
+				Port: "8080",
+				Environment: "ENV",
+				Debug: false,
+			},
+			MySQL: MySQL{
+				User: "pitchy",
+				Password: "pitchylovespapa",
+				Host: "localhost",
+				Port: "3306",
+				Database: "pitchy_db",
+			},
+		}
 
-	confText := `
-mysql:
-  user: root
-  password: test
-  host: 127.0.0.1
-  port: 6607
-  name: user
-`
-	configPath := filepath.Join(gophrPath, "config.yaml")
-	err = ioutil.WriteFile(configPath, []byte(confText), 0777)
-	require.NoError(t, err)
+		clonedConf, err := conf.Clone()
+		require.NoError(t, err)
 
-	return func() error {
-		return os.Remove(configPath)
-	}
-}
+		if clonedConf == conf {
+			t.Error("cloned config should not the same address with the original config")
+		}
 
-func TestConfig(t *testing.T) {
-	closer := setup(t)
-	defer closer()
-	config, err := New(DevelopmentEnv)
-	require.NoError(t, err)
-	assert.Equal(t, "127.0.0.1", config.MySQL.Host)
+		t.Run("Modifying the value", func(t *testing.T){
+			clonedConf.Gophr.Port = "8081"
+			assert.NotEqual(t, clonedConf, conf)
+		})
 }

@@ -78,7 +78,7 @@ func (_m *Repository) GetByEmail(ctx context.Context, email string) (*user.User,
 	return r0, r1
 }
 
-// GetByID provides a mock function with given fields: ctx, id
+// GetByUserID provides a mock function with given fields: ctx, id
 func (_m *Repository) GetByID(ctx context.Context, id interface{}) (*user.User, error) {
 	ret := _m.Called(ctx, id)
 

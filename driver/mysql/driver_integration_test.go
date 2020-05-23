@@ -6,7 +6,6 @@ import (
 	"github.com/jayvib/golog"
 	"github.com/stretchr/testify/require"
 	"gophr.v2/config"
-	"gophr.v2/user/repository/mysql/driver"
 	"testing"
 )
 

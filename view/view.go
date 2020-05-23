@@ -28,7 +28,6 @@ func RegisterRoutes(unsecuredRouter ,securedRouter gin.IRoutes, userService user
 	// Asset handler
 	unsecuredRouter.StaticFS("/assets", http.Dir(assetsPath))
 	unsecuredRouter.StaticFS("/im/", http.Dir(imagesPath))
-
 	unsecuredRouter.GET("/", h.HomePage)
 	unsecuredRouter.GET("/signup", h.SignupPage)
 	unsecuredRouter.GET("/login", h.LoginPage)
@@ -39,7 +38,6 @@ func RegisterRoutes(unsecuredRouter ,securedRouter gin.IRoutes, userService user
 	securedRouter.GET("/signout", h.SignOutPage)
 	securedRouter.GET("/images/new", h.UploadImagePage)
 	securedRouter.GET("/images/id/:imageID", h.ShowImage)
-
 	securedRouter.POST("/account", h.HandleEditUser)
 	securedRouter.POST("/images/new", h.HandleImageUpload)
 }

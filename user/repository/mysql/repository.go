@@ -9,6 +9,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gophr.v2/user"
 	"gophr.v2/user/userutil"
+	"time"
 )
 
 var _ user.Repository = (*Repository)(nil)
@@ -107,9 +108,14 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 			created_at 
 		LIMIT ?`
 
-	decodedCursor, err := userutil.DecodeCursor(cursor)
-	if err != nil {
-		return nil, "", err
+	var decodedCursor time.Time
+	if cursor != "" {
+		decodedCursor, err = userutil.DecodeCursor(cursor)
+		if err != nil {
+			return nil, "", err
+		}
+	} else {
+		decodedCursor = time.Now().AddDate(-100, 0, 0)
 	}
 	log.Debug("cursor:", decodedCursor)
 
@@ -123,6 +129,8 @@ func (r *Repository) GetAll(ctx context.Context, cursor string, num int) (users 
 		nextCursor = userutil.EncodeCursor(*res[len(res)-1].CreatedAt)
 	}
 
+	log.Debug("Result:", res)
+	log.Debug("Next cursor:", nextCursor)
 	return res, nextCursor, nil
 }
 

@@ -3,8 +3,8 @@ package config
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jayvib/golog"
+	"github.com/jinzhu/copier"
 	"github.com/spf13/viper"
-	"log"
 	"sync"
 )
 
@@ -16,18 +16,36 @@ const (
 	ProdEnv
 )
 
+const (
+	defaultConfigType = "yaml"
+	defaultConfigPath = "$HOME"
+)
+
 var (
 	conf *Config
 	once sync.Once
 )
 
-func Load() *Config {
+func Initialize() *Config {
 	initializeViper()
 	initializeConfig()
 	return conf
 }
 
 func New(env Env) (*Config, error) {
+	defBuilder := newViperBuilder(env)
+	var err error
+	once.Do(func() {
+		conf, err = build(defBuilder)
+		conf.init()
+	})
+	if err != nil {
+		return nil, err
+	}
+	return conf, nil
+}
+
+func getConfigName(env Env) string {
 	var configName string
 	switch env {
 	case DevelopmentEnv:
@@ -37,32 +55,41 @@ func New(env Env) (*Config, error) {
 	case ProdEnv:
 		configName = "config.yaml"
 	}
-
-	var err error
-	once.Do(func() {
-		conf, err = loadConfig(
-			SetConfigType("yaml"),
-			SetConfig(configName),
-			AddConfigPath("$HOME"),
-		)
-		initializeViper()
-	})
-	if err != nil {
-		return nil, err
-	}
-	return conf, nil
-}
-
-func initializeViper() {
-	viper.AutomaticEnv()
-	_ = viper.BindEnv()
-	viper.SetEnvPrefix("gophr")
-	viper.SetDefault("port", "8080")
+	return configName
 }
 
 type Config struct {
+	rwmu sync.RWMutex
 	Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
+	Debug bool `json:"debug"`
+}
+
+func (c *Config) init() {
+	if c.Debug {
+		golog.Warning("Gopher is in debug mode!")
+		golog.SetLevel(golog.DebugLevel)
+	}
+}
+
+// Clone creates a new address for existing config.
+//
+// The cloned config is safe to modify upon cloning.
+// This is attempt to implement the Prototype Design Pattern
+//
+// The aim of the Prototype pattern is to have an object or
+// a set of objects that is already created at compilation time,
+// but which you can clone as many times as you want at runtime.
+func (c *Config) Clone() (*Config, error) {
+	c.rwmu.RLock()
+	defer c.rwmu.RUnlock()
+	clonedConfig := new(Config)
+	err := copier.Copy(clonedConfig, c)
+	if err != nil {
+		return nil, err
+	}
+
+	return clonedConfig, nil
 }
 
 type Gophr struct {
@@ -79,38 +106,6 @@ type MySQL struct {
 	Database string
 }
 
-func AddConfigPath(path string) func() {
-	return func() {
-		viper.AddConfigPath(path)
-	}
-}
-
-func SetConfig(name string) func() {
-	return func() {
-		viper.SetConfigName(name)
-	}
-}
-
-func SetConfigType(t string) func() {
-	return func() {
-		viper.SetConfigType(t)
-	}
-}
-
-func loadConfig(opts ...func()) (*Config, error) {
-	for _, opt := range opts {
-		opt()
-	}
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
-	}
-	c := new(Config)
-	if err := viper.Unmarshal(c); err != nil {
-		return nil, err
-	}
-	return c, nil
-}
-
 func initializeConfig() {
 	var err error
 	var env Env
@@ -123,10 +118,10 @@ func initializeConfig() {
 		gin.SetMode(gin.ReleaseMode)
 		env = ProdEnv
 	}
-	golog.Info(env)
+
+	golog.Debug("Environment:", viper.Get("env"))
 	_, err = New(env)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 }
-

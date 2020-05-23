@@ -1,9 +1,9 @@
 # Copyright 2020 Jayson Vibandor. All Right Reserved.
 
 mysql:
-  database: gophr
-  user: user
-  password: mypassword
+  database: gophr_test
+  user: testuser
+  password: testpassword
   host: 127.0.0.1
   port: 3306
 

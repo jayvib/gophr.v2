@@ -51,12 +51,12 @@ func TestGetByID(t *testing.T) {
 
 		e := gin.Default()
 		repo := new(mocks.Repository)
-		repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(usr, nil)
+		repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(usr, nil)
 
 		svc := service.New(repo)
 		RegisterHandlers(e, svc)
 
-		response := httputil.PerformRequest(e, http.MethodGet, "/users/id/1", nil)
+		response := httputil.PerformRequest(e, http.MethodGet, "/users/"+usr.UserID, nil)
 
 		require.Equal(t, http.StatusOK, response.Code)
 		assertResponse(t, want, response.Body)
@@ -70,12 +70,12 @@ func TestGetByID(t *testing.T) {
 			Message: "Failed getting the user because it didn't exist",
 		}
 		repo := new(mocks.Repository)
-		repo.On("GetByID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
+		repo.On("GetByUserID", mock.Anything, mock.AnythingOfType("string")).Return(nil, user.ErrNotFound)
 
 		svc := service.New(repo)
 		RegisterHandlers(e, svc)
 
-		response := httputil.PerformRequest(e, http.MethodGet, "/users/id/1", nil)
+		response := httputil.PerformRequest(e, http.MethodGet, "/users/abcdw32", nil)
 
 		assert.Equal(t, http.StatusNotFound, response.Code)
 		assertResponse(t, want, response.Body)
@@ -135,7 +135,7 @@ func TestDelete(t *testing.T) {
 	svc := new(mocks.Service)
 	svc.On("Delete", mock.Anything, mock.AnythingOfType("string")).Return(nil).Once()
 	RegisterHandlers(e, svc)
-	response := httputil.PerformRequest(e, http.MethodDelete, "/users/id/:id", nil)
+	response := httputil.PerformRequest(e, http.MethodDelete, "/users/abcd21234", nil)
 	assert.Equal(t, http.StatusOK, response.Code)
 	got := extractResponse(t, response)
 	assert.True(t, got.Success)

@@ -25,11 +25,11 @@ type Response struct {
 
 func RegisterHandlers(r gin.IRouter, svc user.Service) {
 	handler := New(svc)
-	r.GET("/users/id/:id", handler.GetByID)
+	r.GET("/users/:id", handler.GetByUserID)
 	r.GET("/users", handler.GetAll)
 	r.PUT("/users", handler.Register)
 	r.POST("/users", handler.Update)
-	r.DELETE("/users/id/:id", handler.Delete)
+	r.DELETE("/users/:id", handler.Delete)
 }
 
 func New(svc user.Service) *GinHandler {
@@ -42,9 +42,9 @@ type GinHandler struct {
 	svc user.Service
 }
 
-func (g *GinHandler) GetByID(c *gin.Context) {
+func (g *GinHandler) GetByUserID(c *gin.Context) {
 	id := c.Param("id")
-	g.get(c, id, g.svc.GetByID)
+	g.get(c, id, g.svc.GetByUserID)
 }
 
 func (g *GinHandler) GetByEmail(c *gin.Context) {
@@ -112,13 +112,13 @@ func (g *GinHandler) GetAll(c *gin.Context) {
 	numString := c.Query("num")
 	num, _ := strconv.Atoi(numString)
 	cursor := c.Query("cursor")
-
+	golog.Debug("num", num, "cursor", cursor)
 	usrs, nextCursor, err := g.svc.GetAll(c.Request.Context(), cursor, num)
 	if err != nil {
 		g.renderError(c, err)
 		return
 	}
-
+	golog.Debug(usrs)
 	c.Header(`X-Cursor`, nextCursor)
 	g.renderData(c, http.StatusOK, usrs)
 }
