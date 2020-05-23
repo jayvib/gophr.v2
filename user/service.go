@@ -7,8 +7,8 @@ import (
 //go:generate mockery --name=Service
 
 type Service interface {
+	GetterByUserID
 	GetByID(ctx context.Context, id interface{}) (*User, error)
-	GetByUserID(ctx context.Context, userID string) (*User, error)
 	GetByEmail(ctx context.Context, email string) (*User, error)
 	GetByUsername(ctx context.Context, uname string) (*User, error)
 	Save(ctx context.Context, user *User) error
@@ -17,4 +17,8 @@ type Service interface {
 	Update(ctx context.Context, user *User) error
 	Register(ctx context.Context, user *User) error
 	Login(ctx context.Context, user *User) error
+}
+
+type GetterByUserID interface {
+	GetByUserID(ctx context.Context, userID string) (*User, error)
 }

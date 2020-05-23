@@ -164,7 +164,7 @@ func validateUser(usr *user.User) error {
 	return nil
 }
 
-func GetByUserIDs(ctx context.Context, svc user.Service, ids ...string) ([]*user.User, error) {
+func GetByUserIDs(ctx context.Context, svc user.GetterByUserID, ids ...string) ([]*user.User, error) {
 	var users []*user.User
 
 	g, ctx := errgroup.WithContext(ctx)
