@@ -13,6 +13,12 @@ import (
 
 var userService user.Service
 
+type getResult struct {
+  usr *user.User
+  err error
+  id string
+}
+
 func init() {
   UserCmd.AddCommand(get)
   client, err := remote.NewClient()
@@ -38,22 +44,35 @@ EXAMPLE:
   gophr user get id1 id2 id3
 `,
   Run: func(cmd *cobra.Command, args[]string) {
-    golog.Debug("OP: user.Get")
-    golog.Debug("ARGS:", args)
-
     var results []*user.User
 
+    res := make(chan *getResult)
     for _, id := range args {
-      usr, err := userService.GetByUserID(context.Background(), id)
-      if err != nil {
-        if err == user.ErrNotFound {
-          fmt.Printf("User with id '%s' not exists", id)
+      go func(i string) {
+        usr, err := userService.GetByUserID(context.Background(), i)
+        if err != nil {
+          res <-&getResult{err: err, id: i}
           return
         }
-        fmt.Println(err)
-        return
+        res <- &getResult{usr: usr, id: i}
+      } (id)
+    }
+
+    for i := 0; i < len(args); i++ {
+      r := <-res
+      if r.err == nil {
+        results = append(results, r.usr)
+      } else {
+        if r.err == user.ErrNotFound {
+          fmt.Printf("User with '%s' not exists 🙂🙂🙂🙂", r.id)
+        } else {
+          fmt.Println("Unexpected error:", r.err)
+        }
       }
-      results = append(results, usr)
+    }
+
+    if results == nil {
+      return
     }
 
     payload, err := json.MarshalIndent(results, "", "  ")
