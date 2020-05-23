@@ -2,8 +2,11 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"github.com/jayvib/golog"
+	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
+	"golang.org/x/sync/errgroup"
 	"gophr.v2/user"
 	"gophr.v2/user/userutil"
 	"gophr.v2/util/valueutil"
@@ -159,4 +162,57 @@ func validateUser(usr *user.User) error {
 		return user.ErrEmptyPassword
 	}
 	return nil
+}
+
+func GetByUserIDs(ctx context.Context, svc user.Service, ids ...string) ([]*user.User, error) {
+	var users []*user.User
+
+	g, ctx := errgroup.WithContext(ctx)
+
+	type result struct{
+		usr *user.User
+		err error
+		id string
+	}
+
+	resultChan := make(chan *result)
+	for _, id := range ids {
+		id := id
+		g.Go(func()error{
+			res, err := svc.GetByUserID(ctx, id)
+			select {
+			case <-ctx.Done():
+				return ctx.Err()
+			case resultChan <- &result{usr: res, err: err, id: id}:
+			}
+			return nil
+		})
+	}
+
+	go func() {
+		if err := g.Wait(); err != nil {
+			golog.Error(err)
+			return
+		}
+		close(resultChan)
+	}()
+
+	errMsg := ""
+	for res := range resultChan {
+		if res.err == nil {
+			users = append(users, res.usr)
+		} else {
+			if res.err == user.ErrNotFound {
+				errMsg += fmt.Sprintf("user with id '%s' not exist\n", res.id)
+			} else {
+				errMsg += fmt.Sprintf("%s\n", res.err.Error())
+			}
+		}
+	}
+
+	if errMsg != "" {
+		return users, errors.New(errMsg)
+	}
+
+	return users, nil
 }

@@ -7,6 +7,7 @@ import (
   "github.com/jayvib/golog"
   "github.com/spf13/cobra"
   "gophr.v2/user"
+  "gophr.v2/user/service"
   "gophr.v2/user/service/proxy/remote"
   "log"
 )
@@ -43,43 +44,21 @@ DESCRIPTION:
 EXAMPLE:
   gophr user get id1 id2 id3
 `,
+
   Run: func(cmd *cobra.Command, args[]string) {
-    var results []*user.User
 
-    res := make(chan *getResult)
-    for _, id := range args {
-      go func(i string) {
-        usr, err := userService.GetByUserID(context.Background(), i)
-        if err != nil {
-          res <-&getResult{err: err, id: i}
-          return
-        }
-        res <- &getResult{usr: usr, id: i}
-      } (id)
+    usrs, err := service.GetByUserIDs(context.Background(), userService, args...)
+    if err != nil {
+      fmt.Println(err)
     }
 
-    for i := 0; i < len(args); i++ {
-      r := <-res
-      if r.err == nil {
-        results = append(results, r.usr)
-      } else {
-        if r.err == user.ErrNotFound {
-          fmt.Printf("User with '%s' not exists 🙂🙂🙂🙂", r.id)
-        } else {
-          fmt.Println("Unexpected error:", r.err)
-        }
-      }
-    }
-
-    if results == nil {
-      return
-    }
-
-    payload, err := json.MarshalIndent(results, "", "  ")
+    payload, err := json.MarshalIndent(usrs, "", "  ")
     if err != nil {
       log.Fatal(err)
     }
     fmt.Println(string(payload))
+
   },
+
 }
 

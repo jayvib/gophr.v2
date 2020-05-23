@@ -372,6 +372,46 @@ func TestService_GetAll(t *testing.T) {
 	repo.AssertExpectations(t)
 }
 
-func TestService_GetAndComparePassword(t *testing.T) {
-	// TODO: Please Implement me
+type svcStub struct {
+	user.Service
+	data map[string]*user.User
 }
+
+func (s *svcStub) GetByUserID(ctx context.Context, id string) (*user.User, error) {
+	u := s.data[id]
+	return u, nil
+}
+
+func TestGetByUserIDs(t *testing.T) {
+	want := []*user.User{
+		{
+			ID: 1,
+			UserID: userutil.GenerateID(),
+			Username: "luffy.monkey",
+			Email: "luffy.monkey@gmail.com",
+			Password: "qwqewrt",
+			CreatedAt: valueutil.TimePointer(time.Now()),
+		},
+		{
+			ID: 2,
+			UserID: userutil.GenerateID(),
+			Username: "sanji.vinsmoke",
+			Email: "sanji.vinsmoke@gmail.com",
+			Password: "qwqewrt",
+			CreatedAt: valueutil.TimePointer(time.Now()),
+		},
+	}
+	svc := &svcStub{
+		data: map[string]*user.User{
+		  want[0].UserID: want[0],
+		  want[1].UserID: want[1],
+		},
+	}
+
+	got, err := GetByUserIDs(context.Background(), svc, want[0].UserID, want[1].UserID)
+	assert.NoError(t, err)
+
+	assert.Equal(t, want, got)
+
+}
+
