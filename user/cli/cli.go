@@ -19,7 +19,7 @@ type getResult struct {
 }
 
 func init() {
-  UserCmd.AddCommand(getCmd, registerCmd, getAllCmd)
+  UserCmd.AddCommand(getCmd, registerCmd, getAllCmd, deleteCmd)
   client, err := remote.NewClient()
   if err != nil {
     golog.Fatal(err)

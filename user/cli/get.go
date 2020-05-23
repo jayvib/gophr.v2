@@ -29,11 +29,14 @@ EXAMPLE:
       fmt.Println(err)
     }
 
+    if len(usrs) == 0 {
+      return
+    }
+
     payload, err := json.MarshalIndent(usrs, "", "  ")
     if err != nil {
       log.Fatal(err)
     }
-    fmt.Println(string(payload))
 
     golog.Debug("filepath", writeToFilePath)
     switch {
