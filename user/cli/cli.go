@@ -1,21 +1,14 @@
 package cli
 
 import (
-  "context"
-  "encoding/json"
-  "fmt"
   "github.com/jayvib/golog"
   "github.com/spf13/cobra"
   "gophr.v2/user"
-  "gophr.v2/user/service"
   "gophr.v2/user/service/proxy/remote"
-  "log"
-  "os"
 )
 
 var userService user.Service
 
-var defaultOut = os.Stdout
 
 var writeToFilePath string
 
@@ -26,7 +19,7 @@ type getResult struct {
 }
 
 func init() {
-  UserCmd.AddCommand(get)
+  UserCmd.AddCommand(getCmd, registerCmd, getAllCmd)
   client, err := remote.NewClient()
   if err != nil {
     golog.Fatal(err)
@@ -34,6 +27,12 @@ func init() {
   userService = remote.New(client)
 
   UserCmd.PersistentFlags().StringVar(&writeToFilePath, "to-file","", "Write result to file")
+
+  // Get All Flags
+  getAllCmd.Flags().StringVar(&cursor, "cursor", "", "Base-64 time-encoded cursor")
+  getAllCmd.Flags().IntVar(&num, "num", 1, "Number of item to fetch")
+  _ = getAllCmd.MarkFlagRequired("num")
+
 }
 
 var UserCmd = &cobra.Command{
@@ -41,45 +40,4 @@ var UserCmd = &cobra.Command{
   Short: "A subcommand for interact with user service",
 }
 
-var get = &cobra.Command{
-  Use: "get",
-  Short: "get is a command for getting user by user ids",
-  Long: `
-DESCRIPTION:
-  get is a command for getting user by user ids.
-
-EXAMPLE:
-  gophr user get id1 id2 id3
-`,
-
-  Run: func(cmd *cobra.Command, args[]string) {
-
-    usrs, err := service.GetByUserIDs(context.Background(), userService, args...)
-    if err != nil {
-      fmt.Println(err)
-    }
-
-    payload, err := json.MarshalIndent(usrs, "", "  ")
-    if err != nil {
-      log.Fatal(err)
-    }
-    fmt.Println(string(payload))
-
-    golog.Debug("filepath", writeToFilePath)
-    switch {
-    case writeToFilePath != "":
-      f, err := os.Create(writeToFilePath)
-      if err != nil {
-        log.Fatal(err)
-      }
-      defer f.Close()
-      _, err = f.Write(payload)
-      if err != nil {
-        log.Fatal(err)
-      }
-    default:
-      fmt.Println(string(payload))
-    }
-  },
-}
 

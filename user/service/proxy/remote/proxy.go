@@ -209,7 +209,7 @@ func (s *Service) GetAll(ctx context.Context, cursor string, num int) (users []*
 	}
 
 	// Get the cursor
-	cursor = reqResp.Header.Get("X-Cursor")
+	next = reqResp.Header.Get("X-Cursor")
 	return
 }
 
@@ -264,7 +264,7 @@ func (s *Service) checkErr(resp *http.Response) error {
 			return err
 		}
 		return errors.New(errRes.Message)
-	case http.StatusOK:
+	case http.StatusOK, http.StatusCreated, http.StatusAccepted:
 		return nil
 	default:
 		return errors.New(fmt.Sprintf("unhandled response status code: %d", resp.StatusCode))
