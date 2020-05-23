@@ -10,9 +10,14 @@ import (
   "gophr.v2/user/service"
   "gophr.v2/user/service/proxy/remote"
   "log"
+  "os"
 )
 
 var userService user.Service
+
+var defaultOut = os.Stdout
+
+var writeToFilePath string
 
 type getResult struct {
   usr *user.User
@@ -27,6 +32,8 @@ func init() {
     golog.Fatal(err)
   }
   userService = remote.New(client)
+
+  UserCmd.PersistentFlags().StringVar(&writeToFilePath, "to-file","", "Write result to file")
 }
 
 var UserCmd = &cobra.Command{
@@ -58,7 +65,21 @@ EXAMPLE:
     }
     fmt.Println(string(payload))
 
+    golog.Debug("filepath", writeToFilePath)
+    switch {
+    case writeToFilePath != "":
+      f, err := os.Create(writeToFilePath)
+      if err != nil {
+        log.Fatal(err)
+      }
+      defer f.Close()
+      _, err = f.Write(payload)
+      if err != nil {
+        log.Fatal(err)
+      }
+    default:
+      fmt.Println(string(payload))
+    }
   },
-
 }
 
