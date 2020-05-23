@@ -324,7 +324,7 @@ func TestGetAll(t *testing.T) {
 		got, next, err := svc.GetAll(context.Background(), "", 2)
 		require.NoError(t, err)
 
-		assert.Empty(t, next)
+		assert.NotEmpty(t, next)
 		assert.Equal(t, want, got)
 	})
 }
