@@ -149,6 +149,32 @@ func TestCreateImageFromURL(t *testing.T) {
 	assert.True(t, isStubRemoteHandlerCalled)
 }
 
+func TestFind(t *testing.T) {
+	want := &image.Image{
+		UserID:      userutil.GenerateID(),
+		ImageID:     imageutil.GenerateID(),
+		Name:        "Unit Test Image",
+		Size:        12345,
+		Description: "This is a unit test",
+	}
+
+	svc := new(mocks.Service)
+	svc.On("Find", mock.Anything, mock.AnythingOfType("string")).Return(want, nil).Once()
+
+	e := gin.Default()
+	RegisterRoutes(e, svc, nil)
+
+	resp := httputil.PerformRequest(e, http.MethodGet, "/image/"+want.UserID, nil)
+
+	assert.Equal(t, http.StatusFound, resp.Code)
+
+	var got image.Image
+	err := json.NewDecoder(resp.Body).Decode(&got)
+	require.NoError(t, err)
+
+	assert.Equal(t, want, &got)
+}
+
 func assertImageFromResponse(t *testing.T, resp *httptest.ResponseRecorder) {
 	var gotImg image.Image
 	err := json.NewDecoder(resp.Body).Decode(&gotImg)

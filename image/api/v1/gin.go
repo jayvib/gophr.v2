@@ -17,6 +17,7 @@ func RegisterRoutes(r gin.IRouter, imageSvc image.Service, userSvc user.Service)
 
 	r.POST("/image/file", h.CreateImageFromFile)
 	r.POST("/image/url", h.CreateImageFromURL)
+	r.GET("/image/:id", h.Find)
 }
 
 type handlers struct {
@@ -24,10 +25,25 @@ type handlers struct {
 	userSvc  user.Service
 }
 
-func (h *handlers) Find(c *gin.Context)               {}
+func (h *handlers) Find(c *gin.Context)               {
+
+	id := c.Param("id")
+
+	img, err := h.imageSvc.Find(c.Request.Context(), id)
+	if err != nil {
+		if err == image.ErrNotFound {
+			c.Writer.WriteHeader(http.StatusNotFound)
+		} else {
+		  golog.Error("failed finding image:", err)
+			c.Writer.WriteHeader(http.StatusInternalServerError)
+		}
+		return
+	}
+
+	c.JSON(http.StatusFound, img)
+}
 func (h *handlers) FindAll(c *gin.Context)            {}
 func (h *handlers) FindAllByUser(c *gin.Context)      {}
-
 func (h *handlers) CreateImageFromURL(c *gin.Context) {
 
 	desc := c.PostForm("description")
@@ -50,7 +66,6 @@ func (h *handlers) CreateImageFromURL(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, img)
 }
-
 func (h *handlers) CreateImageFromFile(c *gin.Context) {
 
 	desc := c.PostForm("description")
