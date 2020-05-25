@@ -19,6 +19,7 @@ require (
 	github.com/prometheus/common v0.4.0
 	github.com/rs/xid v1.2.1
 	github.com/satori/go.uuid v1.2.0
+	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/afero v1.1.2
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/viper v1.6.2
