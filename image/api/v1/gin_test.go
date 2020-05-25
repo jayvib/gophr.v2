@@ -27,6 +27,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jayvib/golog"
+	gophrtesting "gophr.v2/testing"
 )
 
 var debug = flag.Bool("debug", false, "Debugging")
@@ -84,6 +85,70 @@ func TestCreateImageFromFile(t *testing.T) {
 	repo.AssertExpectations(t)
 }
 
+func TestCreateImageFromURL(t *testing.T) {
+	img := &image.Image{
+		UserID:      userutil.GenerateID(),
+		ImageID:     imageutil.GenerateID(),
+		Name:        "Unit Test Image",
+		Size:        12345,
+		Description: "This is a unit test",
+	}
+
+	usr := &user.User{
+		UserID:   userutil.GenerateID(),
+		Username: "luffy.monkey",
+	}
+
+	repo := new(mocks.Repository)
+	repo.On("Save", mock.Anything, mock.AnythingOfType("*image.Image")).Return(nil).Once()
+
+	userService := new(usermocks.Service)
+	userService.On("GetByUsername", mock.Anything, mock.AnythingOfType("string")).Return(usr, nil).Once()
+
+	// Create Stub Remote Server
+	testFile, err := os.Open("testdata/simple.png")
+	require.NoError(t, err)
+	defer testFile.Close()
+
+	isStubRemoteHandlerCalled := false
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		_, err := io.Copy(w, testFile)
+		require.NoError(t, err)
+		isStubRemoteHandlerCalled = true
+	})
+
+	stubClient, teardown := gophrtesting.RemoteServerStub(h)
+	defer teardown()
+	svc := service.New(repo, afero.NewMemMapFs(), stubClient)
+
+	e := gin.Default()
+	RegisterRoutes(e, svc, userService)
+
+	// Create a multipart form
+	body := new(bytes.Buffer)
+	mw := multipart.NewWriter(body)
+	addFieldsToMultipartWriter(t, mw, map[string]string{
+		"name":        img.Name,
+		"description": img.Description,
+		"username":    "gopher",
+		"url": "http://testing.net/simple.png",
+	})
+	err = mw.Close()
+	require.NoError(t, err)
+
+	// Do a request
+	resp := httputil.PerformRequest(e, http.MethodPost, "/image/url", body, func(r *http.Request) {
+		r.Header.Add("Content-Type", mw.FormDataContentType())
+	})
+
+	assert.Equal(t, http.StatusCreated, resp.Code)
+	assertImageFromResponse(t, resp)
+
+	userService.AssertExpectations(t)
+	repo.AssertExpectations(t)
+	assert.True(t, isStubRemoteHandlerCalled)
+}
+
 func assertImageFromResponse(t *testing.T, resp *httptest.ResponseRecorder) {
 	var gotImg image.Image
 	err := json.NewDecoder(resp.Body).Decode(&gotImg)
@@ -110,9 +175,14 @@ func createMultipartBody(t *testing.T, filename string, fields map[string]string
 	require.NoError(t, err)
 	defer multipartWriter.Close()
 	// Add some metadata
-	for k, v := range fields {
-		err = multipartWriter.WriteField(k, v)
-		require.NoError(t, err)
-	}
+	addFieldsToMultipartWriter(t, multipartWriter, fields)
 	return body, multipartWriter.FormDataContentType()
 }
+
+func addFieldsToMultipartWriter(t *testing.T, w *multipart.Writer, fields map[string]string) {
+	for k, v := range fields {
+		err := w.WriteField(k, v)
+		require.NoError(t, err)
+	}
+}
+
