@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	ErrNotFound = errors.New("session: session not exists")
+	ErrNotFound   = errors.New("session: session not exists")
 	ErrItemExists = errors.New("session: session is already exists")
 )
 

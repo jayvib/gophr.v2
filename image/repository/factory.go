@@ -13,7 +13,7 @@ const (
 	MySQLRepo RepoType = iota
 )
 
-func Get(conf *config.Config, rt RepoType) (image.Repository, func() error ) {
+func Get(conf *config.Config, rt RepoType) (image.Repository, func() error) {
 	switch rt {
 	case MySQLRepo:
 		db, err := mysqldriver.Initialize(conf)
@@ -25,4 +25,3 @@ func Get(conf *config.Config, rt RepoType) (image.Repository, func() error ) {
 		panic("unknown repository implementation type")
 	}
 }
-

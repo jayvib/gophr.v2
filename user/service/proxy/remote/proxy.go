@@ -170,12 +170,12 @@ func (s *Service) GetByUserID(ctx context.Context, id string) (*user.User, error
 
 func (s *Service) GetAll(ctx context.Context, cursor string, num int) (users []*user.User, next string, err error) {
 
-	opt := &struct{
+	opt := &struct {
 		Cursor string `url:"cursor,omitempty"`
-		Num int `url:"num,omitempty"`
-	} {
-		 cursor,
-		 num,
+		Num    int    `url:"num,omitempty"`
+	}{
+		cursor,
+		num,
 	}
 
 	path, err := addOptions("/users", opt)
@@ -193,8 +193,8 @@ func (s *Service) GetAll(ctx context.Context, cursor string, num int) (users []*
 		return nil, "", err
 	}
 
-	if err := s.checkErr(reqResp);err != nil {
-	  return nil, "", err
+	if err := s.checkErr(reqResp); err != nil {
+		return nil, "", err
 	}
 
 	var response Response

@@ -24,9 +24,9 @@ type Image struct {
 }
 
 func (i *Image) StaticRoute() string {
-	return "/im/"+i.Location
+	return "/im/" + i.Location
 }
 
 func (i *Image) ShowRoute() string {
-	return "/v1/images/id/"+i.ImageID
+	return "/v1/images/id/" + i.ImageID
 }

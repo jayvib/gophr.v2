@@ -37,7 +37,7 @@ func RequireLogin(sessionService session.Service) gin.HandlerFunc {
 
 func redirectToLogin(c *gin.Context) {
 	next := url.Values{}
-	trimmedUrl := strings.TrimLeftFunc(c.Request.URL.String(), func(r rune)bool{
+	trimmedUrl := strings.TrimLeftFunc(c.Request.URL.String(), func(r rune) bool {
 		if r == '/' {
 			return true
 		}

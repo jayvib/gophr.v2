@@ -51,7 +51,7 @@ func TestCreateImageFromFile(t *testing.T) {
 	}
 
 	usr := &user.User{
-		UserID: userutil.GenerateID(),
+		UserID:   userutil.GenerateID(),
 		Username: "luffy.monkey",
 	}
 
@@ -68,12 +68,12 @@ func TestCreateImageFromFile(t *testing.T) {
 
 	// Create a multipart
 	body, contentType := createMultipartBody(t, "testdata/simple.png", map[string]string{
-		"name": img.Name,
+		"name":        img.Name,
 		"description": img.Description,
-		"username": "gopher",
+		"username":    "gopher",
 	})
 
-	resp := httputil.PerformRequest(e, http.MethodPost, "/image/file", body, func(r *http.Request){
+	resp := httputil.PerformRequest(e, http.MethodPost, "/image/file", body, func(r *http.Request) {
 		r.Header.Add("Content-Type", contentType)
 	})
 

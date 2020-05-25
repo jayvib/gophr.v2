@@ -59,10 +59,10 @@ func getConfigName(env Env) string {
 }
 
 type Config struct {
-	rwmu sync.RWMutex
+	rwmu  sync.RWMutex
 	Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
-	Debug bool `json:"debug"`
+	Debug bool  `json:"debug"`
 }
 
 func (c *Config) init() {
