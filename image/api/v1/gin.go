@@ -6,6 +6,7 @@ import (
 	"gophr.v2/image"
 	"gophr.v2/user"
 	"net/http"
+	"strconv"
 )
 
 func RegisterRoutes(r gin.IRouter, imageSvc image.Service, userSvc user.Service) {
@@ -17,7 +18,9 @@ func RegisterRoutes(r gin.IRouter, imageSvc image.Service, userSvc user.Service)
 
 	r.POST("/image/file", h.CreateImageFromFile)
 	r.POST("/image/url", h.CreateImageFromURL)
-	r.GET("/image/:id", h.Find)
+	r.GET("/image/id/:id", h.Find)
+	r.GET("/image/userid/:id", h.FindAllByUser)
+	r.GET("/image", h.FindAll)
 }
 
 type handlers struct {
@@ -42,8 +45,27 @@ func (h *handlers) Find(c *gin.Context)               {
 
 	c.JSON(http.StatusFound, img)
 }
-func (h *handlers) FindAll(c *gin.Context)            {}
-func (h *handlers) FindAllByUser(c *gin.Context)      {}
+
+func (h *handlers) FindAll(c *gin.Context)            {
+	c.Writer.WriteHeader(http.StatusOK)
+}
+
+func (h *handlers) FindAllByUser(c *gin.Context)      {
+
+	offsetStr := c.Query("offset")
+	userId := c.Param("id")
+
+	offset, _ := strconv.Atoi(offsetStr)
+
+	res, err := h.imageSvc.FindAllByUser(c.Request.Context(), userId, offset)
+	if err != nil {
+		c.Writer.WriteHeader(http.StatusInternalServerError)
+		golog.Error("failed finding images by user:", err)
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
 func (h *handlers) CreateImageFromURL(c *gin.Context) {
 
 	desc := c.PostForm("description")

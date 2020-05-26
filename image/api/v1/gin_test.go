@@ -175,6 +175,60 @@ func TestFind(t *testing.T) {
 	assert.Equal(t, want, &got)
 }
 
+func TestFindAllByUser(t *testing.T) {
+	userid := "1234abcde"
+	images := []*image.Image{
+		{
+			ID: 1,
+			UserID: userid,
+			ImageID: imageutil.GenerateID(),
+			Name: "bacon",
+		},
+		{
+			ID: 2,
+			UserID: userid,
+			ImageID: imageutil.GenerateID(),
+			Name: "cheeze",
+		},
+	}
+
+	svc := new(mocks.Service)
+	svc.On("FindAllByUser", mock.Anything, mock.AnythingOfType("string"), mock.AnythingOfType("int")).Return(images, nil)
+
+	e := gin.Default()
+	RegisterRoutes(e, svc, nil)
+
+	resp := httputil.PerformRequest(e, http.MethodGet, "/image/userid/1234abc?offset=0", nil)
+
+	assert.Equal(t, http.StatusOK, resp.Code)
+}
+
+func TestFindAll(t *testing.T) {
+	images := []*image.Image{
+		{
+			ID: 1,
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "bacon",
+		},
+		{
+			ID: 2,
+			UserID: userutil.GenerateID(),
+			ImageID: imageutil.GenerateID(),
+			Name: "cheeze",
+		},
+	}
+
+	svc := new(mocks.Service)
+	svc.On("FindAll", mock.Anything, mock.AnythingOfType("int")).Return(images)
+
+	e := gin.Default()
+	RegisterRoutes(e, svc, nil)
+	resp := httputil.PerformRequest(e, http.MethodGet, "/image?offset=0", nil)
+
+	assert.Equal(t, http.StatusOK, resp.Code)
+}
+
 func assertImageFromResponse(t *testing.T, resp *httptest.ResponseRecorder) {
 	var gotImg image.Image
 	err := json.NewDecoder(resp.Body).Decode(&gotImg)
