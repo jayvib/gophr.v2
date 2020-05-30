@@ -95,4 +95,3 @@ type MySQL struct {
 	Port     string
 	Database string
 }
-

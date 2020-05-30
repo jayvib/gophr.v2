@@ -1,6 +1,5 @@
 package config
 
-
 type Builder interface {
 	SetConfigType() Builder
 	SetConfigName() Builder
@@ -11,4 +10,3 @@ type Builder interface {
 func Build(builder Builder) (*Config, error) {
 	return builder.AddConfigPath().SetConfigName().SetConfigType().Get()
 }
-

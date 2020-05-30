@@ -32,4 +32,3 @@ mysql:
 		return os.Remove(configPath)
 	}
 }
-
