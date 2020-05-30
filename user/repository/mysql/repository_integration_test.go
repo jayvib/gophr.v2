@@ -27,7 +27,7 @@ var db *sql.DB
 var repo user.Repository
 
 func setup() error {
-	conf, err := config.New(config.DevelopmentEnv)
+	conf, err := config.LoadDefault(config.DevelopmentEnv)
 	if err != nil {
 		return err
 	}

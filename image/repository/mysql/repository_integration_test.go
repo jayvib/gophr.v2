@@ -22,7 +22,7 @@ import (
 var db *sql.DB
 
 func setup() {
-	conf, err := config.New(config.DevelopmentEnv)
+	conf, err := config.LoadDefault(config.DevelopmentEnv)
 	if err != nil {
 		panic(err)
 	}

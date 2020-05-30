@@ -47,7 +47,7 @@ func (l *loggingDecorator) GetAll(ctx context.Context, cursor string, num int) (
 }
 
 func (l *loggingDecorator) Delete(ctx context.Context, id interface{}) error {
-  logrus.Info("METHOD: Delete ID: %v\n", id)
+  logrus.Infof("METHOD: Delete ID: %v\n", id)
   return l.svc.Delete(ctx, id)
 }
 

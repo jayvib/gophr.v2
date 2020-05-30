@@ -38,7 +38,7 @@ mysql:
 func TestConfig(t *testing.T) {
 	closer := setup(t)
 	defer closer()
-	config, err := config.New(config.DevelopmentEnv)
+	config, err := config.LoadDefault(config.DevelopmentEnv)
 	require.NoError(t, err)
 	assert.Equal(t, "127.0.0.1", config.MySQL.Host)
 }

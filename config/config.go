@@ -32,11 +32,14 @@ func Initialize() *Config {
 	return conf
 }
 
-func New(env Env) (*Config, error) {
-	defBuilder := newViperBuilder(env)
+func LoadDefault(env Env) (*Config, error) {
+	return New(env, newViperBuilder(env))
+}
+
+func New(env Env, builder Builder) (*Config, error) {
 	var err error
 	once.Do(func() {
-		conf, err = build(defBuilder)
+		conf, err = build(builder)
 		conf.init()
 	})
 	if err != nil {
@@ -120,7 +123,7 @@ func initializeConfig() {
 	}
 
 	golog.Debug("Environment:", viper.Get("env"))
-	_, err = New(env)
+	_, err = LoadDefault(env)
 	if err != nil {
 		panic(err)
 	}

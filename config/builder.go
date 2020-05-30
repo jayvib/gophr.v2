@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+type BuilderOpt func(b Builder)
+
 type Builder interface {
 	SetConfigType() Builder
 	SetConfigName() Builder
@@ -17,13 +19,18 @@ func build(builder Builder) (*Config, error) {
 	return builder.AddConfigPath().SetConfigName().SetConfigType().Get()
 }
 
-func newViperBuilder(env Env) Builder {
+func newViperBuilder(env Env, opts ...BuilderOpt) Builder {
 	initializeViper()
-	return &viperConfigBuilder{
+	b := &viperConfigBuilder{
 		configName: getConfigName(env),
 		configPath: defaultConfigPath,
 		configType: defaultConfigType,
 	}
+
+	for _, opt := range opts {
+		opt(b)
+	}
+	return b
 }
 
 type viperConfigBuilder struct {
