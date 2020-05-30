@@ -1,4 +1,4 @@
-// +build integration
+// +Build integration
 
 package config_test
 

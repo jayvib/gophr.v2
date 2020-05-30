@@ -39,7 +39,7 @@ func LoadDefault(env Env) (*Config, error) {
 func New(builder Builder) (*Config, error) {
 	var err error
 	once.Do(func() {
-		conf, err = build(builder)
+		conf, err = Build(builder)
 		conf.init()
 	})
 	if err != nil {

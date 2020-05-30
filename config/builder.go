@@ -15,7 +15,7 @@ type Builder interface {
 	Get() (*Config, error)
 }
 
-func build(builder Builder) (*Config, error) {
+func Build(builder Builder) (*Config, error) {
 	return builder.AddConfigPath().SetConfigName().SetConfigType().Get()
 }
 
