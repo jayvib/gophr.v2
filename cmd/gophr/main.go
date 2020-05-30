@@ -3,9 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/gin-gonic/gin"
-	"github.com/jayvib/golog"
 	"github.com/spf13/afero"
-	"github.com/spf13/viper"
 	"gophr.v2/config"
 	"gophr.v2/config/configutil"
 	imagerepo "gophr.v2/image/repository"
@@ -27,7 +25,6 @@ var (
 func init() {
 	flag.Parse()
 	conf = configutil.Initialize()
-	initializeDebugging()
 }
 
 func main() {
@@ -57,13 +54,6 @@ func main() {
 
 	if err := r.Run(":8080"); err != nil {
 		log.Fatal(err)
-	}
-}
-
-func initializeDebugging() {
-	if viper.GetBool("debug") {
-		golog.Info("DEBUGGING MODE")
-		golog.SetLevel(golog.DebugLevel)
 	}
 }
 
