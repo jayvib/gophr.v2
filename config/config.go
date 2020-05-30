@@ -33,7 +33,7 @@ func Initialize() *Config {
 }
 
 func LoadDefault(env Env) (*Config, error) {
-	return New(newViperBuilder(env))
+	return New(NewViperBuilder(env))
 }
 
 func New(builder Builder) (*Config, error) {

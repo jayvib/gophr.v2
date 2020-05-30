@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-type BuilderOpt func(b Builder)
+type ViperConfigBuilderOpt func(b *ViperConfigBuilder)
 
 type Builder interface {
 	SetConfigType() Builder
@@ -19,9 +19,27 @@ func build(builder Builder) (*Config, error) {
 	return builder.AddConfigPath().SetConfigName().SetConfigType().Get()
 }
 
-func newViperBuilder(env Env, opts ...BuilderOpt) Builder {
+func SetViperConfigName(confName string) ViperConfigBuilderOpt {
+	return func(b *ViperConfigBuilder) {
+		b.configName = confName
+	}
+}
+
+func SetViperConfigPath(configPath string) ViperConfigBuilderOpt {
+	return func(b *ViperConfigBuilder) {
+		b.configPath = configPath
+	}
+}
+
+func SetViperConfigType(configType string) ViperConfigBuilderOpt {
+	return func(b *ViperConfigBuilder) {
+		b.configType = configType
+	}
+}
+
+func NewViperBuilder(env Env, opts ...ViperConfigBuilderOpt) Builder {
 	initializeViper()
-	b := &viperConfigBuilder{
+	b := &ViperConfigBuilder{
 		configName: getConfigName(env),
 		configPath: defaultConfigPath,
 		configType: defaultConfigType,
@@ -33,29 +51,29 @@ func newViperBuilder(env Env, opts ...BuilderOpt) Builder {
 	return b
 }
 
-type viperConfigBuilder struct {
+type ViperConfigBuilder struct {
 	configName string
 	configPath string
 	configType string
 	// TODO: Put the viper object here
 }
 
-func (d *viperConfigBuilder) SetConfigType() Builder {
+func (d *ViperConfigBuilder) SetConfigType() Builder {
 	viper.SetConfigType(d.configType)
 	return d
 }
 
-func (d *viperConfigBuilder) SetConfigName() Builder {
+func (d *ViperConfigBuilder) SetConfigName() Builder {
 	viper.SetConfigName(d.configName)
 	return d
 }
 
-func (d *viperConfigBuilder) AddConfigPath() Builder {
+func (d *ViperConfigBuilder) AddConfigPath() Builder {
 	viper.AddConfigPath(d.configPath)
 	return d
 }
 
-func (d *viperConfigBuilder) Get() (*Config, error) {
+func (d *ViperConfigBuilder) Get() (*Config, error) {
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
 	}
