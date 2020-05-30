@@ -73,7 +73,7 @@ func (s *service) FindAllByUser(ctx context.Context, userId string, offset int) 
 func (s *service) CreateImageFromURL(ctx context.Context, imageUrl string, userId string, description string) (*image.Image, error) {
 	resp, err := s.client.Get(imageUrl)
 	if err != nil {
-	  golog.Debug(err)
+		golog.Debug(err)
 		return nil, image.ErrInvalidImageURL
 	}
 

@@ -111,7 +111,7 @@ func TestCreateImageFromURL(t *testing.T) {
 	defer testFile.Close()
 
 	isStubRemoteHandlerCalled := false
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		_, err := io.Copy(w, testFile)
 		require.NoError(t, err)
 		isStubRemoteHandlerCalled = true
@@ -131,7 +131,7 @@ func TestCreateImageFromURL(t *testing.T) {
 		"name":        img.Name,
 		"description": img.Description,
 		"username":    "gopher",
-		"url": "http://testing.net/simple.png",
+		"url":         "http://testing.net/simple.png",
 	})
 	err = mw.Close()
 	require.NoError(t, err)
@@ -179,16 +179,16 @@ func TestFindAllByUser(t *testing.T) {
 	userid := "1234abcde"
 	images := []*image.Image{
 		{
-			ID: 1,
-			UserID: userid,
+			ID:      1,
+			UserID:  userid,
 			ImageID: imageutil.GenerateID(),
-			Name: "bacon",
+			Name:    "bacon",
 		},
 		{
-			ID: 2,
-			UserID: userid,
+			ID:      2,
+			UserID:  userid,
 			ImageID: imageutil.GenerateID(),
-			Name: "cheeze",
+			Name:    "cheeze",
 		},
 	}
 
@@ -211,16 +211,16 @@ func TestFindAllByUser(t *testing.T) {
 func TestFindAll(t *testing.T) {
 	images := []*image.Image{
 		{
-			ID: 1,
-			UserID: userutil.GenerateID(),
+			ID:      1,
+			UserID:  userutil.GenerateID(),
 			ImageID: imageutil.GenerateID(),
-			Name: "bacon",
+			Name:    "bacon",
 		},
 		{
-			ID: 2,
-			UserID: userutil.GenerateID(),
+			ID:      2,
+			UserID:  userutil.GenerateID(),
 			ImageID: imageutil.GenerateID(),
-			Name: "cheeze",
+			Name:    "cheeze",
 		},
 	}
 
@@ -275,4 +275,3 @@ func addFieldsToMultipartWriter(t *testing.T, w *multipart.Writer, fields map[st
 		require.NoError(t, err)
 	}
 }
-

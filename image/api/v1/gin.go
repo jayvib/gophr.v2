@@ -28,7 +28,7 @@ type handlers struct {
 	userSvc  user.Service
 }
 
-func (h *handlers) Find(c *gin.Context)               {
+func (h *handlers) Find(c *gin.Context) {
 
 	id := c.Param("id")
 
@@ -37,7 +37,7 @@ func (h *handlers) Find(c *gin.Context)               {
 		if err == image.ErrNotFound {
 			c.Writer.WriteHeader(http.StatusNotFound)
 		} else {
-		  golog.Error("failed finding image:", err)
+			golog.Error("failed finding image:", err)
 			c.Writer.WriteHeader(http.StatusInternalServerError)
 		}
 		return
@@ -46,7 +46,7 @@ func (h *handlers) Find(c *gin.Context)               {
 	c.JSON(http.StatusFound, img)
 }
 
-func (h *handlers) FindAll(c *gin.Context)            {
+func (h *handlers) FindAll(c *gin.Context) {
 	offsetStr := c.Param("offset")
 
 	if offsetStr == "" {
@@ -55,7 +55,7 @@ func (h *handlers) FindAll(c *gin.Context)            {
 
 	offset, err := strconv.Atoi(offsetStr)
 	if err != nil {
-	  http.Error(c.Writer, err.Error(), http.StatusBadRequest)
+		http.Error(c.Writer, err.Error(), http.StatusBadRequest)
 		golog.Error("unable to parse offset:", err)
 		return
 	}
@@ -69,7 +69,7 @@ func (h *handlers) FindAll(c *gin.Context)            {
 	c.JSON(http.StatusOK, res)
 }
 
-func (h *handlers) FindAllByUser(c *gin.Context)      {
+func (h *handlers) FindAllByUser(c *gin.Context) {
 
 	offsetStr := c.Query("offset")
 	userId := c.Param("id")

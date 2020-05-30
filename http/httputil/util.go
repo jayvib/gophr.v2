@@ -29,4 +29,3 @@ func DummyClient(h http.Handler) (cli *http.Client, teardown func()) {
 	}
 	return cli, s.Close
 }
-
