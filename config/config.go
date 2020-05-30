@@ -33,10 +33,10 @@ func Initialize() *Config {
 }
 
 func LoadDefault(env Env) (*Config, error) {
-	return New(env, newViperBuilder(env))
+	return New(newViperBuilder(env))
 }
 
-func New(env Env, builder Builder) (*Config, error) {
+func New(builder Builder) (*Config, error) {
 	var err error
 	once.Do(func() {
 		conf, err = build(builder)
