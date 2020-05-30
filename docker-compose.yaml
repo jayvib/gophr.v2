@@ -14,8 +14,8 @@ services:
       - database
     volumes:
       - ./config.yaml:/home/config.yaml
-      - ./cmd/gophr/assets:/home/gophr/assets
-      - ./cmd/gophr/templates:/home/gophr/templates
+      - ./cmd/gophr/v2/assets:/home/gophr/v2/assets
+      - ./cmd/gophr/v2/templates:/home/gophr/v2/templates
       - ./data:/home/gophr/data
     restart: always
   database:
