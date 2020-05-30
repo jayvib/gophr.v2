@@ -164,9 +164,9 @@ func TestFind(t *testing.T) {
 	e := gin.Default()
 	RegisterRoutes(e, svc, nil)
 
-	resp := httputil.PerformRequest(e, http.MethodGet, "/image/"+want.UserID, nil)
+	resp := httputil.PerformRequest(e, http.MethodGet, "/image/id/"+want.UserID, nil)
 
-	assert.Equal(t, http.StatusFound, resp.Code)
+	require.Equal(t, http.StatusFound, resp.Code)
 
 	var got image.Image
 	err := json.NewDecoder(resp.Body).Decode(&got)
@@ -201,6 +201,11 @@ func TestFindAllByUser(t *testing.T) {
 	resp := httputil.PerformRequest(e, http.MethodGet, "/image/userid/1234abc?offset=0", nil)
 
 	assert.Equal(t, http.StatusOK, resp.Code)
+
+	got := make([]*user.User, 0)
+	err := json.NewDecoder(resp.Body).Decode(&got)
+	require.NoError(t, err)
+	svc.AssertExpectations(t)
 }
 
 func TestFindAll(t *testing.T) {
@@ -220,13 +225,18 @@ func TestFindAll(t *testing.T) {
 	}
 
 	svc := new(mocks.Service)
-	svc.On("FindAll", mock.Anything, mock.AnythingOfType("int")).Return(images)
+	svc.On("FindAll", mock.Anything, mock.AnythingOfType("int")).Return(images, nil).Once()
 
 	e := gin.Default()
 	RegisterRoutes(e, svc, nil)
 	resp := httputil.PerformRequest(e, http.MethodGet, "/image?offset=0", nil)
 
 	assert.Equal(t, http.StatusOK, resp.Code)
+
+	got := make([]*user.User, 0)
+	err := json.NewDecoder(resp.Body).Decode(&got)
+	require.NoError(t, err)
+	svc.AssertExpectations(t)
 }
 
 func assertImageFromResponse(t *testing.T, resp *httptest.ResponseRecorder) {

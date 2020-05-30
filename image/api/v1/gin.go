@@ -47,7 +47,26 @@ func (h *handlers) Find(c *gin.Context)               {
 }
 
 func (h *handlers) FindAll(c *gin.Context)            {
-	c.Writer.WriteHeader(http.StatusOK)
+	offsetStr := c.Param("offset")
+
+	if offsetStr == "" {
+		offsetStr = "0"
+	}
+
+	offset, err := strconv.Atoi(offsetStr)
+	if err != nil {
+	  http.Error(c.Writer, err.Error(), http.StatusBadRequest)
+		golog.Error("unable to parse offset:", err)
+		return
+	}
+
+	res, err := h.imageSvc.FindAll(c.Request.Context(), offset)
+	if err != nil {
+		http.Error(c.Writer, err.Error(), http.StatusInternalServerError)
+		golog.Error(err)
+		return
+	}
+	c.JSON(http.StatusOK, res)
 }
 
 func (h *handlers) FindAllByUser(c *gin.Context)      {
