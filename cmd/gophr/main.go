@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/afero"
 	"github.com/spf13/viper"
 	"gophr.v2/config"
+	"gophr.v2/config/configutil"
 	imagerepo "gophr.v2/image/repository"
 	sessionrepo "gophr.v2/session/repository"
 	userrepo "gophr.v2/user/repository"
@@ -25,7 +26,7 @@ var (
 
 func init() {
 	flag.Parse()
-	conf = config.Initialize()
+	conf = configutil.Initialize()
 	initializeDebugging()
 }
 

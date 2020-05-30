@@ -1,10 +1,8 @@
 package config
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/jayvib/golog"
 	"github.com/jinzhu/copier"
-	"github.com/spf13/viper"
 	"sync"
 )
 
@@ -16,25 +14,10 @@ const (
 	ProdEnv
 )
 
-const (
-	defaultConfigType = "yaml"
-	defaultConfigPath = "$HOME"
-)
-
 var (
 	conf *Config
 	once sync.Once
 )
-
-func Initialize() *Config {
-	initializeViper()
-	initializeConfig()
-	return conf
-}
-
-func LoadDefault(env Env) (*Config, error) {
-	return New(NewViperBuilder(env))
-}
 
 func New(builder Builder) (*Config, error) {
 	var err error
@@ -46,6 +29,10 @@ func New(builder Builder) (*Config, error) {
 		return nil, err
 	}
 	return conf, nil
+}
+
+func GetConfigName(env Env) string {
+	return getConfigName(env)
 }
 
 func getConfigName(env Env) string {
@@ -109,22 +96,3 @@ type MySQL struct {
 	Database string
 }
 
-func initializeConfig() {
-	var err error
-	var env Env
-	switch viper.Get("env") {
-	case "DEV":
-		env = DevelopmentEnv
-	case "STAGE":
-		env = StageEnv
-	case "PROD":
-		gin.SetMode(gin.ReleaseMode)
-		env = ProdEnv
-	}
-
-	golog.Debug("Environment:", viper.Get("env"))
-	_, err = LoadDefault(env)
-	if err != nil {
-		panic(err)
-	}
-}

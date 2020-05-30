@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/afero"
-	"gophr.v2/config"
+	"gophr.v2/config/configutil"
 	"gophr.v2/image/api/v1"
 	imagerepo "gophr.v2/image/repository"
 	imageservice "gophr.v2/image/service"
@@ -17,7 +17,7 @@ var port = flag.String("port", "4402", "Port")
 
 func main() {
 	flag.Parse()
-	conf := config.Initialize()
+	conf := configutil.Initialize()
 
 	userRepo, closer := userrepo.Get(conf, userrepo.MySQLRepo)
 	defer closer()

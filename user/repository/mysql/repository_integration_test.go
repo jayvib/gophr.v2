@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gophr.v2/config"
+	"gophr.v2/config/configutil"
 	mysqldriver "gophr.v2/driver/mysql"
 	"gophr.v2/user"
 	"gophr.v2/user/repository/mysql"
@@ -27,7 +28,7 @@ var db *sql.DB
 var repo user.Repository
 
 func setup() error {
-	conf, err := config.LoadDefault(config.DevelopmentEnv)
+	conf, err := configutil.LoadDefault(config.DevelopmentEnv)
 	if err != nil {
 		return err
 	}

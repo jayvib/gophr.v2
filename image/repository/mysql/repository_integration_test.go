@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gophr.v2/config"
+	"gophr.v2/config/configutil"
 	"gophr.v2/driver/mysql"
 	"gophr.v2/image"
 	"gophr.v2/image/imageutil"
@@ -22,7 +23,7 @@ import (
 var db *sql.DB
 
 func setup() {
-	conf, err := config.LoadDefault(config.DevelopmentEnv)
+	conf, err := configutil.LoadDefault(config.DevelopmentEnv)
 	if err != nil {
 		panic(err)
 	}
