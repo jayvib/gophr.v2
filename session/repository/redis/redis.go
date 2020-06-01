@@ -50,5 +50,6 @@ func  (r *repository) Save(ctx context.Context, s *session.Session) error {
 }
 
 func (r *repository) Delete(ctx context.Context, id string) error {
+  r.client.Del(ctx, id)
   return nil
 }
