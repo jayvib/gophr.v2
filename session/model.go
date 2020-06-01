@@ -1,6 +1,8 @@
 package session
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	Duration   = 24 * 3 * time.Hour
