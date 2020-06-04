@@ -19,4 +19,10 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 10
-
+  gophr_redis_test:
+    image: redis:6.0.4
+    container_name: gophr_redis_test
+    ports:
+      - '6379:6379'
+    expose:
+      - '6379'

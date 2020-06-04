@@ -59,10 +59,11 @@ func getConfigName(env Env) string {
 }
 
 type Config struct {
-	rwmu sync.RWMutex
+	rwmu  sync.RWMutex
 	Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
-	Debug bool `json:"debug"`
+	Redis Redis `json:"redis"`
+	Debug bool  `json:"debug"`
 }
 
 func (c *Config) init() {
@@ -104,6 +105,13 @@ type MySQL struct {
 	Host     string
 	Port     string
 	Database string
+}
+
+type Redis struct {
+	Address string
+	Username string
+	Password string
+	Database int
 }
 
 func initializeConfig() {
