@@ -52,6 +52,7 @@ type Config struct {
 	rwmu  sync.RWMutex
 	Gophr Gophr `json:"gophr"`
 	MySQL MySQL `json:"mysql"`
+	Redis Redis `json:"redis"`
 	Debug bool  `json:"debug"`
 }
 
@@ -95,3 +96,11 @@ type MySQL struct {
 	Port     string
 	Database string
 }
+
+type Redis struct {
+	Address string
+	Username string
+	Password string
+	Database int
+}
+

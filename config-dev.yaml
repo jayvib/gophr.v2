@@ -10,4 +10,11 @@ mysql:
 gophr:
   port: 8080
   env: DEV
-  debug: false
+
+redis:
+  address: localhost:6379
+  username: ""
+  password: ""
+  database: 0
+
+debug: false

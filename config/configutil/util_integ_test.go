@@ -1,4 +1,4 @@
-// +Build integration
+// +build integration
 
 package configutil_test
 

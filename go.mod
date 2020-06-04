@@ -7,6 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.6.1
 	github.com/go-playground/assert/v2 v2.0.1
 	github.com/go-playground/validator/v10 v10.2.0
+	github.com/go-redis/redis/v8 v8.0.0-beta.2
 	github.com/go-sql-driver/mysql v1.4.1
 	github.com/google/go-querystring v1.0.0
 	github.com/jayvib/golog v0.0.0-20191101112258-451da415b73f
