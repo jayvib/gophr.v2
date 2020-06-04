@@ -12,29 +12,29 @@ const (
 	defaultConfigPath = "$HOME"
 )
 
-type ViperConfigBuilderOpt func(b *ViperConfigBuilder)
+type ConfigBuilderOpt func(b *ConfigBuilder)
 
-func SetViperConfigName(confName string) ViperConfigBuilderOpt {
-	return func(b *ViperConfigBuilder) {
+func SetConfigName(confName string) ConfigBuilderOpt {
+	return func(b *ConfigBuilder) {
 		b.configName = confName
 	}
 }
 
-func SetViperConfigPath(configPath string) ViperConfigBuilderOpt {
-	return func(b *ViperConfigBuilder) {
+func SetConfigPath(configPath string) ConfigBuilderOpt {
+	return func(b *ConfigBuilder) {
 		b.configPath = configPath
 	}
 }
 
-func SetViperConfigType(configType string) ViperConfigBuilderOpt {
-	return func(b *ViperConfigBuilder) {
+func SetConfigType(configType string) ConfigBuilderOpt {
+	return func(b *ConfigBuilder) {
 		b.configType = configType
 	}
 }
 
-func NewViperBuilder(env config.Env, opts ...ViperConfigBuilderOpt) config.Builder {
+func New(env config.Env, opts ...ConfigBuilderOpt) config.Builder {
 	initializeViper()
-	b := &ViperConfigBuilder{
+	b := &ConfigBuilder{
 		configName: config.GetConfigName(env),
 		configPath: defaultConfigPath,
 		configType: defaultConfigType,
@@ -46,29 +46,29 @@ func NewViperBuilder(env config.Env, opts ...ViperConfigBuilderOpt) config.Build
 	return b
 }
 
-type ViperConfigBuilder struct {
+type ConfigBuilder struct {
 	configName string
 	configPath string
 	configType string
 	// TODO: Put the viper object here
 }
 
-func (d *ViperConfigBuilder) SetConfigType() config.Builder {
+func (d *ConfigBuilder) SetConfigType() config.Builder {
 	viper.SetConfigType(d.configType)
 	return d
 }
 
-func (d *ViperConfigBuilder) SetConfigName() config.Builder {
+func (d *ConfigBuilder) SetConfigName() config.Builder {
 	viper.SetConfigName(d.configName)
 	return d
 }
 
-func (d *ViperConfigBuilder) AddConfigPath() config.Builder {
+func (d *ConfigBuilder) AddConfigPath() config.Builder {
 	viper.AddConfigPath(d.configPath)
 	return d
 }
 
-func (d *ViperConfigBuilder) Get() (*config.Config, error) {
+func (d *ConfigBuilder) Get() (*config.Config, error) {
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, err
 	}

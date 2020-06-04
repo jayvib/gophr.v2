@@ -14,7 +14,7 @@ func Initialize() *config.Config {
 }
 
 func LoadDefault(env config.Env) (*config.Config, error) {
-	return config.New(builderviper.NewViperBuilder(env))
+	return config.New(builderviper.New(env))
 }
 
 func initializeConfig() *config.Config {
