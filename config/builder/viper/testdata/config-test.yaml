@@ -1,0 +1,19 @@
+
+#mysql:
+#  database: gophr_test
+#  user: testuser
+#  password: testpassword
+#  host: 127.0.0.1
+#  port: 3306
+
+gophr:
+  port: 8080
+  env: DEV
+
+#redis:
+#  address: localhost:6379
+#  username: ""
+#  password: ""
+#  database: 0
+#
+#debug: false

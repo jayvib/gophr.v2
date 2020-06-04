@@ -50,10 +50,10 @@ func getConfigName(env Env) string {
 
 type Config struct {
 	rwmu  sync.RWMutex
-	Gophr Gophr `json:"gophr"`
-	MySQL MySQL `json:"mysql"`
-	Redis Redis `json:"redis"`
-	Debug bool  `json:"debug"`
+	Gophr Gophr `json:"gophr,omitempty" yaml:"gophr,omitempty"`
+	MySQL MySQL `json:"mysql,omitempty" yaml:"mysql,omitempty"`
+	Redis Redis `json:"redis,omitempty" yaml:"redis,omitempty"`
+	Debug bool  `json:"debug,omitempty" yaml:"debug,omitempty"`
 }
 
 func (c *Config) init() {
@@ -84,9 +84,9 @@ func (c *Config) Clone() (*Config, error) {
 }
 
 type Gophr struct {
-	Port        string `json:"port"`
-	Environment string `json:"env"`
-	Debug       bool   `json:"debug"`
+	Port  string `json:"port"`
+	Env   string `json:"env"`
+	Debug bool   `json:"debug"`
 }
 
 type MySQL struct {
@@ -98,9 +98,8 @@ type MySQL struct {
 }
 
 type Redis struct {
-	Address string
+	Address  string
 	Username string
 	Password string
 	Database int
 }
-
