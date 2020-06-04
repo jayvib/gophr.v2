@@ -169,16 +169,16 @@ func GetByUserIDs(ctx context.Context, svc user.GetterByUserID, ids ...string) (
 
 	g, ctx := errgroup.WithContext(ctx)
 
-	type result struct{
+	type result struct {
 		usr *user.User
 		err error
-		id string
+		id  string
 	}
 
 	resultChan := make(chan *result)
 	for _, id := range ids {
 		id := id
-		g.Go(func()error{
+		g.Go(func() error {
 			res, err := svc.GetByUserID(ctx, id)
 			select {
 			case <-ctx.Done():

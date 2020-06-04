@@ -17,20 +17,21 @@ import (
 )
 
 func TestGetByUserID(t *testing.T) {
-	t.Run("Found", func(t *testing.T){
+	t.Run("Found", func(t *testing.T) {
 		want := &user.User{
-			ID: 1,
-			UserID: userutil.GenerateID(),
-			Email: "unit.test@testing.com",
+			ID:       1,
+			UserID:   userutil.GenerateID(),
+			Email:    "unit.test@testing.com",
 			Password: "mysupersecretpassword",
 		}
 		response := &Response{
-			Data: want,
+			Data:    want,
 			Success: true,
-		}; _ = response
+		}
+		_ = response
 
 		// Create a mock handler
-		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			payload, err := json.Marshal(response)
 			assert.NoError(t, err)
 			w.WriteHeader(http.StatusOK)
@@ -81,14 +82,14 @@ func TestGetByUserID(t *testing.T) {
 
 func TestRegister(t *testing.T) {
 
-	t.Run("Success", func(t *testing.T){
+	t.Run("Success", func(t *testing.T) {
 		want := &user.User{
 			Username: "unit.testing",
-			Email: "unit.test@testing.com",
+			Email:    "unit.test@testing.com",
 			Password: "mysupersecretpassword",
 		}
 
-		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			var user user.User
 
 			err := json.NewDecoder(r.Body).Decode(&user)
@@ -101,9 +102,8 @@ func TestRegister(t *testing.T) {
 
 			user.Password = string(password)
 
-
 			response := &Response{
-				Data: &user,
+				Data:    &user,
 				Success: true,
 			}
 			payload, err := json.Marshal(response)
@@ -125,15 +125,15 @@ func TestRegister(t *testing.T) {
 		assert.NotEmpty(t, want.Password)
 	})
 
-	t.Run("Status Not OK", func(t *testing.T){
+	t.Run("Status Not OK", func(t *testing.T) {
 		want := &user.User{
 			Username: "unit.testing",
-			Email: "unit.test@testing.com",
+			Email:    "unit.test@testing.com",
 			Password: "mysupersecretpassword",
 		}
 
 		wantMsg := "this is a unit test error"
-		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			response := &Response{
 				Success: false,
 				Message: wantMsg,
@@ -159,21 +159,21 @@ func TestRegister(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	want := &user.User{
 		Username: "unit.testing",
-		Email: "updated.unit.test@testing.com",
+		Email:    "updated.unit.test@testing.com",
 		Password: "mysupersecretpassword",
 	}
 
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-	 var usr user.User
-	 err := json.NewDecoder(r.Body).Decode(&usr)
-	 require.NoError(t, err)
-	 defer r.Body.Close()
-	 usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var usr user.User
+		err := json.NewDecoder(r.Body).Decode(&usr)
+		require.NoError(t, err)
+		defer r.Body.Close()
+		usr.UpdatedAt = valueutil.TimePointer(time.Now().UTC())
 
-	 resp := Response{
-	 	Data: usr,
-	 	Success: true,
-	 }
+		resp := Response{
+			Data:    usr,
+			Success: true,
+		}
 
 		payload, err := json.Marshal(&resp)
 		require.NoError(t, err)
@@ -192,17 +192,17 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-	 	resp := &Response{
+	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := &Response{
 			Success: true,
 		}
 
-	 	payload, err := json.Marshal(resp)
-	 	require.NoError(t, err)
+		payload, err := json.Marshal(resp)
+		require.NoError(t, err)
 
-	 	w.WriteHeader(http.StatusOK)
+		w.WriteHeader(http.StatusOK)
 
-	 	_, _ = w.Write(payload)
+		_, _ = w.Write(payload)
 	})
 
 	client, teardown := setupClient(t, h)
@@ -214,29 +214,29 @@ func TestDelete(t *testing.T) {
 }
 
 func TestGetAll(t *testing.T) {
-	t.Run("Success", func(t *testing.T){
+	t.Run("Success", func(t *testing.T) {
 		want := []*user.User{
 			{
-				ID: 1,
-				UserID: userutil.GenerateID(),
+				ID:       1,
+				UserID:   userutil.GenerateID(),
 				Password: "poijpoifalkefae13413",
-				Email: "luffy.monkey@onepiece.com",
+				Email:    "luffy.monkey@onepiece.com",
 			},
 			{
-				ID: 2,
-				UserID: userutil.GenerateID(),
+				ID:       2,
+				UserID:   userutil.GenerateID(),
 				Password: "woijpoifalkefae13413",
-				Email: "sanji.vinsmoke@onepiece.com",
+				Email:    "sanji.vinsmoke@onepiece.com",
 			},
 			{
-				ID: 3,
-				UserID: userutil.GenerateID(),
+				ID:       3,
+				UserID:   userutil.GenerateID(),
 				Password: "xoijpoifalkefae13413",
-				Email: "zorro.roronoa@onepiece.com",
+				Email:    "zorro.roronoa@onepiece.com",
 			},
 		}
 
-		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Parse the URL Query and get the cursor and num
 			cursor := r.URL.Query().Get("cursor")
 			num := r.URL.Query().Get("num")
@@ -245,7 +245,7 @@ func TestGetAll(t *testing.T) {
 			assert.Equal(t, "3", num)
 
 			resp := Response{
-				Data: want,
+				Data:    want,
 				Success: true,
 			}
 
@@ -267,32 +267,32 @@ func TestGetAll(t *testing.T) {
 		assert.Equal(t, want, got)
 	})
 
-	t.Run("Cursor", func(t *testing.T){
+	t.Run("Cursor", func(t *testing.T) {
 		users := []*user.User{
 			{
-				ID: 1,
-				UserID: userutil.GenerateID(),
+				ID:       1,
+				UserID:   userutil.GenerateID(),
 				Password: "poijpoifalkefae13413",
-				Email: "luffy.monkey@onepiece.com",
+				Email:    "luffy.monkey@onepiece.com",
 			},
 			{
-				ID: 2,
-				UserID: userutil.GenerateID(),
+				ID:       2,
+				UserID:   userutil.GenerateID(),
 				Password: "woijpoifalkefae13413",
-				Email: "sanji.vinsmoke@onepiece.com",
+				Email:    "sanji.vinsmoke@onepiece.com",
 			},
 			{
-				ID: 3,
-				UserID: userutil.GenerateID(),
-				Password: "xoijpoifalkefae13413",
-				Email: "zorro.roronoa@onepiece.com",
+				ID:        3,
+				UserID:    userutil.GenerateID(),
+				Password:  "xoijpoifalkefae13413",
+				Email:     "zorro.roronoa@onepiece.com",
 				CreatedAt: valueutil.TimePointer(time.Now()),
 			},
 		}
 
 		want := users[:1]
 
-		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// Parse the URL Query and get the cursor and num
 			cursor := r.URL.Query().Get("cursor")
 			num := r.URL.Query().Get("num")
@@ -301,7 +301,7 @@ func TestGetAll(t *testing.T) {
 			assert.Equal(t, "2", num)
 
 			resp := Response{
-				Data: want,
+				Data:    want,
 				Success: true,
 			}
 

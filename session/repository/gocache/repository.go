@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-const DefaultExpirationTime = 24*time.Hour
+const DefaultExpirationTime = 24 * time.Hour
 
 type CacheIFace interface {
 	Get(id string) (data interface{}, ok bool)
@@ -27,7 +27,7 @@ type Repository struct {
 
 type result struct {
 	sess interface{}
-	err error
+	err  error
 }
 
 func (r *Repository) Find(ctx context.Context, id string) (*session.Session, error) {

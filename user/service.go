@@ -22,3 +22,13 @@ type Service interface {
 type GetterByUserID interface {
 	GetByUserID(ctx context.Context, userID string) (*User, error)
 }
+
+type Decorator func(svc Service) Service
+
+func ApplyDecorators(svc Service, d ...Decorator) Service {
+	copySvc := svc
+	for _, deco := range d {
+		copySvc = deco(copySvc)
+	}
+	return copySvc
+}

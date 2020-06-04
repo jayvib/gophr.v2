@@ -11,7 +11,7 @@ import (
 
 func TestInitializeDriver(t *testing.T) {
 	golog.SetLevel(golog.DebugLevel)
-	conf, err := config.New(config.DevelopmentEnv)
+	conf, err := config.LoadDefault(config.DevelopmentEnv)
 	require.NoError(t, err)
 	db, err := driver.InitializeDriver(conf)
 	defer func() {

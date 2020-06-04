@@ -19,20 +19,20 @@ type stubCache struct {
 }
 
 func (s *stubCache) Get(id string) (interface{}, bool) {
-	time.Sleep(500*time.Millisecond)
+	time.Sleep(500 * time.Millisecond)
 	return nil, false
 }
 
 func (s *stubCache) Add(id string, data interface{}, d time.Duration) error {
-	time.Sleep(500*time.Millisecond)
+	time.Sleep(500 * time.Millisecond)
 	return nil
 }
 
 func TestRepository_Find(t *testing.T) {
 	c := cache.New(DefaultExpirationTime, 10*time.Minute)
-	t.Run("Found", func(t *testing.T){
+	t.Run("Found", func(t *testing.T) {
 		want := &session.Session{
-			ID: sessionutil.GenerateID(),
+			ID:     sessionutil.GenerateID(),
 			UserID: randutil.GenerateID("user"),
 			Expiry: time.Now(),
 		}
@@ -70,10 +70,10 @@ func saveData(t *testing.T, want *session.Session, r *Repository) {
 }
 
 func TestRepository_Save(t *testing.T) {
-	t.Run("Item Not Exists", func(t *testing.T){
+	t.Run("Item Not Exists", func(t *testing.T) {
 		c := cache.New(DefaultExpirationTime, 10*time.Minute)
 		want := &session.Session{
-			ID: sessionutil.GenerateID(),
+			ID:     sessionutil.GenerateID(),
 			UserID: randutil.GenerateID("user"),
 			Expiry: time.Now(),
 		}
@@ -85,10 +85,10 @@ func TestRepository_Save(t *testing.T) {
 		assertSavedSession(t, r, want)
 	})
 
-	t.Run("Item Already Exists", func(t *testing.T){
+	t.Run("Item Already Exists", func(t *testing.T) {
 		c := cache.New(DefaultExpirationTime, 10*time.Minute)
 		want := &session.Session{
-			ID: sessionutil.GenerateID(),
+			ID:     sessionutil.GenerateID(),
 			UserID: randutil.GenerateID("user"),
 			Expiry: time.Now(),
 		}
@@ -101,14 +101,14 @@ func TestRepository_Save(t *testing.T) {
 		assert.Equal(t, session.ErrItemExists, errors.Unwrap(err))
 	})
 
-	t.Run("Cancellation", func(t *testing.T){
+	t.Run("Cancellation", func(t *testing.T) {
 		stub := new(stubCache)
 		r := New(stub)
 		ctx, cancel := context.WithCancel(defaultCtx)
 		time.AfterFunc(10*time.Millisecond, cancel)
 
 		want := &session.Session{
-			ID: sessionutil.GenerateID(),
+			ID:     sessionutil.GenerateID(),
 			UserID: randutil.GenerateID("user"),
 			Expiry: time.Now(),
 		}
@@ -125,11 +125,9 @@ func assertSavedSession(t *testing.T, r *Repository, want *session.Session) {
 	assert.Equal(t, want, got)
 }
 
-
-
 func TestRepository_Delete(t *testing.T) {
 	want := &session.Session{
-		ID: sessionutil.GenerateID(),
+		ID:     sessionutil.GenerateID(),
 		UserID: randutil.GenerateID("user"),
 		Expiry: time.Now(),
 	}

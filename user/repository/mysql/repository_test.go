@@ -326,7 +326,7 @@ func TestRepository_GetAll(t *testing.T) {
 		assert.Len(t, list, 3)
 	})
 
-	t.Run("Empty cursor", func(t *testing.T){
+	t.Run("Empty cursor", func(t *testing.T) {
 		db, mock, rows := setup(t)
 
 		// Add the mock users to the row

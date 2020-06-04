@@ -22,7 +22,7 @@ var funcs = template.FuncMap{
 	},
 }
 
-func RegisterRoutes(unsecuredRouter ,securedRouter gin.IRoutes, userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath, assetsPath, imagesPath string) {
+func RegisterRoutes(unsecuredRouter, securedRouter gin.IRoutes, userService user.Service, sessionService session.Service, imageService image.Service, templatesGlob, layoutPath, assetsPath, imagesPath string) {
 	h := NewHandler(userService, sessionService, imageService, templatesGlob, layoutPath)
 
 	// Asset handler
@@ -279,7 +279,7 @@ func (v *ViewHandler) HomePage(c *gin.Context) {
 		return
 	}
 
-	v.renderTemplate(c, "index/home",  map[string]interface{}{
+	v.renderTemplate(c, "index/home", map[string]interface{}{
 		"Images": images,
 	})
 }
@@ -345,7 +345,7 @@ func (v *ViewHandler) ShowImage(c *gin.Context) {
 	// Render template
 	v.renderTemplate(c, "images/show", map[string]interface{}{
 		"Image": img,
-		"User": usr,
+		"User":  usr,
 	})
 
 }

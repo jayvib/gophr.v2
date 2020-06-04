@@ -53,7 +53,7 @@ func (c *Client) NewRequest(method string, path string, body io.Reader) (*http.R
 	if err != nil {
 		return nil, err
 	}
-	req, err := http.NewRequest(method,u.String(), body)
+	req, err := http.NewRequest(method, u.String(), body)
 	if err != nil {
 		return nil, err
 	}

@@ -1,11 +1,9 @@
 // +build integration
 
-package config_test
+package configutil_test
 
 import (
-	"github.com/magiconair/properties/assert"
 	"github.com/stretchr/testify/require"
-	"gophr.v2/config"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -33,12 +31,4 @@ mysql:
 	return func() error {
 		return os.Remove(configPath)
 	}
-}
-
-func TestConfig(t *testing.T) {
-	closer := setup(t)
-	defer closer()
-	config, err := config.New(config.DevelopmentEnv)
-	require.NoError(t, err)
-	assert.Equal(t, "127.0.0.1", config.MySQL.Host)
 }

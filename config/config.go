@@ -1,10 +1,8 @@
 package config
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/jayvib/golog"
 	"github.com/jinzhu/copier"
-	"github.com/spf13/viper"
 	"sync"
 )
 
@@ -16,33 +14,25 @@ const (
 	ProdEnv
 )
 
-const (
-	defaultConfigType = "yaml"
-	defaultConfigPath = "$HOME"
-)
-
 var (
 	conf *Config
 	once sync.Once
 )
 
-func Initialize() *Config {
-	initializeViper()
-	initializeConfig()
-	return conf
-}
-
-func New(env Env) (*Config, error) {
-	defBuilder := newViperBuilder(env)
+func New(builder Builder) (*Config, error) {
 	var err error
 	once.Do(func() {
-		conf, err = build(defBuilder)
+		conf, err = Build(builder)
 		conf.init()
 	})
 	if err != nil {
 		return nil, err
 	}
 	return conf, nil
+}
+
+func GetConfigName(env Env) string {
+	return getConfigName(env)
 }
 
 func getConfigName(env Env) string {
@@ -114,22 +104,3 @@ type Redis struct {
 	Database int
 }
 
-func initializeConfig() {
-	var err error
-	var env Env
-	switch viper.Get("env") {
-	case "DEV":
-		env = DevelopmentEnv
-	case "STAGE":
-		env = StageEnv
-	case "PROD":
-		gin.SetMode(gin.ReleaseMode)
-		env = ProdEnv
-	}
-
-	golog.Debug("Environment:", viper.Get("env"))
-	_, err = New(env)
-	if err != nil {
-		panic(err)
-	}
-}

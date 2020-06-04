@@ -15,7 +15,7 @@ const (
 	MySQLRepo
 )
 
-func Get(conf *config.Config, rt RepoType) (user.Repository, func() error ) {
+func Get(conf *config.Config, rt RepoType) (user.Repository, func() error) {
 	switch rt {
 	case FileRepo:
 		return file.New(file.DefaultFileName), noOpClose

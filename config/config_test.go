@@ -1,4 +1,4 @@
-//+build unit
+//+Build unit
 
 package config
 
@@ -9,30 +9,30 @@ import (
 )
 
 func TestConfig_Clone(t *testing.T) {
-		conf := &Config{
-			Gophr: Gophr{
-				Port: "8080",
-				Environment: "ENV",
-				Debug: false,
-			},
-			MySQL: MySQL{
-				User: "pitchy",
-				Password: "pitchylovespapa",
-				Host: "localhost",
-				Port: "3306",
-				Database: "pitchy_db",
-			},
-		}
+	conf := &Config{
+		Gophr: Gophr{
+			Port:        "8080",
+			Environment: "ENV",
+			Debug:       false,
+		},
+		MySQL: MySQL{
+			User:     "pitchy",
+			Password: "pitchylovespapa",
+			Host:     "localhost",
+			Port:     "3306",
+			Database: "pitchy_db",
+		},
+	}
 
-		clonedConf, err := conf.Clone()
-		require.NoError(t, err)
+	clonedConf, err := conf.Clone()
+	require.NoError(t, err)
 
-		if clonedConf == conf {
-			t.Error("cloned config should not the same address with the original config")
-		}
+	if clonedConf == conf {
+		t.Error("cloned config should not the same address with the original config")
+	}
 
-		t.Run("Modifying the value", func(t *testing.T){
-			clonedConf.Gophr.Port = "8081"
-			assert.NotEqual(t, clonedConf, conf)
-		})
+	t.Run("Modifying the value", func(t *testing.T) {
+		clonedConf.Gophr.Port = "8081"
+		assert.NotEqual(t, clonedConf, conf)
+	})
 }

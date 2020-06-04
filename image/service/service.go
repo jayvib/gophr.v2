@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"github.com/jayvib/golog"
 	"github.com/spf13/afero"
 	"gophr.v2/image"
 	"gophr.v2/image/imageutil"
@@ -72,6 +73,7 @@ func (s *service) FindAllByUser(ctx context.Context, userId string, offset int) 
 func (s *service) CreateImageFromURL(ctx context.Context, imageUrl string, userId string, description string) (*image.Image, error) {
 	resp, err := s.client.Get(imageUrl)
 	if err != nil {
+		golog.Debug(err)
 		return nil, image.ErrInvalidImageURL
 	}
 

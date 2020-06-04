@@ -385,26 +385,26 @@ func (s *svcStub) GetByUserID(ctx context.Context, id string) (*user.User, error
 func TestGetByUserIDs(t *testing.T) {
 	want := []*user.User{
 		{
-			ID: 1,
-			UserID: userutil.GenerateID(),
-			Username: "luffy.monkey",
-			Email: "luffy.monkey@gmail.com",
-			Password: "qwqewrt",
+			ID:        1,
+			UserID:    userutil.GenerateID(),
+			Username:  "luffy.monkey",
+			Email:     "luffy.monkey@gmail.com",
+			Password:  "qwqewrt",
 			CreatedAt: valueutil.TimePointer(time.Now()),
 		},
 		{
-			ID: 2,
-			UserID: userutil.GenerateID(),
-			Username: "sanji.vinsmoke",
-			Email: "sanji.vinsmoke@gmail.com",
-			Password: "qwqewrt",
+			ID:        2,
+			UserID:    userutil.GenerateID(),
+			Username:  "sanji.vinsmoke",
+			Email:     "sanji.vinsmoke@gmail.com",
+			Password:  "qwqewrt",
 			CreatedAt: valueutil.TimePointer(time.Now()),
 		},
 	}
 	svc := &svcStub{
 		data: map[string]*user.User{
-		  want[0].UserID: want[0],
-		  want[1].UserID: want[1],
+			want[0].UserID: want[0],
+			want[1].UserID: want[1],
 		},
 	}
 
@@ -414,4 +414,3 @@ func TestGetByUserIDs(t *testing.T) {
 	assert.Equal(t, want, got)
 
 }
-
