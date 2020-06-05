@@ -2,7 +2,7 @@ version: "3.7"
 services:
   database_test:
     image: mysql:5.7
-    container_name: database_test
+    container_name: database_integration_test
     command: mysqld --user=root
     ports:
       - '3306:3306'
@@ -11,7 +11,7 @@ services:
     volumes:
       - ./gophr_test.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
-      - MYSQL_DATABASE=gophr_test
+      - MYSQL_DATABASE=gophr
       - MYSQL_USER=testuser
       - MYSQL_PASSWORD=testpassword
       - MYSQL_ROOT_PASSWORD=root
