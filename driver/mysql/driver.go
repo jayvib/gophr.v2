@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jayvib/golog"
@@ -15,14 +16,50 @@ var (
 	once sync.Once
 )
 
-func Initialize(conf *config.Config) (*sql.DB, error) {
+var _testInitCount int // Used for unit testing
+
+var (
+	mu sync.Mutex
+	dbPool map[string]*sql.DB
+)
+
+func init() {
+	dbPool = make(map[string]*sql.DB)
+}
+
+func New(conf *config.Config, dbName string) (db *sql.DB, err error) {
+	mu.Lock()
+	defer mu.Unlock()
+
+	db, ok := dbPool[dbName]
+	if ok {
+		return db, nil
+	}
+
+	// Initialize for the first time
+	for _, c := range conf.MySQL {
+		// Initialize only the matched database configuration
+		if c.Database == dbName {
+			db, err = Initialize(c)
+			if err != nil {
+				return
+			}
+			dbPool[c.Database] = db
+			_testInitCount++
+			return
+		}
+	}
+
+	return nil, errors.New("database configuration is not define")
+}
+
+func Initialize(s config.MySQL) (*sql.DB, error) {
 	var err error
 
 	// Using Singleton Pattern
-	once.Do(func() {
 		var e error
 		format := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s",
-			conf.MySQL.User, conf.MySQL.Password, conf.MySQL.Host, conf.MySQL.Port, conf.MySQL.Database)
+			s.User, s.Password, s.Host, s.Port, s.Database)
 		golog.Info(format)
 		val := url.Values{}
 		val.Add("parseTime", "1")
@@ -36,7 +73,6 @@ func Initialize(conf *config.Config) (*sql.DB, error) {
 		if e := db.Ping(); e != nil {
 			err = e
 		}
-	})
 
 	if err != nil {
 		return nil, err
