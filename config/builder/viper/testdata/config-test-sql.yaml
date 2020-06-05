@@ -1,0 +1,13 @@
+
+mysql:
+  - database: test_database1
+    user: user1
+    password: password1
+    host: 127.0.0.1
+    port: 1234
+  - database: test_database2
+    user: user2
+    password: password2
+    host: 127.0.0.1
+    port: 1234
+

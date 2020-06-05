@@ -51,7 +51,7 @@ func getConfigName(env Env) string {
 type Config struct {
 	rwmu  sync.RWMutex
 	Gophr Gophr `json:"gophr,omitempty" yaml:"gophr,omitempty"`
-	MySQL MySQL `json:"mysql,omitempty" yaml:"mysql,omitempty"`
+	MySQL []MySQL `json:"mysql,omitempty" yaml:"mysql,omitempty"`
 	Redis Redis `json:"redis,omitempty" yaml:"redis,omitempty"`
 	Debug bool  `json:"debug,omitempty" yaml:"debug,omitempty"`
 }

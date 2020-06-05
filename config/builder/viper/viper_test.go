@@ -28,6 +28,30 @@ func TestBuilder(t *testing.T) {
         },
       },
     },
+    {
+      testName: "Array of SQL Instance",
+      configName: "config-test-sql",
+      configType: "yaml",
+      configPath: "testdata",
+      want: &config.Config{
+        MySQL: []config.MySQL{
+          {
+            User: "user1",
+            Password: "password1",
+            Database: "test_database1",
+            Host: "127.0.0.1",
+            Port: "1234",
+          },
+          {
+            User: "user2",
+            Password: "password2",
+            Database: "test_database2",
+            Host: "127.0.0.1",
+            Port: "1234",
+          },
+        },
+      },
+    },
   }
 
   for _, tc := range testCases {
