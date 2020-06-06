@@ -35,8 +35,8 @@ func Get(conf *config.Config, rt RepoType) session.Repository {
 		c := cache.New(gocache.DefaultExpirationTime, gocache.DefaultExpirationTime)
 		return gocache.New(c)
 	case RedisRepo:
-	  conn := redis.New(conf)
-	 	return redisrepo.New(conn)
+		conn := redis.New(conf)
+		return redisrepo.New(conn)
 	default:
 		panic("unknown repository type implementation")
 	}

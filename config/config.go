@@ -98,9 +98,8 @@ type MySQL struct {
 }
 
 type Redis struct {
-	Address string
+	Address  string
 	Username string
 	Password string
 	Database int
 }
-

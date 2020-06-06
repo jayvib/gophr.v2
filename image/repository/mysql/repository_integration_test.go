@@ -28,7 +28,7 @@ func setup() {
 		viper.SetViperConfigName("config-dev.yaml"),
 		viper.SetViperConfigPath("testdata"))
 
-	conf, err :=  config.New(builder)
+	conf, err := config.New(builder)
 	if err != nil {
 		panic(err)
 	}
