@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  gophr:
+    container_name: gophr_stage
+    build:
+      context: "."
+      dockerfile: Dockerfile
+    links:
+      - gophr_database
+    environment:
+      - GOPHR_ENV=STAGE
+      - HOME=/home/
+    depends_on:
+      - gophr_database
+      - gophr_redis
+    volumes:
+      - ./config-stage.yaml:/home/.gophr/config-stage.yaml
+      - ./cmd/gophr/v2/assets:/home/gophr/v2/assets
+      - ./cmd/gophr/v2/templates:/home/gophr/v2/templates
+      - ./data:/home/gophr/data
+    networks:
+      - gophr-backend-staging
+  gophr_database:
+    container_name: gophr_database_stage
+    environment:
+      - MYSQL_DATABASE=gophr
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=mypassword
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - gophr-backend-staging
+  gophr_redis:
+    container_name: gophr_redis_stage
+    networks:
+      - gophr-backend-staging
+
+# Tutorial: https://linuxhint.com/docker_compose_bridge_networking/
+networks:
+  gophr-backend-staging:
+    name: gophr-backend-staging
+    driver: bridge

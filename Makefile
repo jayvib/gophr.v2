@@ -20,11 +20,11 @@ build-api: mod
 build:
 	docker build -t ${APPNAME} .
 
-up: build
+up:
 	docker-compose -f ./docker-compose.yaml -f ./production.yaml up -d
 
 down:
-	docker-compose -f ./docker-compose.yaml -f ./production.yaml down
+	docker-compose -f ./docker-compose.yaml -f ./production.yaml down --remove-orphans
 
 stop:
 	docker-compose -f ./docker-compose.yaml -f ./production.yaml stop
@@ -41,16 +41,16 @@ install:
 
 ###############STAGING###################
 up-stage:
-	docker-compose -f docker-compose-stage.yaml up -d
+	docker-compose -f docker-compose.yaml -f staging.yaml up -d
 
 down-stage:
-	docker-compose -f docker-compose-stage.yaml down -d
+	docker-compose -f docker-compose.yaml -f staging.yaml down --remove-orphans
 
 start-stage:
-	docker-compose -f docker-compose-stage.yaml start
+	docker-compose -f docker-compose.yaml -f staging.yaml start
 
 stop-stage:
-	docker-compose -f docker-compose-stage.yaml stop
+	docker-compose -f docker-compose.yaml -f staging.yaml stop
 
 ###############TESTINGS##################
 up-test:
