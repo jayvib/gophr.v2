@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gophr.v2/config"
-	"gophr.v2/config/configutil"
+	"gophr.v2/config/builder/viper"
 	mysqldriver "gophr.v2/driver/mysql"
 	"gophr.v2/user"
 	"gophr.v2/user/repository/mysql"
@@ -28,9 +28,13 @@ var db *sql.DB
 var repo user.Repository
 
 func setup() error {
-	conf, err := configutil.LoadDefault(config.DevelopmentEnv)
+	builder := viper.NewViperBuilder(
+		viper.SetViperConfigName("config-dev.yaml"),
+		viper.SetViperConfigPath("testdata"))
+
+	conf, err :=  config.New(builder)
 	if err != nil {
-		return err
+		panic(err)
 	}
 
 	db, err = mysqldriver.Initialize(conf)
@@ -43,7 +47,7 @@ func setup() error {
 }
 
 func teardown() {
-	query := "DELETE FROM gophr_test.user"
+	query := "DELETE FROM gophr.user"
 	_, err := db.Exec(query)
 	if err != nil {
 		panic(err)

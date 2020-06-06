@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"gophr.v2/config"
-	"gophr.v2/config/configutil"
+	"gophr.v2/config/builder/viper"
 	"gophr.v2/driver/mysql"
 	"gophr.v2/image"
 	"gophr.v2/image/imageutil"
@@ -23,7 +23,12 @@ import (
 var db *sql.DB
 
 func setup() {
-	conf, err := configutil.LoadDefault(config.DevelopmentEnv)
+
+	builder := viper.NewViperBuilder(
+		viper.SetViperConfigName("config-dev.yaml"),
+		viper.SetViperConfigPath("testdata"))
+
+	conf, err :=  config.New(builder)
 	if err != nil {
 		panic(err)
 	}

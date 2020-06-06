@@ -9,7 +9,7 @@ services:
     expose:
       - '3306'
     volumes:
-      - ./gophr_test.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./gophr.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - MYSQL_DATABASE=gophr
       - MYSQL_USER=testuser
