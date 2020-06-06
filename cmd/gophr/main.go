@@ -25,6 +25,10 @@ var (
 func init() {
 	flag.Parse()
 	conf = configutil.Initialize()
+
+	if conf.Gophr.Environment == "PROD" {
+		gin.SetMode(gin.ReleaseMode)
+	}
 }
 
 func main() {

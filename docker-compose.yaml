@@ -2,21 +2,8 @@ version: "3.7"
 services:
   gophr:
     image: gophr:latest
-    container_name: gophr
-    links:
-      - gophr_database
-    environment:
-      - GOPHR_ENV=PROD
-      - HOME=/home/
     ports:
       - 8080:8080
-    depends_on:
-      - gophr_database
-    volumes:
-      - ./config.yaml:/home/.gophr/config.yaml
-      - ./cmd/gophr/v2/assets:/home/gophr/v2/assets
-      - ./cmd/gophr/v2/templates:/home/gophr/v2/templates
-      - ./data:/home/gophr/data
     restart: always
   gophr_database:
     image: mysql:5.7
@@ -28,11 +15,6 @@ services:
       - '3306'
     volumes:
       - ./gophr.sql:/docker-entrypoint-initdb.d/init.sql
-    environment:
-      - MYSQL_DATABASE=gophr
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=mypassword
-      - MYSQL_ROOT_PASSWORD=root
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s

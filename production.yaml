@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  gophr:
+    container_name: gophr
+    build:
+      context: "."
+      dockerfile: Dockerfile
+    links:
+      - gophr_database
+    environment:
+      - GOPHR_ENV=PROD
+      - HOME=/home/
+    depends_on:
+      - gophr_database
+      - gophr_redis
+    volumes:
+      - ./config.yaml:/home/.gophr/config.yaml
+      - ./cmd/gophr/v2/assets:/home/gophr/v2/assets
+      - ./cmd/gophr/v2/templates:/home/gophr/v2/templates
+      - ./data:/home/gophr/data
+    networks:
+      - gophr-backend
+  gophr_database:
+    container_name: gophr_database
+    environment:
+      - MYSQL_DATABASE=gophr
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=mypassword
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - gophr-backend
+  gophr_redis:
+    container_name: gophr_redis
+    networks:
+      - gophr-backend
+
+# Tutorial: https://linuxhint.com/docker_compose_bridge_networking/
+networks:
+  gophr-backend:
+    name: gophr-backend
+    driver: bridge

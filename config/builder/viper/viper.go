@@ -8,6 +8,7 @@ import (
 )
 
 const (
+	defaultConfigName = "config.yaml"
 	defaultConfigType = "yaml"
 	defaultConfigPath = "$HOME/.gophr"
 )
@@ -32,10 +33,10 @@ func SetViperConfigType(configType string) ViperConfigBuilderOpt {
 	}
 }
 
-func NewViperBuilder(env config.Env, opts ...ViperConfigBuilderOpt) config.Builder {
+func NewViperBuilder(opts ...ViperConfigBuilderOpt) config.Builder {
 	initializeViper()
 	b := &ViperConfigBuilder{
-		configName: config.GetConfigName(env),
+		configName: defaultConfigName,
 		configPath: defaultConfigPath,
 		configType: defaultConfigType,
 	}

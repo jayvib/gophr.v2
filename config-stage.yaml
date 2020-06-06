@@ -4,7 +4,7 @@ mysql:
   database: gophr
   user: user
   password: mypassword
-  host: 127.0.0.1
+  host: gophr_database
   port: 3306
 
 gophr:
@@ -12,7 +12,7 @@ gophr:
   env: DEV
 
 redis:
-  address: localhost:6379
+  address: gophr_redis:6379
   username: ""
   password: ""
   database: 0

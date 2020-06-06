@@ -14,7 +14,7 @@ import (
 func TestNew(t *testing.T) {
 	client := redis.New(&config.Config{
 		Redis: config.Redis{
-			Address: "localhost:6379",
+			Address:  "localhost:6379",
 			Username: "", Password: "",
 			Database: 0,
 		},
@@ -28,7 +28,7 @@ func TestNew(t *testing.T) {
 func ExampleNewClient() {
 	client := redis.New(&config.Config{
 		Redis: config.Redis{
-			Address: "localhost:6379",
+			Address:  "localhost:6379",
 			Username: "", Password: "",
 			Database: 0,
 		},
@@ -37,5 +37,3 @@ func ExampleNewClient() {
 	pong, err := client.Ping(ctx).Result()
 	fmt.Println(pong, err)
 }
-
-
