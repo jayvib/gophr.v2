@@ -21,16 +21,16 @@ build:
 	docker build -t ${APPNAME} .
 
 up: build
-	docker-compose up -d
+	docker-compose -f ./docker-compose.yaml -f ./production.yaml up -d
 
 down:
-	docker-compose down
+	docker-compose -f ./docker-compose.yaml -f ./production.yaml down
 
 stop:
-	docker-compose stop
+	docker-compose -f ./docker-compose.yaml -f ./production.yaml stop
 
 start:
-	docker-compose start
+	docker-compose -f ./docker-compose.yaml -f ./production.yaml start
 
 install:
 	mkdir -p ${HOME}/.gophr
