@@ -4,10 +4,18 @@ mysql:
   database: gophr
   user: user
   password: mypassword
-  host: database
+  host: gophr_database
   port: 3306
 
 gophr:
   port: 8080
   env: PROD
   debug: false
+
+redis:
+  address: gophr_redis:6379
+  username: ""
+  password: ""
+  database: 0
+
+debug: true

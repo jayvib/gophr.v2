@@ -9,7 +9,7 @@ import (
 
 const (
 	defaultConfigType = "yaml"
-	defaultConfigPath = "$HOME"
+	defaultConfigPath = "$HOME/.gophr"
 )
 
 type ViperConfigBuilderOpt func(b *ViperConfigBuilder)

@@ -17,6 +17,7 @@ RUN apk update && \
     apk add --no-cache ca-certificates tzdata && \
     apk add --no-cache openssh
 RUN set -ex && apk add --no-cache --virtual bash musl-dev openssl
+RUN mkdir -p ~/.gophr
 WORKDIR /home/gophr/
 EXPOSE 8080
 COPY --from=builder /go/src/gophr/bin/gophr.engine /home/gophr/

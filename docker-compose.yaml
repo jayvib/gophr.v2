@@ -4,26 +4,26 @@ services:
     image: gophr:latest
     container_name: gophr
     links:
-      - database
+      - gophr_database
     environment:
       - GOPHR_ENV=PROD
       - HOME=/home/
     ports:
       - 8080:8080
     depends_on:
-      - database
+      - gophr_database
     volumes:
-      - ./config.yaml:/home/config.yaml
+      - ./config.yaml:/home/.gophr/config.yaml
       - ./cmd/gophr/v2/assets:/home/gophr/v2/assets
       - ./cmd/gophr/v2/templates:/home/gophr/v2/templates
       - ./data:/home/gophr/data
     restart: always
-  database:
+  gophr_database:
     image: mysql:5.7
-    container_name: database
+    container_name: gophr_database
     command: mysqld --user=root
     ports:
-      - '3306:3306'
+      - '3306'
     expose:
       - '3306'
     volumes:
@@ -37,4 +37,10 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 5s
       retries: 10
-
+  gophr_redis:
+    image: redis:6.0.4
+    container_name: gophr_redis
+    ports:
+      - '6379'
+    expose:
+      - '6379'

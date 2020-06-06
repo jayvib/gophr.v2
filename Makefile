@@ -4,6 +4,7 @@
 CLIENT_APP="gophr.client"
 API_BIN="gophr.engine"
 APPNAME=gophr
+CONFIG_FILES=config.yaml config-dev.yaml config-stage.yaml
 
 unit-test:
 	@go test -tags=unit -covermode=atomic -short ./... | grep -v '^?'
@@ -30,6 +31,26 @@ stop:
 
 start:
 	docker-compose start
+
+install:
+	mkdir -p ${HOME}/.gophr
+	# Copy the configuration files
+	for i in $(CONFIG_FILES); do \
+		cp $${i} $${HOME}/.gophr/$${i}; \
+	done
+
+###############STAGING###################
+up-stage:
+	docker-compose -f docker-compose-stage.yaml up -d
+
+down-stage:
+	docker-compose -f docker-compose-stage.yaml down -d
+
+start-stage:
+	docker-compose -f docker-compose-stage.yaml start
+
+stop-stage:
+	docker-compose -f docker-compose-stage.yaml stop
 
 ###############TESTINGS##################
 up-test:
