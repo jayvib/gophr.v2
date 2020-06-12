@@ -36,8 +36,8 @@ func (l *loggingDecorator) GetByUsername(ctx context.Context, username string) (
 
 func (l *loggingDecorator) Save(ctx context.Context, usr *user.User) error {
 	logrus.Infof("METHOD: Save "+
-		"\n\tUSERID: %v\n\tUSERNAME: %v\n\tEMAIL: %v\n\t USERID: %v\n",
-		usr.UserID, usr.Username, usr.Email, usr.UserID)
+		"USERID: %v USERNAME: %v EMAIL: %v\n",
+		usr.UserID, usr.Username, usr.Email)
 	return l.svc.Save(ctx, usr)
 }
 
@@ -53,22 +53,22 @@ func (l *loggingDecorator) Delete(ctx context.Context, id interface{}) error {
 
 func (l *loggingDecorator) Update(ctx context.Context, usr *user.User) error {
 	logrus.Infof("METHOD: Update "+
-		"\n\tUSERID: %v\n\tUSERNAME: %v\n\tEMAIL: %v\n\t USERID: %v\n",
-		usr.UserID, usr.Username, usr.Email, usr.UserID)
+		"USERID: %v USERNAME: %v EMAIL: %v\n",
+		usr.UserID, usr.Username, usr.Email)
 	return l.svc.Update(ctx, usr)
 }
 
 func (l *loggingDecorator) Register(ctx context.Context, usr *user.User) error {
 	logrus.Infof("METHOD: Register "+
-		"\n\tUSERID: %v\n\tUSERNAME: %v\n\tEMAIL: %v\n\t USERID: %v\n",
-		usr.UserID, usr.Username, usr.Email, usr.UserID)
+		"USERID: %v USERNAME: %v EMAIL: %v\n",
+		usr.UserID, usr.Username, usr.Email)
 	return l.svc.Register(ctx, usr)
 }
 
 func (l *loggingDecorator) Login(ctx context.Context, usr *user.User) error {
 	logrus.Infof("METHOD: Login "+
-		"\n\tUSERID: %v\n\tUSERNAME: %v\n\tEMAIL: %v\n\t USERID: %v\n",
-		usr.UserID, usr.Username, usr.Email, usr.UserID)
+		"USERID: %v USERNAME: %v EMAIL: %v\n",
+		usr.UserID, usr.Username, usr.Email)
 	return l.svc.Login(ctx, usr)
 
 }
