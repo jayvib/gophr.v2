@@ -134,3 +134,12 @@ func (s *FileUserStore) Update(ctx context.Context, usr *user.User) error {
 	}
 	return nil
 }
+
+func (s *FileUserStore) GetByUserID(ctx context.Context, userId string) (*user.User, error) {
+	for _, u := range s.users {
+		if u.UserID == userId {
+			return u, nil
+		}
+	}
+	return nil, user.ErrNotFound
+}
